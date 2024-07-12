@@ -2,6 +2,7 @@ import React from "react";
 import AdminHeader from "./components/AdminHeader";
 import AdminAside from "./components/AdminAside";
 import AdminContent from "./components/AdminContent";
+import AdminFooter from "./components/AdminFooter";
 
 export default function Admin() {
     return (
@@ -10,6 +11,7 @@ export default function Admin() {
             <div className="flex flex-col w-full">
                 <AdminHeader />
                 <AdminContent />
+                <AdminFooter />
             </div>
         </div>
     );

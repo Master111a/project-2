@@ -1,16 +1,12 @@
 import { Logo } from "../../../_components";
 import { useState } from "react";
-import ListSubheader from "@mui/material/ListSubheader";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import StarBorder from "@mui/icons-material/StarBorder";
 import { RxDashboard } from "react-icons/rx";
+import { HiOutlineCollection } from "react-icons/hi";
+import { StyledList, StyledListItemButton } from "../../../utils/styled";
 
 export default function AdminAside() {
     const [open, setOpen] = useState(true);
@@ -31,26 +27,26 @@ export default function AdminAside() {
         <div className="flex flex-col w-18% max-w-60">
             <Logo />
             <div className="flex flex-col py-5 px-3">
-                <List
-                    className="w-full bg-background text-gray500 !py-0"
+                <StyledList
+                    className="bg-background text-gray500"
                     component="nav">
-                    <ListItemButton
+                    <StyledListItemButton
                         onClick={() => handleClick()}
                         className="flex items-center gap-x-2">
-                        <RxDashboard className="text-gray500 text-2xl" />
+                        <RxDashboard className="text-gray500 text-24 absolute left-2" />
                         <ListItemText primary="Dashboard" />
                         {open ? <ExpandLess /> : <ExpandMore />}
-                    </ListItemButton>
+                    </StyledListItemButton>
                     <Collapse in={open} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                            <ListItemButton
+                        <StyledList component="div" disablePadding>
+                            <StyledListItemButton
                                 onClick={() => handleItemClick("Main")}
                                 className={
                                     isActive("Main") ? "text-primary" : ""
                                 }>
                                 <ListItemText primary="Main" />
-                            </ListItemButton>
-                            <ListItemButton
+                            </StyledListItemButton>
+                            <StyledListItemButton
                                 onClick={() => handleItemClick("User Insights")}
                                 className={
                                     isActive("User Insights")
@@ -58,23 +54,21 @@ export default function AdminAside() {
                                         : "text-primary"
                                 }>
                                 <ListItemText primary="User Insights" />
-                            </ListItemButton>
-                        </List>
+                            </StyledListItemButton>
+                        </StyledList>
                     </Collapse>
-                    <ListItemButton
+                    <StyledListItemButton
                         onClick={() => {
                             handleClick2();
                             handleItemClick("Resources");
                         }}
-                        className={isActive("Resources") ? "active" : ""}>
-                        <ListItemIcon>
-                            <InboxIcon />
-                        </ListItemIcon>
+                        className="flex items-center gap-x-2 relative pl-10">
+                        <HiOutlineCollection className="text-24 text-gray500 absolute left-2" />
                         <ListItemText primary="Resources" />
                         {open2 ? <ExpandLess /> : <ExpandMore />}
-                    </ListItemButton>
+                    </StyledListItemButton>
                     <Collapse in={open2} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
+                        <StyledList component="div" disablePadding>
                             {[
                                 "Addresses",
                                 "Comments",
@@ -84,16 +78,18 @@ export default function AdminAside() {
                                 "Tags",
                                 "Users",
                             ].map((text, index) => (
-                                <ListItemButton
+                                <StyledListItemButton
                                     onClick={() => handleItemClick(text)}
-                                    className={isActive(text) ? "active" : ""}
+                                    className={
+                                        isActive(text) ? "text-primary" : ""
+                                    }
                                     key={index}>
                                     <ListItemText primary={text} />
-                                </ListItemButton>
+                                </StyledListItemButton>
                             ))}
-                        </List>
+                        </StyledList>
                     </Collapse>
-                </List>
+                </StyledList>
             </div>
         </div>
     );

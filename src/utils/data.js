@@ -1,0 +1,68 @@
+import {
+    Avatar1,
+    Avatar2,
+    Avatar3,
+    Avatar4,
+    Avatar5,
+    Avatar6,
+    Avatar7,
+} from "../assets";
+
+export const userList = [
+    {
+        id: 1,
+        name: "Tylor Otwell",
+        avatar: Avatar1,
+        email: "taylor@nova.laravel.com",
+        isAdmin: true,
+        twoFA: false,
+    },
+    {
+        id: 2,
+        name: "David Hemphill",
+        avatar: Avatar2,
+        email: "davidlee.hemphill@nova.laravel.com",
+        isAdmin: true,
+        twoFA: true,
+    },
+    {
+        id: 3,
+        name: "Mohamed Said",
+        avatar: Avatar3,
+        email: "mohamed@nova.laravel.com",
+        isAdmin: false,
+        twoFA: true,
+    },
+    {
+        id: 4,
+        name: "Ian Landsman",
+        avatar: Avatar4,
+        email: "ian@nova.laravel.com",
+        isAdmin: false,
+        twoFA: true,
+    },
+    {
+        id: 5,
+        name: "Dries Vints",
+        avatar: Avatar5,
+        email: "dries@nova.laravel.com",
+        isAdmin: true,
+        twoFA: false,
+    },
+    {
+        id: 6,
+        name: "Jess Archer",
+        avatar: Avatar6,
+        email: "jess@nova.laravel.com",
+        isAdmin: true,
+        twoFA: false,
+    },
+    {
+        id: 7,
+        name: "Mior Zaki",
+        avatar: Avatar7,
+        email: "mior@nova.laravel.com",
+        isAdmin: true,
+        twoFA: true,
+    },
+];
