@@ -47,6 +47,11 @@ export const StyledListItemButton = styled((props) => (
 ))(({ theme }) => ({
     padding: "4px 8px 4px 40px",
     display: "flex",
+    fontSize: 14,
+    "&.active .MuiTypography-root": {
+        color: "#0EA5E9",
+        fontWeight: 800,
+    },
 }));
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({

@@ -15,8 +15,10 @@ export default function AdminAside() {
 
     const handleClick = () => {
         setOpen(!open);
+        setActiveItem("");
     };
     const handleClick2 = () => {
+        setActiveItem("");
         setOpen2(!open2);
     };
     const handleItemClick = (item) => {
@@ -41,27 +43,20 @@ export default function AdminAside() {
                         <StyledList component="div" disablePadding>
                             <StyledListItemButton
                                 onClick={() => handleItemClick("Main")}
-                                className={
-                                    isActive("Main") ? "text-primary" : ""
-                                }>
+                                className={isActive("Main") ? "active" : ""}>
                                 <ListItemText primary="Main" />
                             </StyledListItemButton>
                             <StyledListItemButton
                                 onClick={() => handleItemClick("User Insights")}
                                 className={
-                                    isActive("User Insights")
-                                        ? "active"
-                                        : "text-primary"
+                                    isActive("User Insights") ? "active" : ""
                                 }>
                                 <ListItemText primary="User Insights" />
                             </StyledListItemButton>
                         </StyledList>
                     </Collapse>
                     <StyledListItemButton
-                        onClick={() => {
-                            handleClick2();
-                            handleItemClick("Resources");
-                        }}
+                        onClick={() => handleClick2()}
                         className="flex items-center gap-x-2 relative pl-10">
                         <HiOutlineCollection className="text-24 text-gray500 absolute left-2" />
                         <ListItemText primary="Resources" />
@@ -80,9 +75,7 @@ export default function AdminAside() {
                             ].map((text, index) => (
                                 <StyledListItemButton
                                     onClick={() => handleItemClick(text)}
-                                    className={
-                                        isActive(text) ? "text-primary" : ""
-                                    }
+                                    className={isActive(text) ? "active" : ""}
                                     key={index}>
                                     <ListItemText primary={text} />
                                 </StyledListItemButton>

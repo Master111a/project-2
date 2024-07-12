@@ -118,7 +118,6 @@ const headCells = [
 ];
 const CustomTableSortLabel = ({ active, direction, children, ...props }) => {
     let IconComponent;
-    console.log(direction);
     if (active) {
         IconComponent =
             direction === "desc" ? HiOutlineChevronDown : HiOutlineChevronUp;

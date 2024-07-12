@@ -3,16 +3,15 @@ export default function CustomTablePagination(props) {
     const { count, page, rowsPerPage, onPageChange } = props;
     const handlePreviousPage = () => {
         if (page > 0) {
-            onPageChange(page, page - 1);
+            onPageChange(page - 1);
         }
     };
 
     const handleNextPage = () => {
         if (page < Math.ceil(count / rowsPerPage) - 1) {
-            onPageChange(page, page + 1);
+            onPageChange(page + 1);
         }
     };
-    console.log(page);
     const start = page * rowsPerPage + 1;
     const end = Math.min(count, (page + 1) * rowsPerPage);
     return (
