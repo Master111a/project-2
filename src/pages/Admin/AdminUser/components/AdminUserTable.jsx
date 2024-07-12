@@ -8,11 +8,9 @@ import {
     TableCell,
     TableContainer,
     TableHead,
-    TablePagination,
     TableRow,
-    TableSortLabel,
 } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import EnhancedTableToolbar from "../../../../_components/EnhancedTableToolbar";
 import { visuallyHidden } from "@mui/utils";
 import { userList } from "../../../../utils/data";
@@ -117,19 +115,8 @@ const headCells = [
     },
 ];
 const CustomTableSortLabel = ({ active, direction, children, ...props }) => {
-    let IconComponent;
-    if (active) {
-        IconComponent =
-            direction === "desc" ? HiOutlineChevronDown : HiOutlineChevronUp;
-    } else {
-        IconComponent = HiOutlineSelector;
-    }
     return (
-        <StyledTableSortLabel
-            active={active}
-            direction={direction}
-            IconComponent={IconComponent}
-            {...props}>
+        <StyledTableSortLabel active={active} direction={direction} {...props}>
             {children}
             {active ? (
                 <Box component="span" sx={visuallyHidden}>
@@ -137,31 +124,34 @@ const CustomTableSortLabel = ({ active, direction, children, ...props }) => {
                         ? "sorted descending"
                         : "sorted ascending"}
                 </Box>
-            ) : null}
+            ) : (
+                <HiOutlineSelector />
+            )}
         </StyledTableSortLabel>
     );
 };
 function EnhancedTableHead(props) {
     const { order, orderBy, onRequestSort } = props;
-    const createSortHandler = (property) => (event) => {
-        onRequestSort(event, property);
+    const createSortHandler = (property) => (e) => {
+        onRequestSort(property);
     };
-
     return (
         <TableHead>
             <TableRow>
                 <TableCell padding="checkbox"></TableCell>
                 {headCells.map((headCell) => (
                     <StyledTableCellHead
-                        key={headCell.id}
+                        key={headCell?.id}
                         align="left"
-                        padding={headCell.disablePadding ? "none" : "normal"}
-                        sortDirection={orderBy === headCell.id ? order : false}>
+                        padding={headCell?.disablePadding ? "none" : "normal"}
+                        sortDirection={
+                            orderBy === headCell?.id ? order : false
+                        }>
                         <CustomTableSortLabel
-                            active={orderBy === headCell.id}
-                            direction={orderBy === headCell.id ? order : "asc"}
-                            onClick={createSortHandler(headCell.id)}>
-                            {headCell.label}
+                            active={orderBy === headCell?.id}
+                            direction={order}
+                            onClick={createSortHandler(headCell?.id)}>
+                            {headCell?.label}
                         </CustomTableSortLabel>
                     </StyledTableCellHead>
                 ))}
@@ -173,7 +163,7 @@ function EnhancedTableHead(props) {
 
 export default function AdminUserTable() {
     const [order, setOrder] = useState("asc");
-    const [orderBy, setOrderBy] = useState("name");
+    const [orderBy, setOrderBy] = useState("id");
     const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -183,7 +173,6 @@ export default function AdminUserTable() {
         setOrder(isAsc ? "desc" : "asc");
         setOrderBy(property);
     };
-
     const handleSelectAllClick = (e) => {
         if (e.target.checked) {
             const newSelected = rows.map((n) => n.id);
@@ -233,6 +222,10 @@ export default function AdminUserTable() {
             ),
         [order, orderBy, page, rowsPerPage]
     );
+    useEffect(() => {
+        // Reset order to 'asc' whenever orderBy changes
+        setOrder("asc");
+    }, [orderBy]);
     return (
         <div className="w-full bg-white rounded-lg">
             <EnhancedTableToolbar
