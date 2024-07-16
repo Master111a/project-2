@@ -5,7 +5,7 @@ import { HiOutlineChartBar } from "react-icons/hi";
 import { useState } from "react";
 import { BorderLinearProgress, StyledSelect } from "../../../../utils/styled";
 
-export default function AdminStats() {
+export default function AdminUserStats() {
     const [day, setDay] = useState(30);
     const handleChange = (event) => {
         setDay(event.target.value);

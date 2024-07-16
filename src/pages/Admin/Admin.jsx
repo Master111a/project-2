@@ -1,4 +1,3 @@
-import React from "react";
 import AdminHeader from "./components/AdminHeader";
 import AdminAside from "./components/AdminAside";
 import AdminContent from "./components/AdminContent";

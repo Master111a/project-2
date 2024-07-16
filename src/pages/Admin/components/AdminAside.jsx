@@ -7,26 +7,22 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import { RxDashboard } from "react-icons/rx";
 import { HiOutlineCollection } from "react-icons/hi";
 import { StyledList, StyledListItemButton } from "../../../utils/styled";
+import { Link, useLocation, useParams } from "react-router-dom";
+import { dashboardList, resourcesList } from "../../../utils/data";
 
 export default function AdminAside() {
     const [open, setOpen] = useState(true);
     const [open2, setOpen2] = useState(true);
-    const [activeItem, setActiveItem] = useState(null);
-
+    const location = useLocation();
     const handleClick = () => {
         setOpen(!open);
-        setActiveItem("");
     };
     const handleClick2 = () => {
-        setActiveItem("");
         setOpen2(!open2);
     };
-    const handleItemClick = (item) => {
-        setActiveItem(item);
-    };
-    const isActive = (item) => activeItem === item;
+    const isActive = (item) => "/admin/" + item === location.pathname;
     return (
-        <div className="flex flex-col w-18% max-w-60">
+        <div className="flex flex-col w-1/5 max-w-60">
             <Logo />
             <div className="flex flex-col py-5 px-3">
                 <StyledList
@@ -40,19 +36,25 @@ export default function AdminAside() {
                         {open ? <ExpandLess /> : <ExpandMore />}
                     </StyledListItemButton>
                     <Collapse in={open} timeout="auto" unmountOnExit>
-                        <StyledList component="div" disablePadding>
-                            <StyledListItemButton
-                                onClick={() => handleItemClick("Main")}
-                                className={isActive("Main") ? "active" : ""}>
-                                <ListItemText primary="Main" />
-                            </StyledListItemButton>
-                            <StyledListItemButton
-                                onClick={() => handleItemClick("User Insights")}
-                                className={
-                                    isActive("User Insights") ? "active" : ""
-                                }>
-                                <ListItemText primary="User Insights" />
-                            </StyledListItemButton>
+                        <StyledList component="ul" disablePadding>
+                            {dashboardList?.map((item, index) => (
+                                <li key={index}>
+                                    <Link
+                                        to={item?.href}
+                                        className="block w-full">
+                                        <StyledListItemButton
+                                            className={
+                                                isActive(item?.href)
+                                                    ? "active"
+                                                    : ""
+                                            }>
+                                            <ListItemText
+                                                primary={item?.title}
+                                            />
+                                        </StyledListItemButton>
+                                    </Link>
+                                </li>
+                            ))}
                         </StyledList>
                     </Collapse>
                     <StyledListItemButton
@@ -63,22 +65,24 @@ export default function AdminAside() {
                         {open2 ? <ExpandLess /> : <ExpandMore />}
                     </StyledListItemButton>
                     <Collapse in={open2} timeout="auto" unmountOnExit>
-                        <StyledList component="div" disablePadding>
-                            {[
-                                "Addresses",
-                                "Comments",
-                                "Posts",
-                                "Purchases",
-                                "Roles",
-                                "Tags",
-                                "Users",
-                            ].map((text, index) => (
-                                <StyledListItemButton
-                                    onClick={() => handleItemClick(text)}
-                                    className={isActive(text) ? "active" : ""}
-                                    key={index}>
-                                    <ListItemText primary={text} />
-                                </StyledListItemButton>
+                        <StyledList component="ul" disablePadding>
+                            {resourcesList.map((item, index) => (
+                                <li key={index}>
+                                    <Link
+                                        to={item?.href}
+                                        className="block w-full">
+                                        <StyledListItemButton
+                                            className={
+                                                isActive(item?.href)
+                                                    ? "active"
+                                                    : ""
+                                            }>
+                                            <ListItemText
+                                                primary={item?.title}
+                                            />
+                                        </StyledListItemButton>
+                                    </Link>
+                                </li>
                             ))}
                         </StyledList>
                     </Collapse>

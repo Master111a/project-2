@@ -66,3 +66,16 @@ export const userList = [
         twoFA: true,
     },
 ];
+export const dashboardList = [
+    { href: "", title: "Main" },
+    { href: "user-insights", title: "User Insights" },
+];
+export const resourcesList = [
+    { href: "address", title: "Addresses" },
+    { href: "comments", title: "Comments" },
+    { href: "post", title: "Posts" },
+    { href: "purchases", title: "Purchases" },
+    { href: "roles", title: "Roles" },
+    { href: "tags", title: "Tags" },
+    { href: "user", title: "Users" },
+];
