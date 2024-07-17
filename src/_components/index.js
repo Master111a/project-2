@@ -5,3 +5,4 @@ export { default as SearchInput } from "./SearchInput";
 export { default as EnhancedTableToolbar } from "./EnhancedTableToolbar";
 export { default as ActionRowTable } from "./ActionRowTable";
 export { default as CustomTablePagination } from "./CustomTablePagination";
+export { default as DropdownNotificationMenu } from "./DropdownNotificationMenu";

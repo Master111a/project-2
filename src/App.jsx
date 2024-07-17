@@ -1,16 +1,15 @@
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import "./App.css";
 import Admin from "./pages/Admin/Admin";
 import Home from "./pages/Home/Home";
 import AdminUser from "./pages/Admin/AdminUser/AdminUser";
 import Login from "./pages/Login/Login";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const handleLogin = () => {
-        setIsLoggedIn(true);
-    };
+    const user = useSelector((state) => state.auth.user);
+    const location = useLocation();
     return (
         <Routes>
             {/* Home */}
@@ -18,7 +17,13 @@ function App() {
             {/* Admin */}
             <Route
                 path="/admin/*"
-                element={isLoggedIn ? <Admin /> : <Navigate to="/login" />}>
+                element={
+                    user ? (
+                        <Admin />
+                    ) : (
+                        <Navigate to="/login" state={location.pathname} />
+                    )
+                }>
                 <Route path="" element={<div>Home</div>} />
                 <Route
                     path="user-insights"
@@ -32,12 +37,7 @@ function App() {
                 <Route path="tags" element={<AdminUser />} />
                 <Route path="user" element={<AdminUser />} />
             </Route>
-            <Route
-                path="/login"
-                element={
-                    <Login handleLogin={handleLogin} isLoggedIn={isLoggedIn} />
-                }
-            />
+            <Route path="/login" element={<Login />} />
         </Routes>
     );
 }

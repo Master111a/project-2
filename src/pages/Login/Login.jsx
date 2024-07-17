@@ -1,10 +1,14 @@
 import { Button } from "@mui/material";
+import { useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
+import { setUser } from "../../utils/store/auth.slice";
 
-export default function Login({ isLoggedIn, handleLogin }) {
+export default function Login() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
     const onClick = () => {
+        dispatch(setUser("nam"));
         if (location?.state) {
             navigate(location?.state);
         } else {

@@ -1,16 +1,13 @@
-import * as React from "react";
+import { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
-import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import EditIcon from "@mui/icons-material/Edit";
-import Divider from "@mui/material/Divider";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { Button, Divider, Menu, MenuItem } from "@mui/material";
 
-const StyledMenu = styled((props) => (
+export const StyledMenu = styled((props) => (
     <Menu
         elevation={0}
         anchorOrigin={{
@@ -53,7 +50,7 @@ const StyledMenu = styled((props) => (
     },
 }));
 export default function DropdownAvatarMenu({ item }) {
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -64,7 +61,7 @@ export default function DropdownAvatarMenu({ item }) {
     return (
         <div>
             <Button
-                id="demo-customized-button"
+                id="avatar-button"
                 variant="text"
                 disableElevation
                 onClick={handleClick}
@@ -80,27 +77,27 @@ export default function DropdownAvatarMenu({ item }) {
                 </div>
             </Button>
             <StyledMenu
-                id="demo-customized-menu"
+                id="avatar-menu"
                 MenuListProps={{
-                    "aria-labelledby": "demo-customized-button",
+                    "aria-labelledby": "avatar-button",
                 }}
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}>
-                <MenuItem onClick={handleClose} disableRipple>
+                <MenuItem onClick={handleClose}>
                     <EditIcon />
                     Edit
                 </MenuItem>
-                <MenuItem onClick={handleClose} disableRipple>
+                <MenuItem onClick={handleClose}>
                     <FileCopyIcon />
                     Duplicate
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
-                <MenuItem onClick={handleClose} disableRipple>
+                <MenuItem onClick={handleClose}>
                     <ArchiveIcon />
                     Archive
                 </MenuItem>
-                <MenuItem onClick={handleClose} disableRipple>
+                <MenuItem onClick={handleClose}>
                     <MoreHorizIcon />
                     More
                 </MenuItem>

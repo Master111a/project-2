@@ -182,7 +182,7 @@ export default function AdminUserTable() {
         setSelected([]);
     };
 
-    const handleClick = (id) => {
+    const handleClick = (event, id) => {
         const selectedIndex = selected.indexOf(id);
         let newSelected = [];
 
