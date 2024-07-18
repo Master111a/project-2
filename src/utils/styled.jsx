@@ -1,5 +1,5 @@
 import {
-    Box,
+    Avatar,
     LinearProgress,
     linearProgressClasses,
     List,
@@ -48,6 +48,9 @@ export const StyledListItemButton = styled((props) => (
     padding: "4px 8px 4px 40px",
     display: "flex",
     fontSize: 14,
+    "& .MuiTypography-root": {
+        fontFamily: "Nunito Sans",
+    },
     "&.active .MuiTypography-root": {
         color: "#0EA5E9",
         fontWeight: 800,
@@ -73,3 +76,4 @@ export const StyledTableSortLabel = styled(TableSortLabel)(({ theme }) => ({
     },
 }));
 export const StyledTableCellHead = styled(TableCell)(({ theme }) => ({}));
+export const StyledAvatar = styled(Avatar)(({ theme }) => ({}));

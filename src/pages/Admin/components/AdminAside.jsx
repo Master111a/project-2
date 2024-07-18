@@ -7,7 +7,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import { RxDashboard } from "react-icons/rx";
 import { HiOutlineCollection } from "react-icons/hi";
 import { StyledList, StyledListItemButton } from "../../../utils/styled";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, NavLink, useLocation, useParams } from "react-router-dom";
 import { dashboardList, resourcesList } from "../../../utils/data";
 
 export default function AdminAside() {
@@ -20,7 +20,10 @@ export default function AdminAside() {
     const handleClick2 = () => {
         setOpen2(!open2);
     };
-    const isActive = (item) => "/admin/" + item === location.pathname;
+    // const isActive = (item) =>
+    //     item !== ""
+    //         ? location.pathname.includes("/admin/" + item)
+    //         : location.pathname === "/admin" + item;
     return (
         <div className="flex flex-col w-1/5 max-w-60">
             <Logo />
@@ -39,20 +42,19 @@ export default function AdminAside() {
                         <StyledList component="ul" disablePadding>
                             {dashboardList?.map((item, index) => (
                                 <li key={index}>
-                                    <Link
+                                    <NavLink
                                         to={item?.href}
-                                        className="block w-full">
-                                        <StyledListItemButton
-                                            className={
-                                                isActive(item?.href)
-                                                    ? "active"
-                                                    : ""
-                                            }>
-                                            <ListItemText
-                                                primary={item?.title}
-                                            />
+                                        className={({ isActive }) =>
+                                            isActive
+                                                ? "text-primary  font-extrabold block w-full"
+                                                : "font-normal block w-full"
+                                        }>
+                                        <StyledListItemButton>
+                                            <span className="flex 1 my-1 text-base">
+                                                {item?.title}
+                                            </span>
                                         </StyledListItemButton>
-                                    </Link>
+                                    </NavLink>
                                 </li>
                             ))}
                         </StyledList>
@@ -68,20 +70,19 @@ export default function AdminAside() {
                         <StyledList component="ul" disablePadding>
                             {resourcesList.map((item, index) => (
                                 <li key={index}>
-                                    <Link
+                                    <NavLink
                                         to={item?.href}
-                                        className="block w-full">
-                                        <StyledListItemButton
-                                            className={
-                                                isActive(item?.href)
-                                                    ? "active"
-                                                    : ""
-                                            }>
-                                            <ListItemText
-                                                primary={item?.title}
-                                            />
+                                        className={({ isActive }) =>
+                                            isActive
+                                                ? "text-primary  font-extrabold block w-full"
+                                                : "font-normal block w-full"
+                                        }>
+                                        <StyledListItemButton>
+                                            <span className="flex 1 my-1 text-base">
+                                                {item?.title}
+                                            </span>
                                         </StyledListItemButton>
-                                    </Link>
+                                    </NavLink>
                                 </li>
                             ))}
                         </StyledList>

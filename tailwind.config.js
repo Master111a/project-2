@@ -4,6 +4,7 @@ export default {
     theme: {
         extend: {
             width: {
+                25: "26.25rem",
                 131: "131px",
                 "18%": "18%",
                 "4/15": "26.666667%",
@@ -14,6 +15,7 @@ export default {
             colors: {
                 background: "#F1F5F9",
                 text: "#64748B",
+                gray100: "#F1F5F9",
                 gray200: "#E2E8F0",
                 gray300: "#CBD5E1",
                 gray400: "#94A3B8",

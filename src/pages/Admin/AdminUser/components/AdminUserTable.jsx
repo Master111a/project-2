@@ -227,7 +227,7 @@ export default function AdminUserTable() {
         setOrder("asc");
     }, [orderBy]);
     return (
-        <div className="w-full bg-white rounded-lg">
+        <div className="w-full bg-white rounded-lg shadow-sm">
             <EnhancedTableToolbar
                 numSelected={selected.length}
                 rowCount={rows.length}

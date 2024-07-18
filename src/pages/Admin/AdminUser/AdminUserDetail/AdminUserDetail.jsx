@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import { SearchInput } from "../../../../_components";
-import { Button } from "@mui/material";
+import {
+    NoDataMatched,
+    SearchInput,
+    UserDetailItem,
+} from "../../../../_components";
 import { useLocation } from "react-router-dom";
 
-export default function AdminUserSearch() {
+export default function AdminUserDetail() {
     const [textSearch, setTextSearch] = useState("");
     const location = useLocation();
     useEffect(() => {
@@ -23,11 +26,13 @@ export default function AdminUserSearch() {
         }
     };
     return (
-        <div className="flex flex-col gap-y-3">
-            <h2 className="font-normal text-24 text-gray500 leading-32">
-                Users
-            </h2>
-            <div className="flex items-center justify-between">
+        <div className="w-full h-full flex flex-col gap-y-6">
+            <div className="flex flex-col gap-y-3">
+                <h1 className="txt-title">User Details: Digital Creative</h1>
+                <UserDetailItem />
+            </div>
+            <div className="flex flex-col gap-y-3">
+                <h1 className="txt-title">Data</h1>
                 <SearchInput
                     className="bg-white"
                     placeholder="Search"
@@ -35,11 +40,9 @@ export default function AdminUserSearch() {
                     onChange={(e) => setTextSearch(e.target.value)}
                     onClick={(e) => handleSearch(e)}
                 />
-                <Button variant="contained" className="!bg-primary">
-                    <span className="font-extrabold text-sm leading-5 text-white capitalize">
-                        Create User
-                    </span>
-                </Button>
+                <div className="w-full bg-white rounded-lg shadow-md">
+                    <NoDataMatched />
+                </div>
             </div>
         </div>
     );

@@ -6,3 +6,5 @@ export { default as EnhancedTableToolbar } from "./EnhancedTableToolbar";
 export { default as ActionRowTable } from "./ActionRowTable";
 export { default as CustomTablePagination } from "./CustomTablePagination";
 export { default as DropdownNotificationMenu } from "./DropdownNotificationMenu";
+export { default as UserDetailItem } from "./UserDetailItem";
+export { default as NoDataMatched } from "./NoDataMatched";

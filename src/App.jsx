@@ -4,8 +4,8 @@ import Admin from "./pages/Admin/Admin";
 import Home from "./pages/Home/Home";
 import AdminUser from "./pages/Admin/AdminUser/AdminUser";
 import Login from "./pages/Login/Login";
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import AdminUserDetail from "./pages/Admin/AdminUser/AdminUserDetail/AdminUserDetail";
 
 function App() {
     const user = useSelector((state) => state.auth.user);
@@ -36,6 +36,7 @@ function App() {
                 <Route path="roles" element={<AdminUser />} />
                 <Route path="tags" element={<AdminUser />} />
                 <Route path="user" element={<AdminUser />} />
+                <Route path="user/id" element={<AdminUserDetail />} />
             </Route>
             <Route path="/login" element={<Login />} />
         </Routes>

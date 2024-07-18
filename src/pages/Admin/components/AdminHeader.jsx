@@ -5,7 +5,10 @@ import {
     SearchInput,
 } from "../../../_components";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 export default function AdminHeader() {
+    const location = useLocation();
+
     const item = {
         name: "Digital Creative",
         avatar: AvatarPNG,
@@ -13,23 +16,19 @@ export default function AdminHeader() {
     const [textSearch, setTextSearch] = useState("");
 
     useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams(location.search);
         const query = params.get("search");
         setTextSearch(query || "");
     }, []);
 
     const handleSearch = (event) => {
         event.preventDefault();
-        const params = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams(location.search);
         params.set("search", textSearch);
         {
             Boolean(textSearch)
-                ? window.history.replaceState(
-                      {},
-                      "",
-                      `${window.location.pathname}?${params}`
-                  )
-                : window.history.replaceState({}, "", window.location.pathname);
+                ? history.replaceState({}, "", `${location.pathname}?${params}`)
+                : history.replaceState({}, "", location.pathname);
         }
     };
     return (

@@ -67,7 +67,7 @@ export const userList = [
     },
 ];
 export const dashboardList = [
-    { href: "", title: "Main" },
+    { href: "main", title: "Main" },
     { href: "user-insights", title: "User Insights" },
 ];
 export const resourcesList = [
