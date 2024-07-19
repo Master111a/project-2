@@ -8,7 +8,7 @@ import {
     Avatar7,
 } from "../assets";
 
-export const userList = [
+export const userListData = [
     {
         id: 1,
         name: "Tylor Otwell",

@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { SearchInput } from "../../../../_components";
 import { Button } from "@mui/material";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function AdminUserSearch() {
     const [textSearch, setTextSearch] = useState("");
     const location = useLocation();
+    const navigate = useNavigate();
+
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         const query = params.get("search");
@@ -18,8 +20,8 @@ export default function AdminUserSearch() {
         params.set("search", textSearch);
         {
             Boolean(textSearch)
-                ? history.replaceState({}, "", `${location.pathname}?${params}`)
-                : history.replaceState({}, "", location.pathname);
+                ? navigate(`${location.pathname}?${params}`, { replace: true })
+                : navigate(location.pathname, { replace: true });
         }
     };
     return (

@@ -13,7 +13,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import EnhancedTableToolbar from "../../../../_components/EnhancedTableToolbar";
 import { visuallyHidden } from "@mui/utils";
-import { userList } from "../../../../utils/data";
+import { userListData } from "../../../../utils/data";
 import { ActionRowTable, CustomTablePagination } from "../../../../_components";
 import {
     HiOutlineXCircle,
@@ -26,6 +26,7 @@ import {
     StyledTableCellHead,
     StyledTableSortLabel,
 } from "../../../../utils/styled";
+import { getUserListAPI } from "../../../../utils/services/admin.api";
 
 function createData(id, avatar, name, email, isAdmin, twoFA) {
     return {
@@ -38,16 +39,6 @@ function createData(id, avatar, name, email, isAdmin, twoFA) {
     };
 }
 
-const rows = userList?.map((item) =>
-    createData(
-        item?.id,
-        item?.avatar,
-        item?.name,
-        item?.email,
-        item?.isAdmin,
-        item?.twoFA
-    )
-);
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -167,7 +158,34 @@ export default function AdminUserTable() {
     const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const params = new URLSearchParams(location.search);
+    const pageParams = params.get("page");
+    const rowParams = params.get("row");
+    const searchParams = params.get("search");
+    const [userList, setUserList] = useState([]);
 
+    useEffect(() => {
+        getUserList(pageParams, rowParams, searchParams);
+    }, [pageParams, rowParams, searchParams]);
+
+    const getUserList = async (page, row, search) => {
+        const res = await getUserListAPI(page, row, search);
+        if (res?.status === 200) {
+            setUserList(userListData);
+        } else {
+            console.log("thanh cong");
+        }
+    };
+    const rows = userList?.map((item) =>
+        createData(
+            item?.id,
+            item?.avatar,
+            item?.name,
+            item?.email,
+            item?.isAdmin,
+            item?.twoFA
+        )
+    );
     const handleRequestSort = (property) => {
         const isAsc = orderBy === property && order === "asc";
         setOrder(isAsc ? "desc" : "asc");
