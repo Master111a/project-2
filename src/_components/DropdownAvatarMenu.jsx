@@ -1,11 +1,16 @@
 import { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
-import EditIcon from "@mui/icons-material/Edit";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import LogoutIcon from "@mui/icons-material/Logout";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Button, Divider, Menu, MenuItem } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { resetUser } from "../utils/store/auth.slice";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const StyledMenu = styled((props) => (
     <Menu
@@ -50,6 +55,9 @@ export const StyledMenu = styled((props) => (
     },
 }));
 export default function DropdownAvatarMenu({ item }) {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -57,6 +65,16 @@ export default function DropdownAvatarMenu({ item }) {
     };
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    const handleLogout = () => {
+        localStorage.clear();
+        dispatch(resetUser());
+        toast.success("Logout success! 🦄", {
+            position: "top-left",
+        });
+        navigate("/login");
+        handleClose();
     };
     return (
         <div>
@@ -84,22 +102,26 @@ export default function DropdownAvatarMenu({ item }) {
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}>
-                <MenuItem onClick={handleClose}>
-                    <EditIcon />
-                    Edit
+                <MenuItem
+                    onClick={() => {
+                        navigate("/admin");
+                    }}>
+                    <DashboardIcon />
+                    Admin
                 </MenuItem>
                 <MenuItem onClick={handleClose}>
-                    <FileCopyIcon />
-                    Duplicate
+                    <ManageAccountsIcon />
+                    Profile
                 </MenuItem>
+
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem onClick={handleClose}>
                     <ArchiveIcon />
                     Archive
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
-                    <MoreHorizIcon />
-                    More
+                <MenuItem onClick={handleLogout}>
+                    <LogoutIcon />
+                    Logout
                 </MenuItem>
             </StyledMenu>
         </div>
