@@ -10,6 +10,39 @@ export const getUserListAPI = async (data) => {
     });
     return res;
 };
+// Material
+
+export const getMaterialListAPI = async (data) => {
+    const name = data?.search || "";
+    const category = data?.category || "";
+    const limit = data?.row || 5;
+    const page = (data?.row || 5) * (data?.page ? data?.page - 1 : 0);
+    const res = await axiosUrl.get("/cms/material", {
+        params: {
+            name: name,
+            category: category,
+            limit: limit,
+            offset: page || 0,
+        },
+    });
+    return res;
+};
+
+export const getMaterialByIdAPI = async (id) => {
+    const res = await axiosUrl.get("/cms/material" + id);
+    return res;
+};
+
+export const updateMaterialByIdAPI = async (id, data) => {
+    const res = await axiosUrl.put("/cms/material" + id, data);
+    return res;
+};
+
+export const deleteMaterialByIdAPI = async (id) => {
+    const res = await axiosUrl.delete("/cms/material" + id);
+    return res;
+};
+// Material Category
 export const getMaterialCategoryListAPI = async (data) => {
     const name = data?.search || "";
     const limit = data?.row || 5;

@@ -19,6 +19,9 @@ import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import AMCCreate from "./pages/Admin/AdminMaterialCategories/components/AMCCreate";
 import AMCDetail from "./pages/Admin/AdminMaterialCategories/components/AMCDetail";
+import AdminMaterial from "./pages/Admin/AdminMaterial";
+import AdminMaterialCreate from "./pages/Admin/AdminMaterial/components/AdminMaterialCreate";
+import AdminMaterialDetail from "./pages/Admin/AdminMaterial/components/AdminMaterialDetail";
 function App() {
     const dispatch = useDispatch();
     const location = useLocation();
@@ -47,15 +50,15 @@ function App() {
                         )
                     }>
                     <Route path="main" element={<div>Home</div>} />
+                    <Route path="material" element={<AdminMaterial />} />
                     <Route
-                        path="user-insights"
-                        element={<div>user-insights</div>}
+                        path="material/create"
+                        element={<AdminMaterialCreate />}
                     />
-                    <Route path="address" element={<AdminUser />} />
-                    <Route path="comments" element={<AdminUser />} />
-                    <Route path="post" element={<AdminUser />} />
-                    <Route path="purchases" element={<AdminUser />} />
-                    <Route path="roles" element={<AdminUser />} />
+                    <Route
+                        path="material/:id"
+                        element={<AdminMaterialDetail />}
+                    />
                     <Route
                         path="material-categories"
                         element={<AdminMaterialCategories />}
