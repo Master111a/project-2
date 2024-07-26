@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
 import { SearchInput } from "../../../../_components";
 import { Button } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-export default function AdminUserSearch() {
+export default function AMCSearch() {
     const [textSearch, setTextSearch] = useState("");
     const location = useLocation();
     const navigate = useNavigate();
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
-        const query = params.get("userName");
+        const query = params.get("materialCategoryName");
         setTextSearch(query || "");
     }, []);
 
     const handleSearch = (event) => {
         event.preventDefault();
         const params = new URLSearchParams(location.search);
-        params.set("userName", textSearch);
+        params.set("materialCategoryName", textSearch);
         {
             Boolean(textSearch)
                 ? navigate(`${location.pathname}?${params}`, { replace: true })
@@ -27,7 +27,7 @@ export default function AdminUserSearch() {
     return (
         <div className="flex flex-col gap-y-3">
             <h2 className="font-normal text-24 text-gray500 leading-32">
-                Users
+                Material Categories
             </h2>
             <div className="flex items-center justify-between">
                 <SearchInput
@@ -37,11 +37,13 @@ export default function AdminUserSearch() {
                     onChange={(e) => setTextSearch(e.target.value)}
                     onClick={(e) => handleSearch(e)}
                 />
-                <Button variant="contained" className="!bg-primary">
-                    <span className="font-extrabold text-sm leading-5 text-white capitalize">
-                        Create User
-                    </span>
-                </Button>
+                <Link to={"create"}>
+                    <Button variant="contained" className="!bg-primary">
+                        <span className="font-extrabold text-sm leading-5 text-white capitalize">
+                            Create Category
+                        </span>
+                    </Button>
+                </Link>
             </div>
         </div>
     );

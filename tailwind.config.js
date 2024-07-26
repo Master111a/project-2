@@ -4,7 +4,7 @@ export default {
     theme: {
         extend: {
             width: {
-                25: "26.25rem",
+                25: "6.25rem",
                 131: "131px",
                 "18%": "18%",
                 "4/15": "26.666667%",

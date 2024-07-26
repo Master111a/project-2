@@ -68,14 +68,9 @@ export const userListData = [
 ];
 export const dashboardList = [
     { href: "main", title: "Main" },
-    { href: "user-insights", title: "User Insights" },
+    { href: "user", title: "Users" },
 ];
 export const resourcesList = [
-    { href: "address", title: "Addresses" },
-    { href: "comments", title: "Comments" },
-    { href: "post", title: "Posts" },
-    { href: "purchases", title: "Purchases" },
-    { href: "roles", title: "Roles" },
-    { href: "tags", title: "Tags" },
-    { href: "user", title: "Users" },
+    { href: "material", title: "Main" },
+    { href: "material-categories", title: "Categories" },
 ];

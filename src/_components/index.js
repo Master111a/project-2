@@ -7,4 +7,7 @@ export { default as ActionRowTable } from "./ActionRowTable";
 export { default as CustomTablePagination } from "./CustomTablePagination";
 export { default as DropdownNotificationMenu } from "./DropdownNotificationMenu";
 export { default as UserDetailItem } from "./UserDetailItem";
+export { default as ExhancedTableHead } from "./ExhancedTableHead";
 export { default as NoDataMatched } from "./NoDataMatched";
+export { default as Label } from "./Label";
+export { default as DeleteDialog } from "./DeleteDialog";

@@ -63,7 +63,7 @@ export default function AdminAside() {
                         onClick={() => handleClick2()}
                         className="flex items-center gap-x-2 relative pl-10">
                         <HiOutlineCollection className="text-24 text-gray500 absolute left-2" />
-                        <ListItemText primary="Resources" />
+                        <ListItemText primary="Material" />
                         {open2 ? <ExpandLess /> : <ExpandMore />}
                     </StyledListItemButton>
                     <Collapse in={open2} timeout="auto" unmountOnExit>

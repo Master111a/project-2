@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 const schema = Yup.object().shape({
     email: Yup.string().required("Trường này là bắt buộc"),
@@ -24,28 +24,41 @@ export default function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const [loader, setLoader] = useState(false);
+    const [state, setState] = useState({
+        loading: false,
+        data: {
+            email: "",
+            password: "",
+        },
+    });
 
-    const onClick = async (data) => {
-        setLoader(true);
-        const res = await loginAPI(data);
-        if (res.status === 200) {
-            toast.success("Login success! 🦄");
-            localStorage.setItem("token", JSON.stringify(res?.data));
-            dispatch(setUser(res?.data));
-            setLoader(false);
-            setTimeout(() => {
+    useEffect(() => {
+        if (!state.loading) return;
+        loginAPI(state.data)
+            .then((res) => {
+                toast.success("Login success! 🦄");
+                localStorage.setItem("token", JSON.stringify(res?.data));
+                dispatch(setUser(res?.data));
                 if (location?.state) {
                     navigate(location?.state);
                 } else {
                     navigate("/");
                 }
-            }, 300);
-        } else {
-            toast.error("Login error! 🦄");
-            setLoader(false);
-        }
+                setState((v) => ({ ...v, loading: true }));
+            })
+            .catch((er) => {
+                toast.error("Login error! 🦄");
+                setState((v) => ({ ...v, loading: true }));
+            });
+    }, [state.loading, state.data]);
+
+    const onSubmit = (data) => {
+        setState({
+            loading: true,
+            data: data,
+        });
     };
+
     return (
         <div className="w-full h-full flex items-center justify-center">
             <div className="min-h-screen flex items-center justify-center w-full dark:bg-gray-950">
@@ -53,7 +66,7 @@ export default function Login() {
                     <h1 className="text-2xl font-bold text-center mb-4 dark:text-gray-200">
                         Welcome to CMS!
                     </h1>
-                    <form onSubmit={handleSubmit(onClick)}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="mb-4 w-full">
                             <div className="flex flex-col gap-y-2">
                                 <label
@@ -125,7 +138,7 @@ export default function Login() {
                             variant="contained"
                             type="submit"
                             className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            {loader ? (
+                            {state.loading ? (
                                 <AcUnitIcon className="animate-spin" />
                             ) : (
                                 "Login"

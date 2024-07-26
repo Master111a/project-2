@@ -9,6 +9,7 @@ import {
     TableCell,
     TableSortLabel,
 } from "@mui/material";
+import { forwardRef } from "react";
 
 export const StyledSelect = styled((props) => <Select {...props} />)(
     ({ theme }) => ({
@@ -77,3 +78,14 @@ export const StyledTableSortLabel = styled(TableSortLabel)(({ theme }) => ({
 }));
 export const StyledTableCellHead = styled(TableCell)(({ theme }) => ({}));
 export const StyledAvatar = styled(Avatar)(({ theme }) => ({}));
+export const CustomSelect = styled(
+    forwardRef(function CustomSelect(props, ref) {
+        return <Select {...props} ref={ref} />;
+    })
+)(({ theme }) => ({
+    width: "100%",
+    border: "1px solid #d1d5db",
+    "& .MuiSelect-select": {
+        padding: "8px 12px 8px 12px",
+    },
+}));

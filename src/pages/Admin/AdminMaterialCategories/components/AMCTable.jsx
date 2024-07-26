@@ -1,109 +1,83 @@
 import {
     Avatar,
-    Box,
     Checkbox,
-    Paper,
     Table,
     TableBody,
     TableCell,
     TableContainer,
-    TableHead,
     TableRow,
 } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import EnhancedTableToolbar from "../../../../_components/EnhancedTableToolbar";
-import { visuallyHidden } from "@mui/utils";
-import { userListData } from "../../../../utils/data";
 import {
     ActionRowTable,
     CustomTablePagination,
+    DeleteDialog,
     ExhancedTableHead,
 } from "../../../../_components";
-import {
-    HiOutlineXCircle,
-    HiOutlineCheckCircle,
-    HiOutlineSelector,
-} from "react-icons/hi";
-import {
-    StyledTableCellHead,
-    StyledTableSortLabel,
-} from "../../../../utils/styled";
-import { getUserListAPI } from "../../../../utils/services/admin.api";
 import { getComparator, stableSort } from "../../../../utils/function/function";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { deleteMaterialCategoryByIdAPI } from "../../../../utils/services/admin.api";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { setGetMC } from "../../../../utils/store/admin.slice";
 
-function createData(id, avatar, name, email, isAdmin, twoFA) {
+const createData = (id, stt, image, name, price_type) => {
     return {
         id,
-        avatar,
+        stt,
+        image,
         name,
-        email,
-        isAdmin,
-        twoFA,
+        price_type,
     };
-}
+};
 
+const getType = (type) => {
+    if (type === "per_quantity") return "Quantity";
+    else if (type === "per_metter") return " Metter";
+};
 const headCells = [
     {
-        id: "id",
-        label: "ID",
+        id: "stt",
+        label: "NO",
     },
     {
-        id: "avatar",
-        label: "AVATAR",
+        id: "image",
+        label: "IMAGE",
     },
     {
         id: "name",
         label: "NAME",
     },
+
     {
-        id: "email",
-        label: "EMAIL",
-    },
-    {
-        id: "isAdmin",
-        label: "ADMIN",
-    },
-    {
-        id: "twoFA",
-        label: "2FA",
+        id: "prive_type",
+        label: "TYPE",
     },
 ];
-export default function AdminUserTable() {
-    const location = useLocation();
+
+export default function AMCTable({ categoryList, count }) {
+    const dispatch = useDispatch();
+    const getMC = useSelector((state) => state.admin.getMC);
+
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("id");
     const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const params = new URLSearchParams(location.search);
-    const pageParams = params.get("page");
-    const rowParams = params.get("row");
-    const searchParams = params.get("search");
-    const [userList, setUserList] = useState([]);
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        getUserList(pageParams, rowParams, searchParams);
-    }, [pageParams, rowParams, searchParams]);
     useEffect(() => {
         setOrder("asc");
     }, [orderBy]);
-    const getUserList = async (page, row, search) => {
-        const res = await getUserListAPI(page, row, search);
-        if (res?.status === 200) {
-            setUserList(userListData);
-        } else {
-            console.log("thanh cong");
-        }
-    };
-    const rows = userList?.map((item) =>
+
+    const rows = categoryList?.map((item, index) =>
         createData(
             item?.id,
-            item?.avatar,
+            index + 1 + page * rowsPerPage,
+            item?.image,
             item?.name,
-            item?.email,
-            item?.isAdmin,
-            item?.twoFA
+            item?.price_type
         )
     );
     const handleRequestSort = (property) => {
@@ -149,18 +123,34 @@ export default function AdminUserTable() {
     };
 
     const isSelected = (id) => selected.indexOf(id) !== -1;
-    const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
+    const [dataDelete, setDataDelete] = useState({
+        open: false,
+        id: "",
+    });
+
+    const handleDelete = async () => {
+        const res = await deleteMaterialCategoryByIdAPI(dataDelete.id);
+        if (res?.status === 204) {
+            setDataDelete({
+                open: false,
+                id: "",
+            });
+            dispatch(setGetMC(!getMC));
+            toast.success("Delete Success!");
+            setSelected([]);
+        } else {
+            toast.error("Delete Fail!");
+        }
+    };
     const visibleRows = useMemo(
         () => stableSort(rows, getComparator(order, orderBy))[(order, orderBy)]
     );
-
     return (
         <div className="w-full bg-white rounded-lg shadow-sm">
             <EnhancedTableToolbar
-                numSelected={selected.length}
-                rowCount={rows.length}
+                numSelected={selected?.length}
+                rowCount={rows?.length}
                 onSelectAllClick={handleSelectAllClick}
             />
             <TableContainer>
@@ -175,15 +165,15 @@ export default function AdminUserTable() {
                         headCells={headCells}
                     />
                     <TableBody>
-                        {visibleRows?.map((row, index) => {
-                            const isItemSelected = isSelected(row.id);
+                        {rows?.map((row, index) => {
+                            const isItemSelected = isSelected(row?.id);
                             const labelId = `enhanced-table-checkbox-${index}`;
 
                             return (
                                 <TableRow
                                     hover
                                     onClick={(event) =>
-                                        handleClick(event, row.id)
+                                        handleClick(event, row?.id)
                                     }
                                     role="checkbox"
                                     aria-checked={isItemSelected}
@@ -206,63 +196,54 @@ export default function AdminUserTable() {
                                     </TableCell>
                                     <TableCell id={labelId} align="left">
                                         <span className="text-primary font-extrabold">
-                                            {row?.id}
+                                            {row?.stt}
                                         </span>
                                     </TableCell>
                                     <TableCell align="center">
-                                        <Avatar
-                                            alt="avatar"
-                                            src={row?.avatar}
-                                        />
+                                        <Avatar alt="image" src={row?.image} />
+                                    </TableCell>
+                                    <TableCell align="left">
+                                        <span className="text-sm text-gray500">
+                                            {row?.name}
+                                        </span>
                                     </TableCell>
                                     <TableCell
                                         align="left"
                                         className="text-gray500">
                                         <span className="text-sm text-gray500">
-                                            {row?.name}
+                                            {getType(row?.price_type)}
                                         </span>
                                     </TableCell>
-                                    <TableCell align="left">
-                                        <span className="text-sm text-gray500">
-                                            {row?.email}
-                                        </span>
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {row?.isAdmin ? (
-                                            <HiOutlineCheckCircle className="text-24 text-green500" />
-                                        ) : (
-                                            <HiOutlineXCircle className="text-24 text-red500" />
-                                        )}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {row?.twoFA ? (
-                                            <HiOutlineCheckCircle className="text-24 text-green500" />
-                                        ) : (
-                                            <HiOutlineXCircle className="text-24 text-red500" />
-                                        )}
-                                    </TableCell>
+
                                     <TableCell align="right">
-                                        <ActionRowTable />
+                                        <ActionRowTable
+                                            pencilClick={() =>
+                                                navigate(row?.id)
+                                            }
+                                            trashClick={() =>
+                                                setDataDelete({
+                                                    open: true,
+                                                    id: row?.id,
+                                                })
+                                            }
+                                        />
                                     </TableCell>
                                 </TableRow>
                             );
                         })}
-                        {emptyRows > 0 && (
-                            <TableRow
-                                style={{
-                                    height: 53 * emptyRows,
-                                }}>
-                                <TableCell colSpan={6} />
-                            </TableRow>
-                        )}
                     </TableBody>
                 </Table>
             </TableContainer>
             <CustomTablePagination
-                count={rows?.length}
+                count={count}
                 page={page}
                 rowsPerPage={rowsPerPage}
                 onPageChange={handleChangePage}
+            />
+            <DeleteDialog
+                open={dataDelete.open}
+                handleCancel={() => setDataDelete({ open: false, id: "" })}
+                handleDelete={handleDelete}
             />
         </div>
     );

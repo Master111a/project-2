@@ -9,7 +9,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Button, Divider, Menu, MenuItem } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { resetUser } from "../utils/store/auth.slice";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export const StyledMenu = styled((props) => (
@@ -57,6 +57,7 @@ export const StyledMenu = styled((props) => (
 export default function DropdownAvatarMenu({ item }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -73,7 +74,7 @@ export default function DropdownAvatarMenu({ item }) {
         toast.success("Logout success! 🦄", {
             position: "top-left",
         });
-        navigate("/login");
+        navigate("/login", { state: location.pathname });
         handleClose();
     };
     return (
