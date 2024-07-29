@@ -1,5 +1,4 @@
 import {
-    Avatar,
     Checkbox,
     Table,
     TableBody,
@@ -14,13 +13,15 @@ import {
     CustomTablePagination,
     DeleteDialog,
     ExhancedTableHead,
+    ModalView,
 } from "../../../../_components";
 import { getComparator, stableSort } from "../../../../utils/function/function";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { deleteMaterialByIdAPI } from "../../../../utils/services/admin.api";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { setGetMaterial } from "../../../../utils/store/admin.slice";
+import MaterialView from "./MaterialView";
 
 const createData = (id, stt, image, name, price_type) => {
     return {
@@ -82,6 +83,9 @@ const headCells = [
 export default function MaterialTable({ materialList, count }) {
     const dispatch = useDispatch();
     const getMaterial = useSelector((state) => state.admin.getMaterial);
+
+    const [openView, setOpenView] = useState(false);
+    const [itemView, setItemView] = useState(null);
 
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("id");
@@ -279,6 +283,10 @@ export default function MaterialTable({ materialList, count }) {
                                     </TableCell>
                                     <TableCell align="right">
                                         <ActionRowTable
+                                            eyeClick={() => {
+                                                setOpenView(true),
+                                                    setItemView(row);
+                                            }}
                                             pencilClick={() =>
                                                 navigate(row?.id)
                                             }
@@ -304,8 +312,17 @@ export default function MaterialTable({ materialList, count }) {
             />
             <DeleteDialog
                 open={dataDelete.open}
-                handleCancel={() => setDataDelete({ open: false, id: "" })}
+                handleCancel={() => {
+                    setDataDelete({ open: false, id: "" }), setSelected([]);
+                }}
                 handleDelete={handleDelete}
+            />
+            <ModalView
+                open={openView}
+                setOpen={() => {
+                    setOpenView(false), setSelected([]);
+                }}
+                children={<MaterialView item={itemView} />}
             />
         </div>
     );

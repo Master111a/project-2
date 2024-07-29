@@ -204,6 +204,56 @@ export default function AdminMaterialCreate() {
                             </p>
                         )}
                     </div>
+                    <div className="mb-4 w-full">
+                        <div className="flex items-center">
+                            <Label name="Category" id="category" />
+                            <Controller
+                                name="category"
+                                control={control}
+                                defaultValue={defaultData.data.category}
+                                render={({ field }) => (
+                                    <CustomSelect
+                                        {...field}
+                                        id="category"
+                                        value={field.value}>
+                                        <MenuItem value={"per_quantity"}>
+                                            Quantity
+                                        </MenuItem>
+                                    </CustomSelect>
+                                )}
+                            />
+                        </div>
+                        {errors.category && (
+                            <p className="txt-error">
+                                {errors.category.message}
+                            </p>
+                        )}
+                    </div>
+                    <div className="mb-4 w-full">
+                        <div className="flex items-center">
+                            <Label name="Supplier" id="supplier" />
+                            <Controller
+                                name="supplier"
+                                control={control}
+                                defaultValue={defaultData.data.supplier}
+                                render={({ field }) => (
+                                    <CustomSelect
+                                        {...field}
+                                        id="supplier"
+                                        value={field.value}>
+                                        <MenuItem value={"per_quantity"}>
+                                            Quantity
+                                        </MenuItem>
+                                    </CustomSelect>
+                                )}
+                            />
+                        </div>
+                        {errors.supplier && (
+                            <p className="txt-error">
+                                {errors.supplier.message}
+                            </p>
+                        )}
+                    </div>
                     <div className="w-full flex items-center justify-between  mt-8">
                         <div
                             className="flex items-center gap-x-3 cursor-pointer"

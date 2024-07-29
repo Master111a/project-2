@@ -11,3 +11,4 @@ export { default as ExhancedTableHead } from "./ExhancedTableHead";
 export { default as NoDataMatched } from "./NoDataMatched";
 export { default as Label } from "./Label";
 export { default as DeleteDialog } from "./DeleteDialog";
+export { default as ModalView } from "./ModalView";

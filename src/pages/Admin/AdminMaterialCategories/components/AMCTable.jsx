@@ -14,6 +14,7 @@ import {
     CustomTablePagination,
     DeleteDialog,
     ExhancedTableHead,
+    ModalView,
 } from "../../../../_components";
 import { getComparator, stableSort } from "../../../../utils/function/function";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -21,6 +22,7 @@ import { deleteMaterialCategoryByIdAPI } from "../../../../utils/services/admin.
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { setGetMC } from "../../../../utils/store/admin.slice";
+import AMCView from "./AMCView";
 
 const createData = (id, stt, image, name, price_type) => {
     return {
@@ -59,6 +61,9 @@ const headCells = [
 export default function AMCTable({ categoryList, count }) {
     const dispatch = useDispatch();
     const getMC = useSelector((state) => state.admin.getMC);
+
+    const [openView, setOpenView] = useState(false);
+    const [itemView, setItemView] = useState(null);
 
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("id");
@@ -217,6 +222,10 @@ export default function AMCTable({ categoryList, count }) {
 
                                     <TableCell align="right">
                                         <ActionRowTable
+                                            eyeClick={() => {
+                                                setOpenView(true),
+                                                    setItemView(row);
+                                            }}
                                             pencilClick={() =>
                                                 navigate(row?.id)
                                             }
@@ -242,8 +251,17 @@ export default function AMCTable({ categoryList, count }) {
             />
             <DeleteDialog
                 open={dataDelete.open}
-                handleCancel={() => setDataDelete({ open: false, id: "" })}
+                handleCancel={() => {
+                    setDataDelete({ open: false, id: "" }), setSelected([]);
+                }}
                 handleDelete={handleDelete}
+            />
+            <ModalView
+                open={openView}
+                setOpen={() => {
+                    setOpenView(false), setSelected([]);
+                }}
+                children={<AMCView item={itemView} />}
             />
         </div>
     );
