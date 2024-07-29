@@ -12,7 +12,9 @@ export default function ActionRowTable({
 }) {
     return (
         <div className="flex items-center justify-between px-1.5 max-w-40 text-gray400 text-24">
-            <div className="w-fit cursor-pointer" onClick={() => dotClick()}>
+            <div
+                className="w-fit cursor-pointer hidden"
+                onClick={() => dotClick()}>
                 <HiOutlineDotsHorizontal />
             </div>
             <div className="w-fit cursor-pointer" onClick={() => eyeClick()}>

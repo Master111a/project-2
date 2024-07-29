@@ -35,8 +35,8 @@ const createData = (id, stt, image, name, price_type) => {
 };
 
 const getType = (type) => {
-    if (type === "per_quantity") return "Quantity";
-    else if (type === "per_metter") return " Metter";
+    if (type === "per_quantity") return 1;
+    else if (type === "per_metter") return 2;
 };
 const headCells = [
     {
@@ -205,19 +205,29 @@ export default function AMCTable({ categoryList, count }) {
                                         </span>
                                     </TableCell>
                                     <TableCell align="center">
-                                        <Avatar alt="image" src={row?.image} />
+                                        <img
+                                            alt="image"
+                                            src={row?.image}
+                                            className="aspect-video w-full max-w-32 rounded-md object-cover object-center"
+                                        />
                                     </TableCell>
                                     <TableCell align="left">
-                                        <span className="text-sm text-gray500">
+                                        <span className="text-base font-semibold text-gray500">
                                             {row?.name}
                                         </span>
                                     </TableCell>
                                     <TableCell
                                         align="left"
                                         className="text-gray500">
-                                        <span className="text-sm text-gray500">
-                                            {getType(row?.price_type)}
-                                        </span>
+                                        {getType(row?.price_type) === 1 ? (
+                                            <span className="text-sm text-green-600 px-3 py-1 rounded-md bg-green-300/50 font-semibold">
+                                                Quantity
+                                            </span>
+                                        ) : (
+                                            <span className="text-sm text-yellow-600 px-3 py-1 rounded-md bg-yellow-300/50 font-semibold">
+                                                Metter
+                                            </span>
+                                        )}
                                     </TableCell>
 
                                     <TableCell align="right">
