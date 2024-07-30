@@ -22,12 +22,15 @@ export default function AdminMaterialCategories() {
         row: Number(rowParams),
         page: Number(pageParams),
     };
+    console.log(dt.search);
     useEffect(() => {
         getMaterialCategoryListAPI(dt)
             .then((res) => {
                 if (res?.status === 200) {
                     setData({
-                        count: res?.data?.count,
+                        count: !Boolean(dt.search)
+                            ? res?.data?.count
+                            : data?.count,
                         categoryList: res?.data?.results,
                     });
                 } else {
@@ -37,7 +40,7 @@ export default function AdminMaterialCategories() {
             .catch((err) => {
                 console.log(err);
             });
-    }, [getMC, dt.search, dt.row, dt.page]);
+    }, [getMC, dt.search, dt.row, dt.page, data?.count]);
     return (
         <div className="w-full h-full flex flex-col gap-y-6">
             {/* Stats list */}
