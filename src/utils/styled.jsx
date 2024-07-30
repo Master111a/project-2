@@ -84,6 +84,7 @@ export const CustomSelect = styled(
     })
 )(({ theme }) => ({
     width: "100%",
+    maxWidth: "350px",
     border: "1px solid #d1d5db",
     "& .MuiSelect-select": {
         padding: "8px 12px 8px 12px",

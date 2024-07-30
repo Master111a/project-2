@@ -94,7 +94,7 @@ export default function AdminMaterialCreate() {
             <h1 className="text-24 leading-32 text-gray500 font-normal text-left">
                 Create Material Category
             </h1>
-            <div className="py-2 rounded-lg w-full shadow-md px-6 txt-body bg-white">
+            <div className="rounded-lg w-full shadow-md p-6 txt-body bg-white">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="mb-4 w-full">
                         <div className="flex items-center">
