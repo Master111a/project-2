@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 export default function CustomTablePagination(props) {
     const { count, page, rowsPerPage, onPageChange } = props;
     const start = page * rowsPerPage + 1;
@@ -8,17 +8,20 @@ export default function CustomTablePagination(props) {
     const location = useLocation();
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
+    const [searchParams, setSearchParams] = useSearchParams();
+    console.log(searchParams);
     useEffect(() => {
-        let params = new URLSearchParams(location.search);
-        let page = parseInt(params.get("page"));
+        let page = parseInt(searchParams.get("page"));
         setCurrentPage(page || 1);
     }, []);
+
     const handlePreviousPage = () => {
         if (page > 0) {
             onPageChange(page - 1);
             handlePageChange(currentPage - 1);
         }
     };
+
     const handleNextPage = () => {
         if (page < Math.ceil(count / rowsPerPage) - 1) {
             onPageChange(page + 1);

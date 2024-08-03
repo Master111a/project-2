@@ -61,15 +61,19 @@ export default function AdminMaterialCreate() {
 
     const createMC = async (data) => {
         const res = await createMaterialCategoryListAPI(data);
-        if (res?.status === 201) {
-            toast.success("Create success! 😊");
-            setState(defaultData);
-            dispatch(setGetMC(!getMC));
-            reset(defaultData.data);
-            if (fileInputRef.current) {
-                fileInputRef.current.value = "";
+        try {
+            if (res?.status === 201) {
+                toast.success("Create success! 😊");
+                setState(defaultData);
+                dispatch(setGetMC(!getMC));
+                reset(defaultData.data);
+                if (fileInputRef.current) {
+                    fileInputRef.current.value = "";
+                }
+            } else {
+                toast.error("Create error! 😟");
             }
-        } else {
+        } catch (error) {
             toast.error("Create error! 😟");
         }
     };

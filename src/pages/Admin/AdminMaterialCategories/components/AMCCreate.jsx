@@ -51,8 +51,9 @@ export default function AMCCreate() {
     }, [state.loading]);
 
     const createMC = async (data) => {
-        const res = await createMaterialCategoryListAPI(data);
-        if (res?.status === 201) {
+        try {
+            const res = await createMaterialCategoryListAPI(data);
+            // if (res?.status === 201) {
             toast.success("Create success! 😊");
             setState(defaultData);
             dispatch(setGetMC(!getMC));
@@ -60,7 +61,10 @@ export default function AMCCreate() {
             if (fileInputRef.current) {
                 fileInputRef.current.value = "";
             }
-        } else {
+            // } else {
+            //     toast.error("Create error! 😟");
+            // }
+        } catch (error) {
             toast.error("Create error! 😟");
         }
     };

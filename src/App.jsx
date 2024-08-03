@@ -18,7 +18,7 @@ import { setUser } from "./utils/store/auth.slice";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import AMCCreate from "./pages/Admin/AdminMaterialCategories/components/AMCCreate";
-import AMCDetail from "./pages/Admin/AdminMaterialCategories/components/AMCDetail";
+import AMCEdit from "./pages/Admin/AdminMaterialCategories/components/AMCEdit";
 import AdminMaterial from "./pages/Admin/AdminMaterial";
 import AdminMaterialCreate from "./pages/Admin/AdminMaterial/components/AdminMaterialCreate";
 import AdminMaterialDetail from "./pages/Admin/AdminMaterial/components/AdminMaterialDetail";
@@ -69,7 +69,7 @@ function App() {
                     />
                     <Route
                         path="material-categories/:id"
-                        element={<AMCDetail />}
+                        element={<AMCEdit />}
                     />
                     <Route path="user" element={<AdminUser />} />
                     <Route path="user/id" element={<AdminUserDetail />} />

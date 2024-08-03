@@ -10,7 +10,7 @@ export const loginAPI = async (data) => {
 };
 export const refreshTokenAPI = async (refresh) => {
     try {
-        const res = await axiosUrl.post("/refresh-token", { refresh });
+        const res = await axiosUrl.post("/refresh-token", { refresh: refresh });
         return res;
     } catch (error) {
         return error;

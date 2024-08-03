@@ -13,15 +13,16 @@ import {
     updateMaterialCategoryByIdAPI,
 } from "../../../../utils/services/admin.api";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { convertFormData } from "../../../../utils/function/function";
 
 const schema = Yup.object().shape({
-    image: Yup.mixed().required("Trường này là bắt buộc"),
-    name: Yup.string().required("Trường này là bắt buộc"),
-    price_type: Yup.string().required("Trường này là bắt buộc"),
+    image: Yup.mixed().required("Image is require"),
+    name: Yup.string()
+        .max(255, "The maximum length of the string is 255")
+        .required("Name is require"),
+    price_type: Yup.string().required("Type is require"),
 });
-export default function AMCDetail() {
+export default function AMCEdit() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [state, setState] = useState({
@@ -121,32 +122,32 @@ export default function AMCDetail() {
                                 control={control}
                                 render={({ field }) => (
                                     <div className="w-full flex gap-x-4">
-                                        <img
-                                            alt="image"
-                                            src={
-                                                typeof field.value === "string"
-                                                    ? field.value
-                                                    : URL.createObjectURL(
-                                                          field.value
-                                                      )
-                                            }
-                                            className="aspect-video w-40 rounded-md shadow-md flex-shrink-0"
-                                        />
-                                        {isEdit && (
-                                            <div className="self-end">
-                                                <input
-                                                    type="file"
-                                                    id="image"
-                                                    disabled={!isEdit}
-                                                    onChange={(e) =>
-                                                        field.onChange(
-                                                            e.target.files[0]
-                                                        )
-                                                    }
-                                                    className="form-item"
-                                                />
-                                            </div>
+                                        {field.value && (
+                                            <img
+                                                alt="image"
+                                                src={
+                                                    typeof field.value ===
+                                                    "string"
+                                                        ? field.value
+                                                        : URL.createObjectURL(
+                                                              field.value
+                                                          )
+                                                }
+                                                className="aspect-video w-40 rounded-md shadow-md flex-shrink-0"
+                                            />
                                         )}
+                                        <div className="self-end">
+                                            <input
+                                                type="file"
+                                                id="image"
+                                                onChange={(e) =>
+                                                    field.onChange(
+                                                        e.target.files[0]
+                                                    )
+                                                }
+                                                className="form-item"
+                                            />
+                                        </div>
                                     </div>
                                 )}
                             />
@@ -165,7 +166,6 @@ export default function AMCDetail() {
                                     <input
                                         {...field}
                                         type="text"
-                                        disabled={!isEdit}
                                         id="name"
                                         className="form-item w-1/2 self-start max-w-[350px]"
                                     />
@@ -186,8 +186,7 @@ export default function AMCDetail() {
                                     <CustomSelect
                                         {...field}
                                         id="price_type"
-                                        value={field.value}
-                                        disabled={!isEdit}>
+                                        value={field.value}>
                                         <MenuItem value={"per_quantity"}>
                                             Quantity
                                         </MenuItem>
@@ -210,36 +209,27 @@ export default function AMCDetail() {
                             onClick={() => navigate(-1)}>
                             <KeyboardBackspaceIcon />
                             <span>Back</span>
-                        </div>{" "}
-                        {isEdit ? (
-                            <div className="flex gap-x-3 items-center">
-                                <Button
-                                    variant="contained"
-                                    className="!bg-gray500"
-                                    onClick={onCancel}>
-                                    <span className="txt-button">Cancel</span>
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    type="submit"
-                                    className="!bg-primary">
-                                    <span className="txt-button">
-                                        {state.loading ? (
-                                            <AcUnitIcon className="animate-spin" />
-                                        ) : (
-                                            "Save"
-                                        )}
-                                    </span>
-                                </Button>
-                            </div>
-                        ) : (
+                        </div>
+                        <div className="flex gap-x-3 items-center">
                             <Button
                                 variant="contained"
-                                className="!bg-primary"
-                                onClick={() => setIsEdit(true)}>
-                                <span className="txt-button">Edit</span>
+                                className="!bg-gray500"
+                                onClick={onCancel}>
+                                <span className="txt-button">Cancel</span>
                             </Button>
-                        )}
+                            <Button
+                                variant="contained"
+                                type="submit"
+                                className="!bg-primary">
+                                <span className="txt-button">
+                                    {state.loading ? (
+                                        <AcUnitIcon className="animate-spin" />
+                                    ) : (
+                                        "Save"
+                                    )}
+                                </span>
+                            </Button>
+                        </div>
                     </div>
                 </form>
             </div>

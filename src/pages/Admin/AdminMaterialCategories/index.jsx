@@ -22,7 +22,7 @@ export default function AdminMaterialCategories() {
         row: Number(rowParams),
         page: Number(pageParams),
     };
-    console.log(dt.search);
+
     useEffect(() => {
         getMaterialCategoryListAPI(dt)
             .then((res) => {

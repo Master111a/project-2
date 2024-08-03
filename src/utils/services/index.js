@@ -36,15 +36,16 @@ axiosUrl.interceptors.response.use(
     },
     async (error) => {
         const originalConfig = error.config;
-
         if (
             error.response &&
             error.response.status === 401 &&
-            error.response.data.code === "token_not_valid"
+            error.response.data.code === "token_not_valid" &&
+            error.response.data.messages[0].token_type === "access"
         ) {
             if (!isRefreshing) {
                 isRefreshing = true;
                 const token = JSON.parse(localStorage.getItem("token"));
+
                 try {
                     const res = await refreshTokenAPI(token?.refresh);
                     if (res?.status === 200) {
@@ -56,7 +57,7 @@ axiosUrl.interceptors.response.use(
                                 refresh: res?.data?.refresh,
                             })
                         );
-                        axios.defaults.headers.common[
+                        axiosUrl.defaults.headers.common[
                             "Authorization"
                         ] = `Bearer ${res?.data?.access}`;
                         onRrefreshed(res?.data?.access);
@@ -75,7 +76,7 @@ axiosUrl.interceptors.response.use(
             const retryOriginalRequest = new Promise((resolve) => {
                 addRefreshSubscriber((token) => {
                     originalConfig.headers["Authorization"] = "Bearer " + token;
-                    resolve(axios(originalConfig));
+                    resolve(axiosUrl(originalConfig));
                 });
             });
 
