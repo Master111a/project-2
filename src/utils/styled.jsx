@@ -8,6 +8,7 @@ import {
     styled,
     TableCell,
     TableSortLabel,
+    TextField,
 } from "@mui/material";
 import { forwardRef } from "react";
 
@@ -78,6 +79,7 @@ export const StyledTableSortLabel = styled(TableSortLabel)(({ theme }) => ({
 }));
 export const StyledTableCellHead = styled(TableCell)(({ theme }) => ({}));
 export const StyledAvatar = styled(Avatar)(({ theme }) => ({}));
+
 export const CustomSelect = styled(
     forwardRef(function CustomSelect(props, ref) {
         return <Select {...props} ref={ref} />;
@@ -88,5 +90,18 @@ export const CustomSelect = styled(
     border: "1px solid #d1d5db",
     "& .MuiSelect-select": {
         padding: "8px 12px 8px 12px",
+    },
+}));
+export const CustomInput = styled(
+    forwardRef(function CustomInput(props, ref) {
+        return <TextField {...props} ref={ref} />;
+    })
+)(({ theme }) => ({
+    width: "100%",
+    maxWidth: "350px",
+    border: "1px solid #d1d5db",
+    borderRadius: 4,
+    "& .MuiInputBase-input ": {
+        padding: "8px 12px",
     },
 }));

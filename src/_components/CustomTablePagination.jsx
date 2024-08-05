@@ -1,52 +1,60 @@
 import { Button } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+import { isNumber } from "../utils/function/function";
+
 export default function CustomTablePagination(props) {
-    const { count, page, rowsPerPage, onPageChange } = props;
-    const start = page * rowsPerPage + 1;
-    const end = Math.min(count, (page + 1) * rowsPerPage);
-    const location = useLocation();
-    const navigate = useNavigate();
-    const [currentPage, setCurrentPage] = useState(1);
+    const { count, rowsPerPage, onClick } = props;
+
     const [searchParams, setSearchParams] = useSearchParams();
-    console.log(searchParams);
-    useEffect(() => {
-        let page = parseInt(searchParams.get("page"));
-        setCurrentPage(page || 1);
-    }, []);
+
+    const pageNumber = Number(searchParams.get("page"));
+    const rowParams = Number(searchParams.get("row"));
+
+    const checkPageNumber = isNumber(pageNumber);
+    const row = Boolean(rowParams) ? rowParams : rowsPerPage;
+
+    const start = (pageNumber < 2 ? 0 : pageNumber - 1) * row + 1;
+    const end = Math.min(count, (pageNumber < 2 ? 1 : pageNumber) * row);
+
+    const removePageParam = () => {
+        let newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.delete("page");
+        setSearchParams(newSearchParams);
+    };
+    const setPageParam = (value) => {
+        let newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.set("page", value);
+        setSearchParams(newSearchParams);
+    };
 
     const handlePreviousPage = () => {
-        if (page > 0) {
-            onPageChange(page - 1);
-            handlePageChange(currentPage - 1);
+        if (checkPageNumber && pageNumber > 0) {
+            pageNumber === 2 ? removePageParam() : setPageParam(pageNumber - 1);
+            onClick();
         }
     };
 
     const handleNextPage = () => {
-        if (page < Math.ceil(count / rowsPerPage) - 1) {
-            onPageChange(page + 1);
-            handlePageChange(currentPage + 1);
+        if (checkPageNumber && pageNumber < Math.ceil(count / row)) {
+            pageNumber <= 1
+                ? setPageParam(pageNumber + 2)
+                : setPageParam(pageNumber + 1);
+            onClick();
         }
     };
 
-    const handlePageChange = (page) => {
-        const params = new URLSearchParams(location.search);
-        params.set("page", page);
-        navigate(`${location.pathname}?${params}`, { replace: true });
-        setCurrentPage(page);
-    };
     return (
         <div className="w-full flex items-center justify-between bg-white border-b rounded-b ">
             <Button
                 onClick={handlePreviousPage}
-                disabled={page === 0}
+                disabled={pageNumber === 0}
                 sx={{
                     p: "12px 16px 12px 16px",
                     display: "flex",
                     gap: "8px",
                     textTransform: "capitalize",
                     fontSize: 12,
-                    color: "#CBD5E1",
+                    color: "#1a14148c",
                     fontWeight: 800,
                 }}>
                 Previous
@@ -56,14 +64,14 @@ export default function CustomTablePagination(props) {
             </div>
             <Button
                 onClick={handleNextPage}
-                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+                disabled={pageNumber >= Math.ceil(count / row)}
                 sx={{
                     p: "12px 16px 12px 16px",
                     display: "flex",
                     gap: "8px",
                     textTransform: "capitalize",
                     fontSize: 12,
-                    color: "#CBD5E1",
+                    color: "#1a14148c",
                     fontWeight: 800,
                 }}>
                 Next

@@ -25,7 +25,7 @@ export default function AdminAside() {
     //         ? location.pathname.includes("/admin/" + item)
     //         : location.pathname === "/admin" + item;
     return (
-        <div className="flex flex-col w-1/5 max-w-60">
+        <div className="flex flex-col w-1/5">
             <Logo />
             <div className="flex flex-col py-5 px-3">
                 <StyledList

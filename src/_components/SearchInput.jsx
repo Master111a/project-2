@@ -7,6 +7,11 @@ export default function SearchInput({
     onChange,
     onClick,
 }) {
+    const onKeyDown = (e) => {
+        if (e.key === "Enter") {
+            onClick(e);
+        }
+    };
     return (
         <div
             className={`${className} flex items-center justify-between w-4/15 max-w-80 rounded-full overflow-hidden border border-background relative`}>
@@ -20,6 +25,7 @@ export default function SearchInput({
                 placeholder={placeholder}
                 value={value}
                 onChange={(e) => onChange(e)}
+                onKeyDown={(e) => onKeyDown(e)}
             />
         </div>
     );

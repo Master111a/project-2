@@ -24,6 +24,8 @@ export default function ExhancedTableHead(props) {
     const createSortHandler = (property) => (e) => {
         onRequestSort(property);
     };
+    console.log(headCells);
+
     return (
         <TableHead>
             <TableRow>

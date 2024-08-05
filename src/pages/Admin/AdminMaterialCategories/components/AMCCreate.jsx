@@ -8,7 +8,7 @@ import AcUnitIcon from "@mui/icons-material/AcUnit";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { createMaterialCategoryListAPI } from "../../../../utils/services/admin.api";
 import { Label } from "../../../../_components";
-import { CustomSelect } from "../../../../utils/styled";
+import { CustomInput, CustomSelect } from "../../../../utils/styled";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setGetMC } from "../../../../utils/store/admin.slice";
@@ -22,6 +22,15 @@ const schema = Yup.object().shape({
 export default function AMCCreate() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const defaultData = {
+        loading: false,
+        data: {
+            image: "",
+            name: "",
+            price_type: "per_quantity",
+        },
+    };
+    const [state, setState] = useState(defaultData);
     const getMC = useSelector((state) => state.admin.getMC);
     const {
         register,
@@ -31,18 +40,9 @@ export default function AMCCreate() {
         control,
     } = useForm({
         resolver: yupResolver(schema),
+        defaultValues: state.data,
     });
 
-    const defaultData = {
-        loading: false,
-        data: {
-            image: "",
-            name: "",
-            price_type: "per_quantity",
-        },
-    };
-
-    const [state, setState] = useState(defaultData);
     const fileInputRef = useRef(null);
 
     useEffect(() => {
@@ -52,8 +52,7 @@ export default function AMCCreate() {
 
     const createMC = async (data) => {
         try {
-            const res = await createMaterialCategoryListAPI(data);
-            // if (res?.status === 201) {
+            await createMaterialCategoryListAPI(data);
             toast.success("Create success! 😊");
             setState(defaultData);
             dispatch(setGetMC(!getMC));
@@ -61,11 +60,10 @@ export default function AMCCreate() {
             if (fileInputRef.current) {
                 fileInputRef.current.value = "";
             }
-            // } else {
-            //     toast.error("Create error! 😟");
-            // }
+            navigate("/admin/material-categories");
         } catch (error) {
             toast.error("Create error! 😟");
+            setState((x) => ({ ...x, loading: false }));
         }
     };
 
@@ -105,7 +103,7 @@ export default function AMCCreate() {
                                         onChange={(e) =>
                                             field.onChange(e.target.files[0])
                                         }
-                                        className="form-item w-full"
+                                        className="form-item w-full max-w-[350px]"
                                         ref={fileInputRef}
                                     />
                                 )}
@@ -118,11 +116,17 @@ export default function AMCCreate() {
                     <div className="mb-4 w-full">
                         <div className="flex items-center">
                             <Label name="Name" id="name" />
-                            <input
-                                {...register("name")}
-                                type="text"
-                                id="name"
-                                className="form-item w-full"
+                            <Controller
+                                name="name"
+                                control={control}
+                                render={({ field }) => (
+                                    <CustomInput
+                                        {...field}
+                                        id="name"
+                                        label=""
+                                        variant="outlined"
+                                    />
+                                )}
                             />
                         </div>
                         {errors.name && (
@@ -160,7 +164,9 @@ export default function AMCCreate() {
                     <div className="w-full flex items-center justify-between  mt-8">
                         <div
                             className="flex items-center gap-x-3 cursor-pointer"
-                            onClick={() => navigate(-1)}>
+                            onClick={() =>
+                                navigate("/admin/material-categories")
+                            }>
                             <KeyboardBackspaceIcon />
                             <span>Back</span>
                         </div>

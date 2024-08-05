@@ -42,13 +42,13 @@ export default function Login() {
                 if (location?.state) {
                     navigate(location?.state);
                 } else {
-                    navigate("/");
+                    navigate("/admin/material-categories");
                 }
-                setState((v) => ({ ...v, loading: true }));
+                setState((v) => ({ ...v, loading: false }));
             })
             .catch((er) => {
                 toast.error("Login error! 🦄");
-                setState((v) => ({ ...v, loading: true }));
+                setState((v) => ({ ...v, loading: false }));
             });
     }, [state.loading, state.data]);
 

@@ -46,7 +46,7 @@ export default function AMCStats({ count }) {
                     </span>
                 </div>
             </StatsItemWrap>
-            <StatsItemWrap className="flex flex-col justify-start gap-y-4 shadow-lg">
+            {/* <StatsItemWrap className="flex flex-col justify-start gap-y-4 shadow-lg">
                 <div className="flex w-full justify-between items-start">
                     <h4 className="text-gray500 font-extrabold text-sm">
                         New Category
@@ -59,7 +59,7 @@ export default function AMCStats({ count }) {
                 <div>
                     <BorderLinearProgress variant="determinate" value={75} />
                 </div>
-            </StatsItemWrap>
+            </StatsItemWrap> */}
         </div>
     );
 }

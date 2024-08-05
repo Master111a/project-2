@@ -6,8 +6,8 @@ import AcUnitIcon from "@mui/icons-material/AcUnit";
 import { useEffect, useState } from "react";
 import { Label } from "../../../../_components";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { CustomSelect } from "../../../../utils/styled";
-import { Button, MenuItem } from "@mui/material";
+import { CustomInput, CustomSelect } from "../../../../utils/styled";
+import { Button, MenuItem, TextField } from "@mui/material";
 import {
     getMaterialCategoryByIdAPI,
     updateMaterialCategoryByIdAPI,
@@ -84,10 +84,11 @@ export default function AMCEdit() {
                             price_type: res?.data?.price_type,
                         },
                     });
-                    toast.success("😊Update success!😊");
+                    toast.success("😊Update success!");
                     setIsEdit(false);
+                    navigate(-1);
                 } else {
-                    toast.error("😖Update error!😖");
+                    toast.error("😖Update error!");
                 }
             })
             .catch((err) => {
@@ -163,11 +164,12 @@ export default function AMCEdit() {
                                 name="name"
                                 control={control}
                                 render={({ field }) => (
-                                    <input
+                                    <CustomInput
                                         {...field}
-                                        type="text"
+                                        value={field.value}
                                         id="name"
-                                        className="form-item w-1/2 self-start max-w-[350px]"
+                                        label=""
+                                        variant="outlined"
                                     />
                                 )}
                             />

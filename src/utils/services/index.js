@@ -9,7 +9,7 @@ const axiosUrl = axios.create({
 let isRefreshing = false;
 let refreshSubscribers = [];
 
-const onRrefreshed = (token) => {
+const onRefreshed = (token) => {
     refreshSubscribers.map((callback) => callback(token));
 };
 
@@ -26,6 +26,7 @@ axiosUrl.interceptors.request.use(
         return config;
     },
     (error) => {
+        console.error("Request error:", error);
         return Promise.reject(error);
     }
 );
@@ -49,30 +50,26 @@ axiosUrl.interceptors.response.use(
                 try {
                     const res = await refreshTokenAPI(token?.refresh);
                     if (res?.status === 200) {
-                        localStorage.setItem(
-                            "token",
-                            JSON.stringify({
-                                ...token,
-                                access: res?.data?.access,
-                                refresh: res?.data?.refresh,
-                            })
-                        );
+                        const newToken = {
+                            ...token,
+                            access: res?.data?.access,
+                            refresh: res?.data?.refresh,
+                        };
+                        localStorage.setItem("token", JSON.stringify(newToken));
                         axiosUrl.defaults.headers.common[
                             "Authorization"
                         ] = `Bearer ${res?.data?.access}`;
-                        onRrefreshed(res?.data?.access);
-                        isRefreshing = false;
+                        onRefreshed(res?.data?.access);
                         refreshSubscribers = [];
                     }
                 } catch (refreshError) {
-                    isRefreshing = false;
-                    refreshSubscribers = [];
                     localStorage.removeItem("token");
                     window.location.href = "/login";
                     return Promise.reject(refreshError);
+                } finally {
+                    isRefreshing = false;
                 }
             }
-
             const retryOriginalRequest = new Promise((resolve) => {
                 addRefreshSubscriber((token) => {
                     originalConfig.headers["Authorization"] = "Bearer " + token;

@@ -5,7 +5,7 @@ export const loginAPI = async (data) => {
         const res = await axiosUrl.post("/cms/auth/login", data);
         return res;
     } catch (error) {
-        return error;
+        throw error;
     }
 };
 export const refreshTokenAPI = async (refresh) => {
@@ -13,6 +13,6 @@ export const refreshTokenAPI = async (refresh) => {
         const res = await axiosUrl.post("/refresh-token", { refresh: refresh });
         return res;
     } catch (error) {
-        return error;
+        throw error;
     }
 };

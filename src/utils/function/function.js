@@ -46,3 +46,7 @@ export const convertFormData = (data) => {
     }
     return formData;
 };
+
+export const isNumber = (number) => {
+    return !Number.isNaN(Number(number));
+};

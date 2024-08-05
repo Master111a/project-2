@@ -7,7 +7,7 @@ export default function Admin() {
     return (
         <div className="w-full h-full min-h-screen flex bg-background">
             <AdminAside />
-            <div className="flex flex-col w-full">
+            <div className="flex flex-col w-4/5">
                 <AdminHeader />
                 <AdminContent />
                 <AdminFooter />
