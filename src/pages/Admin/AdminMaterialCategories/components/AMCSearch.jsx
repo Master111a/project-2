@@ -19,12 +19,11 @@ export default function AMCSearch() {
 
     const handleSearch = (event) => {
         event.preventDefault();
-        let params = new URLSearchParams(searchParams);
         Boolean(textSearch)
-            ? params.set("materialCategoryName", textSearch)
-            : params.delete("materialCategoryName");
-
-        setSearchParams(params);
+            ? setSearchParams({
+                  materialCategoryName: textSearch,
+              })
+            : setSearchParams({});
     };
     return (
         <div className="flex flex-col gap-y-3">

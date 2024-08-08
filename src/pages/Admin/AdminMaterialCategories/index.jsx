@@ -3,9 +3,9 @@ import AMCTable from "./components/AMCTable";
 import AMCSearch from "./components/AMCSearch";
 import AMCStats from "./components/AMCStats";
 import { getMaterialCategoryListAPI } from "../../../utils/services/admin.api";
-import { useLocation, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { current } from "@reduxjs/toolkit";
+import { useSearchParams } from "react-router-dom";
+import useSelected from "../../../hooks/useSelected";
 
 export default function AdminMaterialCategories() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -13,6 +13,13 @@ export default function AdminMaterialCategories() {
     const pageParams = searchParams.get("page");
     const rowParams = searchParams.get("row");
     const search = searchParams.get("materialCategoryName");
+    const [
+        selectedList,
+        setSelectedList,
+        toggleSelection,
+        isSelected,
+        resetSelectedList,
+    ] = useSelected();
 
     const [data, setData] = useState({
         count: 0,
@@ -27,6 +34,7 @@ export default function AdminMaterialCategories() {
     };
 
     useEffect(() => {
+        resetSelectedList([]);
         getMaterialCategoryListAPI(dt)
             .then((res) => {
                 if (res?.status === 200) {
@@ -60,6 +68,11 @@ export default function AdminMaterialCategories() {
                 count={data.currentCount}
                 page={Number(pageParams)}
                 rowsPerPage={Boolean(rowParams) ? rowParams : 5}
+                selectedList={selectedList}
+                setSelectedList={setSelectedList}
+                toggleSelection={toggleSelection}
+                isSelected={isSelected}
+                resetSelectedList={resetSelectedList}
             />
         </div>
     );

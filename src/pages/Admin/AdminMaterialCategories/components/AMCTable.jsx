@@ -60,7 +60,17 @@ const headCells = [
     },
 ];
 
-export default function AMCTable({ categoryList, count, page, rowsPerPage }) {
+export default function AMCTable({
+    categoryList,
+    count,
+    page,
+    rowsPerPage,
+    selectedList,
+    setSelectedList,
+    toggleSelection,
+    isSelected,
+    resetSelectedList,
+}) {
     const dispatch = useDispatch();
     const getMC = useSelector((state) => state.admin.getMC);
 
@@ -69,7 +79,6 @@ export default function AMCTable({ categoryList, count, page, rowsPerPage }) {
 
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("id");
-    const [selected, setSelected] = useState([]);
 
     const navigate = useNavigate();
 
@@ -89,54 +98,30 @@ export default function AMCTable({ categoryList, count, page, rowsPerPage }) {
         setOrderBy(property);
     };
 
+    // select
+
     const handleSelectAllClick = (e) => {
         if (e.target.checked) {
             const newSelected = rows?.map((n) => n.id);
-            setSelected(newSelected);
+            setSelectedList(newSelected);
             return;
         }
-        setSelected([]);
-    };
-
-    const handleClick = (event, id) => {
-        const selectedIndex = selected.indexOf(id);
-        let newSelected = [];
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, id);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1)
-            );
-        }
-        setSelected(newSelected);
+        resetSelectedList();
     };
 
     // Deleted
-    const isSelected = (id) => selected.indexOf(id) !== -1;
     const defaultDataDel = {
         open: false,
-        id: null,
     };
     const [dataDelete, setDataDelete] = useState(defaultDataDel);
 
     const handleDelete = async () => {
-        let res;
         try {
-            if (!dataDelete.id?.length > 0) {
-                res = await deleteMaterialCategoryByIdAPI(dataDelete.id);
-            } else {
-                res = await deleteManyMaterialCategoryAPI(selected);
-            }
+            await deleteManyMaterialCategoryAPI(selectedList);
             setDataDelete(defaultDataDel);
             dispatch(setGetMC(!getMC));
             toast.success("Delete Success!");
-            setSelected([]);
+            resetSelectedList();
         } catch (error) {
             toast.error("Delete Fail!");
         }
@@ -149,13 +134,13 @@ export default function AMCTable({ categoryList, count, page, rowsPerPage }) {
     return (
         <div className="w-full bg-white rounded-lg shadow-sm">
             <EnhancedTableToolbar
-                selected={selected}
+                selected={selectedList}
                 rowCount={rows?.length}
                 onSelectAllClick={handleSelectAllClick}
                 onDeleteMany={() =>
                     setDataDelete({
                         open: true,
-                        id: selected,
+                        id: selectedList,
                     })
                 }
             />
@@ -178,9 +163,7 @@ export default function AMCTable({ categoryList, count, page, rowsPerPage }) {
                             return (
                                 <TableRow
                                     hover
-                                    onClick={(event) =>
-                                        handleClick(event, row?.id)
-                                    }
+                                    onClick={() => toggleSelection(row?.id)}
                                     role="checkbox"
                                     aria-checked={isItemSelected}
                                     tabIndex={-1}
@@ -231,21 +214,24 @@ export default function AMCTable({ categoryList, count, page, rowsPerPage }) {
                                         )}
                                     </TableCell>
 
-                                    <TableCell align="right">
+                                    <TableCell
+                                        align="right"
+                                        onClick={(e) => e.stopPropagation()}>
                                         <ActionRowTable
                                             eyeClick={() => {
                                                 setOpenView(true),
                                                     setItemView(row);
+                                                setSelectedList([row?.id]);
                                             }}
                                             pencilClick={() =>
                                                 navigate(row?.id)
                                             }
-                                            trashClick={() =>
+                                            trashClick={() => {
+                                                setSelectedList([row?.id]);
                                                 setDataDelete({
                                                     open: true,
-                                                    id: row?.id,
-                                                })
-                                            }
+                                                });
+                                            }}
                                         />
                                     </TableCell>
                                 </TableRow>
@@ -257,19 +243,19 @@ export default function AMCTable({ categoryList, count, page, rowsPerPage }) {
             <CustomTablePagination
                 count={count}
                 rowsPerPage={rowsPerPage}
-                onClick={() => setSelected([])}
+                // onClick={() => resetSelectedList()}
             />
             <DeleteDialog
                 open={dataDelete.open}
                 handleCancel={() => {
-                    setDataDelete(defaultDataDel), setSelected([]);
+                    setDataDelete(defaultDataDel), resetSelectedList();
                 }}
                 handleDelete={handleDelete}
             />
             <ModalView
                 open={openView}
                 setOpen={() => {
-                    setOpenView(false), setSelected([]);
+                    setOpenView(false), resetSelectedList();
                 }}
                 children={<AMCView item={itemView} />}
             />

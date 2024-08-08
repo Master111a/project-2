@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { isNumber } from "../utils/function/function";
 
 export default function CustomTablePagination(props) {
-    const { count, rowsPerPage, onClick } = props;
+    const { count, rowsPerPage } = props;
 
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -30,7 +30,6 @@ export default function CustomTablePagination(props) {
     const handlePreviousPage = () => {
         if (checkPageNumber && pageNumber > 0) {
             pageNumber === 2 ? removePageParam() : setPageParam(pageNumber - 1);
-            onClick();
         }
     };
 
@@ -39,7 +38,6 @@ export default function CustomTablePagination(props) {
             pageNumber <= 1
                 ? setPageParam(pageNumber + 2)
                 : setPageParam(pageNumber + 1);
-            onClick();
         }
     };
 
