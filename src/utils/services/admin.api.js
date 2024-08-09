@@ -14,8 +14,8 @@ export const getUserListAPI = async (data) => {
         throw res;
     }
 };
-// Material
 
+// Material
 export const getMaterialListAPI = async (data) => {
     try {
         const name = data?.search || "";
@@ -38,16 +38,32 @@ export const getMaterialListAPI = async (data) => {
 
 export const getMaterialByIdAPI = async (id) => {
     try {
-        const res = await axiosUrl.get("/cms/material" + id);
+        const res = await axiosUrl.get("/cms/material/" + id);
         return res;
     } catch (error) {
         throw error;
     }
 };
-
+export const createMaterialAPI = async (data) => {
+    try {
+        const res = await axiosUrl.post("/cms/material", data, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+        return res;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
 export const updateMaterialByIdAPI = async (id, data) => {
     try {
-        const res = await axiosUrl.put("/cms/material" + id, data);
+        const res = await axiosUrl.put("/cms/material" + id, data, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
         return res;
     } catch (error) {
         throw error;
@@ -62,6 +78,7 @@ export const deleteMaterialByIdAPI = async (id) => {
         throw error;
     }
 };
+
 // Material Category
 export const getMaterialCategoryListAPI = async (data) => {
     try {
@@ -128,6 +145,24 @@ export const createMaterialCategoryListAPI = async (data) => {
         return res;
     } catch (error) {
         console.log(error);
+        throw error;
+    }
+};
+// Supplier
+export const getSuplierListAPI = async (data) => {
+    try {
+        const name = data?.search || "";
+        const limit = data?.row || 5;
+        const page = (data?.row || 5) * (data?.page ? data?.page - 1 : 0);
+        const res = await axiosUrl.get("/cms/supplier", {
+            params: {
+                name: name,
+                limit: limit,
+                offset: page || 0,
+            },
+        });
+        return res;
+    } catch (error) {
         throw error;
     }
 };

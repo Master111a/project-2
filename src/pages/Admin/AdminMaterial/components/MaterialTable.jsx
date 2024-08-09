@@ -20,23 +20,36 @@ import { useNavigate } from "react-router-dom";
 import { deleteMaterialByIdAPI } from "../../../../utils/services/admin.api";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { setGetMaterial } from "../../../../utils/store/admin.slice";
 import MaterialView from "./MaterialView";
 
-const createData = (id, stt, image, name, price_type) => {
+const createData = (
+    id,
+    stt,
+    image,
+    part_number,
+    name,
+    type,
+    large_title,
+    small_title,
+    basic_price,
+    category,
+    supplier
+) => {
     return {
         id,
         stt,
         image,
+        part_number,
         name,
-        price_type,
+        type,
+        large_title,
+        small_title,
+        basic_price,
+        category,
+        supplier,
     };
 };
 
-const getType = (type) => {
-    if (type === "per_quantity") return "Quantity";
-    else if (type === "per_metter") return " Metter";
-};
 const headCells = [
     {
         id: "stt",
@@ -80,7 +93,17 @@ const headCells = [
     },
 ];
 
-export default function MaterialTable({ materialList, count }) {
+export default function MaterialTable({
+    materialList,
+    count,
+    page,
+    rowsPerPage,
+    selectedList,
+    setSelectedList,
+    toggleSelection,
+    isSelected,
+    resetSelectedList,
+}) {
     const dispatch = useDispatch();
     const getMaterial = useSelector((state) => state.admin.getMaterial);
 
@@ -89,9 +112,7 @@ export default function MaterialTable({ materialList, count }) {
 
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("id");
-    const [selected, setSelected] = useState([]);
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -113,78 +134,55 @@ export default function MaterialTable({ materialList, count }) {
             item?.supplier
         )
     );
+
     const handleRequestSort = (property) => {
         const isAsc = orderBy === property && order === "asc";
         setOrder(isAsc ? "desc" : "asc");
         setOrderBy(property);
     };
+    // select
     const handleSelectAllClick = (e) => {
         if (e.target.checked) {
             const newSelected = rows?.map((n) => n.id);
-            setSelected(newSelected);
+            setSelectedList(newSelected);
             return;
         }
-        setSelected([]);
+        resetSelectedList();
     };
 
-    const handleClick = (event, id) => {
-        const selectedIndex = selected.indexOf(id);
-        let newSelected = [];
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, id);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1)
-            );
-        }
-        setSelected(newSelected);
-    };
-
-    const handleChangePage = (newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (e) => {
-        setRowsPerPage(parseInt(e.target.value, 10));
-        setPage(0);
-    };
-
-    const isSelected = (id) => selected.indexOf(id) !== -1;
-
-    const [dataDelete, setDataDelete] = useState({
+    // Deleted
+    const defaultDataDel = {
         open: false,
-        id: "",
-    });
+    };
+    const [dataDelete, setDataDelete] = useState(defaultDataDel);
 
     const handleDelete = async () => {
-        const res = await deleteMaterialByIdAPI(dataDelete.id);
-        if (res?.status === 204) {
-            setDataDelete({
-                open: false,
-                id: "",
-            });
-            dispatch(setGetMaterial(!getMaterial));
+        try {
+            await deleteMaterialByIdAPI(selectedList);
+            setDataDelete(defaultDataDel);
+            dispatch(setGetMC(!getMaterial));
             toast.success("Delete Success!");
-            setSelected([]);
-        } else {
+            resetSelectedList();
+        } catch (error) {
             toast.error("Delete Fail!");
         }
     };
+
     const visibleRows = useMemo(
         () => stableSort(rows, getComparator(order, orderBy))[(order, orderBy)]
     );
+
     return (
         <div className="w-full bg-white rounded-lg shadow-sm">
             <EnhancedTableToolbar
-                numSelected={selected?.length}
+                selected={selectedList}
                 rowCount={rows?.length}
                 onSelectAllClick={handleSelectAllClick}
+                onDeleteMany={() =>
+                    setDataDelete({
+                        open: true,
+                    })
+                }
             />
             <TableContainer>
                 <Table
@@ -201,13 +199,10 @@ export default function MaterialTable({ materialList, count }) {
                         {rows?.map((row, index) => {
                             const isItemSelected = isSelected(row?.id);
                             const labelId = `enhanced-table-checkbox-${index}`;
-
                             return (
                                 <TableRow
                                     hover
-                                    onClick={(event) =>
-                                        handleClick(event, row?.id)
-                                    }
+                                    onClick={() => toggleSelection(row?.id)}
                                     role="checkbox"
                                     aria-checked={isItemSelected}
                                     tabIndex={-1}
@@ -253,7 +248,7 @@ export default function MaterialTable({ materialList, count }) {
                                         align="left"
                                         className="text-gray500">
                                         <span className="text-sm text-gray500">
-                                            {getType(row?.type)}
+                                            {row?.type}
                                         </span>
                                     </TableCell>
                                     <TableCell align="left">
@@ -273,29 +268,32 @@ export default function MaterialTable({ materialList, count }) {
                                     </TableCell>
                                     <TableCell align="left">
                                         <span className="text-sm text-gray500">
-                                            {row?.category}
+                                            {row?.category?.name}
                                         </span>
                                     </TableCell>
                                     <TableCell align="left">
                                         <span className="text-sm text-gray500">
-                                            {row?.supplier}
+                                            {row?.supplier?.name}
                                         </span>
                                     </TableCell>
-                                    <TableCell align="right">
+                                    <TableCell
+                                        align="right"
+                                        onClick={(e) => e.stopPropagation()}>
                                         <ActionRowTable
                                             eyeClick={() => {
                                                 setOpenView(true),
                                                     setItemView(row);
+                                                setSelectedList([row?.id]);
                                             }}
                                             pencilClick={() =>
                                                 navigate(row?.id)
                                             }
-                                            trashClick={() =>
+                                            trashClick={() => {
+                                                setSelectedList([row?.id]);
                                                 setDataDelete({
                                                     open: true,
-                                                    id: row?.id,
-                                                })
-                                            }
+                                                });
+                                            }}
                                         />
                                     </TableCell>
                                 </TableRow>
@@ -304,23 +302,18 @@ export default function MaterialTable({ materialList, count }) {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <CustomTablePagination
-                count={count}
-                page={page}
-                rowsPerPage={rowsPerPage}
-                onPageChange={handleChangePage}
-            />
+            <CustomTablePagination count={count} />
             <DeleteDialog
                 open={dataDelete.open}
                 handleCancel={() => {
-                    setDataDelete({ open: false, id: "" }), setSelected([]);
+                    setDataDelete(defaultDataDel), resetSelectedList();
                 }}
                 handleDelete={handleDelete}
             />
             <ModalView
                 open={openView}
                 setOpen={() => {
-                    setOpenView(false), setSelected([]);
+                    setOpenView(false), resetSelectedList();
                 }}
                 children={<MaterialView item={itemView} />}
             />

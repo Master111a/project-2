@@ -1,19 +1,13 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { Label } from "../../_components";
 import { CustomSelect } from "../styled";
-import { Button, MenuItem, TextField } from "@mui/material";
+import { Button, MenuItem } from "@mui/material";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
-export default function FormAMC({ schema, fetchFunction }) {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const getMC = useSelector((state) => state.admin.getMC);
-
+export default function FormAMC({ schema, navigate, fetchFunction }) {
     const {
         register,
         handleSubmit,
@@ -62,17 +56,32 @@ export default function FormAMC({ schema, fetchFunction }) {
                     <Controller
                         name="image"
                         control={control}
-                        defaultValue={defaultData.data.image}
                         render={({ field }) => (
-                            <input
-                                type="file"
-                                id="image"
-                                onChange={(e) =>
-                                    field.onChange(e.target.files[0])
-                                }
-                                className="form-item w-full"
-                                ref={fileInputRef}
-                            />
+                            <div className="w-full flex gap-x-4">
+                                {field.value && (
+                                    <img
+                                        alt="image"
+                                        src={
+                                            typeof field.value === "string"
+                                                ? field.value
+                                                : URL.createObjectURL(
+                                                      field.value
+                                                  )
+                                        }
+                                        className="aspect-video w-40 rounded-md shadow-md flex-shrink-0"
+                                    />
+                                )}
+                                <div className="self-end">
+                                    <input
+                                        type="file"
+                                        id="image"
+                                        onChange={(e) =>
+                                            field.onChange(e.target.files[0])
+                                        }
+                                        className="form-item"
+                                    />
+                                </div>
+                            </div>
                         )}
                     />
                 </div>
@@ -83,12 +92,18 @@ export default function FormAMC({ schema, fetchFunction }) {
             <div className="mb-4 w-full">
                 <div className="flex items-center">
                     <Label name="Name" id="name" />
-                    {/* <TextField id="standard-basic" sx={{width:100%}} variant="standard" /> */}
-                    <input
-                        {...register("name")}
-                        type="text"
-                        id="name"
-                        className="form-item w-full"
+                    <Controller
+                        name="name"
+                        control={control}
+                        render={({ field }) => (
+                            <CustomInput
+                                {...field}
+                                value={field.value}
+                                id="name"
+                                label=""
+                                variant="outlined"
+                            />
+                        )}
                     />
                 </div>
                 {errors.name && (
@@ -101,7 +116,6 @@ export default function FormAMC({ schema, fetchFunction }) {
                     <Controller
                         name="price_type"
                         control={control}
-                        defaultValue={defaultData.data.price_type}
                         render={({ field }) => (
                             <CustomSelect
                                 {...field}
@@ -119,10 +133,10 @@ export default function FormAMC({ schema, fetchFunction }) {
                     <p className="txt-error">{errors.price_type.message}</p>
                 )}
             </div>
-            <div className="w-full flex items-center justify-between  mt-8">
+            <div className="w-full flex items-center justify-between mt-8">
                 <div
                     className="flex items-center gap-x-3 cursor-pointer"
-                    onClick={() => navigate(-1)}>
+                    onClick={navigate}>
                     <KeyboardBackspaceIcon />
                     <span>Back</span>
                 </div>
@@ -141,7 +155,7 @@ export default function FormAMC({ schema, fetchFunction }) {
                             {state.loading ? (
                                 <AcUnitIcon className="animate-spin" />
                             ) : (
-                                "Create"
+                                "Save"
                             )}
                         </span>
                     </Button>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AMCTable from "./components/AMCTable";
 import AMCSearch from "./components/AMCSearch";
 import AMCStats from "./components/AMCStats";
@@ -13,6 +13,7 @@ export default function AdminMaterialCategories() {
     const pageParams = searchParams.get("page");
     const rowParams = searchParams.get("row");
     const search = searchParams.get("materialCategoryName");
+
     const [
         selectedList,
         setSelectedList,
@@ -26,6 +27,7 @@ export default function AdminMaterialCategories() {
         currentCount: 0,
         categoryList: [],
     });
+
     const getMC = useSelector((state) => state.admin.getMC);
     const dt = {
         search: search,

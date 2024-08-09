@@ -1,37 +1,52 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getMaterialListAPI } from "../../../utils/services/admin.api";
-import { useLocation } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import MaterialTable from "./components/MaterialTable";
 import MaterialSearch from "./components/MaterialSearch";
 import MaterialStats from "./components/MaterialStats";
+import useSelected from "../../../hooks/useSelected";
 
 export default function AdminMaterial() {
-    const location = useLocation();
-    const params = new URLSearchParams(location.search);
-    const pageParams = params.get("page");
-    const rowParams = params.get("row");
-    const searchParams = params.get("materialName");
-    const category = params.get("materialCategory");
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const pageParams = searchParams.get("page");
+    const rowParams = searchParams.get("row");
+    const search = searchParams.get("materialName");
+    const category = searchParams.get("materialCategory");
+
+    const [
+        selectedList,
+        setSelectedList,
+        toggleSelection,
+        isSelected,
+        resetSelectedList,
+    ] = useSelected();
 
     const [data, setData] = useState({
         count: 0,
+        currentCount: 0,
         materialList: [],
     });
+
     const getMaterial = useSelector((state) => state.admin.getMaterial);
     const dt = {
-        search: searchParams,
+        search: search,
         row: Number(rowParams),
         page: Number(pageParams),
         category: category,
     };
 
     useEffect(() => {
+        resetSelectedList([]);
         getMaterialListAPI(dt)
             .then((res) => {
                 if (res?.status === 200) {
                     setData({
-                        count: res?.data?.count,
+                        count: !Boolean(dt.search)
+                            ? res?.data?.count
+                            : data?.count,
+                        currentCount: res?.data?.count,
                         materialList: res?.data?.results,
                     });
                 } else {
@@ -52,7 +67,14 @@ export default function AdminMaterial() {
             {/* Table */}
             <MaterialTable
                 materialList={data.materialList}
-                count={data.count}
+                count={data.currentCount}
+                page={Number(pageParams)}
+                rowsPerPage={Boolean(rowParams) ? rowParams : 5}
+                selectedList={selectedList}
+                setSelectedList={setSelectedList}
+                toggleSelection={toggleSelection}
+                isSelected={isSelected}
+                resetSelectedList={resetSelectedList}
             />
         </div>
     );

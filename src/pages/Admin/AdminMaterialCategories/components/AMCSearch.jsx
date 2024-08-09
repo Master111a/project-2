@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import { SearchInput } from "../../../../_components";
 import { Button } from "@mui/material";
-import {
-    Link,
-    useLocation,
-    useNavigate,
-    useSearchParams,
-} from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 export default function AMCSearch() {
     const [textSearch, setTextSearch] = useState("");

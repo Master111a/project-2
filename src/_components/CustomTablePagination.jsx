@@ -1,51 +1,21 @@
 import { Button } from "@mui/material";
-import { useSearchParams } from "react-router-dom";
-import { isNumber } from "../utils/function/function";
+import useChangePage from "../hooks/useChangePage";
 
 export default function CustomTablePagination(props) {
-    const { count, rowsPerPage } = props;
-
-    const [searchParams, setSearchParams] = useSearchParams();
-
-    const pageNumber = Number(searchParams.get("page"));
-    const rowParams = Number(searchParams.get("row"));
-
-    const checkPageNumber = isNumber(pageNumber);
-    const row = Boolean(rowParams) ? rowParams : rowsPerPage;
-
-    const start = (pageNumber < 2 ? 0 : pageNumber - 1) * row + 1;
-    const end = Math.min(count, (pageNumber < 2 ? 1 : pageNumber) * row);
-
-    const removePageParam = () => {
-        let newSearchParams = new URLSearchParams(searchParams);
-        newSearchParams.delete("page");
-        setSearchParams(newSearchParams);
-    };
-    const setPageParam = (value) => {
-        let newSearchParams = new URLSearchParams(searchParams);
-        newSearchParams.set("page", value);
-        setSearchParams(newSearchParams);
-    };
-
-    const handlePreviousPage = () => {
-        if (checkPageNumber && pageNumber > 0) {
-            pageNumber === 2 ? removePageParam() : setPageParam(pageNumber - 1);
-        }
-    };
-
-    const handleNextPage = () => {
-        if (checkPageNumber && pageNumber < Math.ceil(count / row)) {
-            pageNumber <= 1
-                ? setPageParam(pageNumber + 2)
-                : setPageParam(pageNumber + 1);
-        }
-    };
-
+    const { count } = props;
+    const {
+        pageNumber,
+        rowsPerPage,
+        start,
+        end,
+        handlePreviousPage,
+        handleNextPage,
+    } = useChangePage(count);
     return (
         <div className="w-full flex items-center justify-between bg-white border-b rounded-b ">
             <Button
                 onClick={handlePreviousPage}
-                disabled={pageNumber === 0}
+                disabled={pageNumber < 2}
                 sx={{
                     p: "12px 16px 12px 16px",
                     display: "flex",
@@ -62,7 +32,7 @@ export default function CustomTablePagination(props) {
             </div>
             <Button
                 onClick={handleNextPage}
-                disabled={pageNumber >= Math.ceil(count / row)}
+                disabled={pageNumber >= Math.ceil(count / rowsPerPage)}
                 sx={{
                     p: "12px 16px 12px 16px",
                     display: "flex",

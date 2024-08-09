@@ -1,28 +1,23 @@
 import { useEffect, useState } from "react";
 import { SearchInput } from "../../../../_components";
 import { Button } from "@mui/material";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-
+import { Link, useSearchParams } from "react-router-dom";
 export default function MaterialSearch() {
     const [textSearch, setTextSearch] = useState("");
-    const location = useLocation();
-    const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
-        const params = new URLSearchParams(location.search);
-        const query = params.get("materialName");
+        const query = searchParams.get("materialName");
         setTextSearch(query || "");
     }, []);
 
     const handleSearch = (event) => {
         event.preventDefault();
-        const params = new URLSearchParams(location.search);
-        params.set("materialName", textSearch);
-        {
-            Boolean(textSearch)
-                ? navigate(`${location.pathname}?${params}`, { replace: true })
-                : navigate(location.pathname, { replace: true });
-        }
+        Boolean(textSearch)
+            ? setSearchParams({
+                  materialName: textSearch,
+              })
+            : setSearchParams({});
     };
     return (
         <div className="flex flex-col gap-y-3">

@@ -11,7 +11,7 @@ export default function ActionRowTable({
     trashClick,
 }) {
     return (
-        <div className="flex items-center justify-between px-1.5 max-w-40 text-gray400 text-24">
+        <div className="flex items-center justify-center px-1.5 max-w-40 text-gray400 text-24 gap-x-2">
             <div
                 className="w-fit cursor-pointer hidden"
                 onClick={() => dotClick()}>

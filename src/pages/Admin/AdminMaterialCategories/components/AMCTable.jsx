@@ -16,10 +16,7 @@ import {
     ModalView,
 } from "../../../../_components";
 import { getComparator, stableSort } from "../../../../utils/function/function";
-import {
-    deleteManyMaterialCategoryAPI,
-    deleteMaterialCategoryByIdAPI,
-} from "../../../../utils/services/admin.api";
+import { deleteManyMaterialCategoryAPI } from "../../../../utils/services/admin.api";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { setGetMC } from "../../../../utils/store/admin.slice";
@@ -140,7 +137,6 @@ export default function AMCTable({
                 onDeleteMany={() =>
                     setDataDelete({
                         open: true,
-                        id: selectedList,
                     })
                 }
             />
@@ -240,11 +236,7 @@ export default function AMCTable({
                     </TableBody>
                 </Table>
             </TableContainer>
-            <CustomTablePagination
-                count={count}
-                rowsPerPage={rowsPerPage}
-                // onClick={() => resetSelectedList()}
-            />
+            <CustomTablePagination count={count} />
             <DeleteDialog
                 open={dataDelete.open}
                 handleCancel={() => {

@@ -27,7 +27,7 @@ export default function EnhancedTableToolbar(props) {
                 }}
             />
             {numSelected > 0 && (
-                <Box className="flex items-center justify-between w-full">
+                <Box className="flex items-center gap-x-4 w-full">
                     <Typography
                         sx={{ flex: "1 1 100%", color: "#64748b" }}
                         color="inherit"
