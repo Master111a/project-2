@@ -11,6 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { convertFormData } from "../../../../utils/function/function";
 import FormMaterial from "../../../../utils/form/FormMaterial";
 import { useDispatch, useSelector } from "react-redux";
+import { setGetMaterial } from "../../../../utils/store/admin.slice";
 
 const schema = Yup.object().shape({
     part_number: Yup.string()
@@ -80,7 +81,6 @@ export default function AdminMaterialDetail() {
                     ...x,
                     data: convertStateData(res?.data),
                 }));
-                reset(convertStateData(res?.data));
             })
             .catch((err) => {
                 console.log(err);
@@ -96,13 +96,16 @@ export default function AdminMaterialDetail() {
                         loading: false,
                         data: convertStateData(res?.data),
                     });
+                    dispatch(setGetMaterial(!getMaterial));
                     toast.success("😊Update success!😊");
-                    setIsEdit(false);
+                    navigate("/admin/material");
                 } else {
+                    setState((x) => ({ ...x, loading: false }));
                     toast.error("😖Update error!😖");
                 }
             })
             .catch((err) => {
+                setState((x) => ({ ...x, loading: false }));
                 console.log(err);
             });
     }, [id, state.loading, state?.data]);
@@ -116,8 +119,7 @@ export default function AdminMaterialDetail() {
     };
     const onCancel = () => {
         setState((x) => ({ ...x, loading: false }));
-        reset(state.data);
-        setIsEdit(false);
+        navigate("/admin/material");
     };
     return (
         <div className="flex flex-col gap-y-3 w-full h-full min-h-screen">
@@ -127,7 +129,7 @@ export default function AdminMaterialDetail() {
             <div className="rounded-lg w-full shadow-md p-6 txt-body bg-white">
                 <FormMaterial
                     schema={schema}
-                    defaultData={defaultData}
+                    defaultData={state}
                     loading={state.loading}
                     fileInputRef={fileInputRef}
                     onSubmit={onSubmit}

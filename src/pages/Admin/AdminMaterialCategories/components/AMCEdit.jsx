@@ -1,19 +1,15 @@
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
-import { Controller, useForm } from "react-hook-form";
-import AcUnitIcon from "@mui/icons-material/AcUnit";
-import { useEffect, useState } from "react";
-import { Label } from "../../../../_components";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { CustomInput, CustomSelect } from "../../../../utils/styled";
-import { Button, MenuItem, TextField } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
 import {
     getMaterialCategoryByIdAPI,
     updateMaterialCategoryByIdAPI,
 } from "../../../../utils/services/admin.api";
 import { useNavigate, useParams } from "react-router-dom";
 import { convertFormData } from "../../../../utils/function/function";
+import FormAMC from "../../../../utils/form/FormAMC";
+import { useForm } from "react-hook-form";
 
 const schema = Yup.object().shape({
     image: Yup.mixed().required("Image is require"),
@@ -33,20 +29,10 @@ export default function AMCEdit() {
             price_type: "per_quantity",
         },
     });
-    const [isEdit, setIsEdit] = useState(false);
-    const {
-        handleSubmit,
-        formState: { errors },
-        reset,
-        control,
-    } = useForm({
-        defaultValues: {
-            image: state.data.image,
-            name: state.data.name,
-            price_type: state.data.price_type,
-        },
+    const { reset } = useForm({
         resolver: yupResolver(schema),
     });
+    const fileInputRef = useRef(null);
 
     useEffect(() => {
         if (!id) return;
@@ -60,11 +46,6 @@ export default function AMCEdit() {
                         price_type: res?.data?.price_type,
                     },
                 }));
-                reset({
-                    image: res?.data?.image,
-                    name: res?.data?.name,
-                    price_type: res?.data?.price_type,
-                });
             })
             .catch((err) => {
                 console.log(err);
@@ -85,9 +66,10 @@ export default function AMCEdit() {
                         },
                     });
                     toast.success("😊Update success!");
-                    setIsEdit(false);
-                    navigate(-1);
+                    navigate("/admin/material-categories");
                 } else {
+                    setState((x) => ({ ...x, loading: false }));
+
                     toast.error("😖Update error!");
                 }
             })
@@ -105,8 +87,7 @@ export default function AMCEdit() {
     };
     const onCancel = () => {
         setState((x) => ({ ...x, loading: false }));
-        reset(state.data);
-        setIsEdit(false);
+        navigate("/admin/material-categories");
     };
     return (
         <div className="flex flex-col gap-y-3 w-full h-full min-h-screen">
@@ -114,126 +95,15 @@ export default function AMCEdit() {
                 Material Category Detail
             </h1>
             <div className="rounded-lg w-full shadow-md p-6 txt-body bg-white">
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="mb-4 w-full">
-                        <div className="flex items-center">
-                            <Label name="Image" id="image" />
-                            <Controller
-                                name="image"
-                                control={control}
-                                render={({ field }) => (
-                                    <div className="w-full flex gap-x-4">
-                                        {field.value && (
-                                            <img
-                                                alt="image"
-                                                src={
-                                                    typeof field.value ===
-                                                    "string"
-                                                        ? field.value
-                                                        : URL.createObjectURL(
-                                                              field.value
-                                                          )
-                                                }
-                                                className="aspect-video w-40 rounded-md shadow-md flex-shrink-0"
-                                            />
-                                        )}
-                                        <div className="self-end">
-                                            <input
-                                                type="file"
-                                                id="image"
-                                                onChange={(e) =>
-                                                    field.onChange(
-                                                        e.target.files[0]
-                                                    )
-                                                }
-                                                className="form-item"
-                                            />
-                                        </div>
-                                    </div>
-                                )}
-                            />
-                        </div>
-                        {errors.image && (
-                            <p className="txt-error">{errors.image.message}</p>
-                        )}
-                    </div>
-                    <div className="mb-4 w-full">
-                        <div className="flex items-center">
-                            <Label name="Name" id="name" />
-                            <Controller
-                                name="name"
-                                control={control}
-                                render={({ field }) => (
-                                    <CustomInput
-                                        {...field}
-                                        value={field.value}
-                                        id="name"
-                                        label=""
-                                        variant="outlined"
-                                    />
-                                )}
-                            />
-                        </div>
-                        {errors.name && (
-                            <p className="txt-error">{errors.name.message}</p>
-                        )}
-                    </div>
-                    <div className="mb-4 w-full">
-                        <div className="flex items-center">
-                            <Label name="Type" id="price_type" />
-                            <Controller
-                                name="price_type"
-                                control={control}
-                                render={({ field }) => (
-                                    <CustomSelect
-                                        {...field}
-                                        id="price_type"
-                                        value={field.value}>
-                                        <MenuItem value={"per_quantity"}>
-                                            Quantity
-                                        </MenuItem>
-                                        <MenuItem value={"per_metter"}>
-                                            Metter
-                                        </MenuItem>
-                                    </CustomSelect>
-                                )}
-                            />
-                        </div>
-                        {errors.price_type && (
-                            <p className="txt-error">
-                                {errors.price_type.message}
-                            </p>
-                        )}
-                    </div>
-                    <div className="w-full flex items-center justify-between mt-8">
-                        <div
-                            className="flex items-center gap-x-3 cursor-pointer"
-                            onClick={() => navigate(-1)}>
-                            <KeyboardBackspaceIcon />
-                            <span>Back</span>
-                        </div>
-                        <div className="flex gap-x-3 items-center">
-                            <Button
-                                variant="contained"
-                                className="!bg-gray500"
-                                onClick={onCancel}>
-                                <span className="txt-button">Cancel</span>
-                            </Button>
-                            <Button
-                                variant="contained"
-                                type="submit"
-                                className="!bg-primary">
-                                <span className="txt-button">
-                                    {state.loading ? (
-                                        <AcUnitIcon className="animate-spin" />
-                                    ) : (
-                                        "Save"
-                                    )}
-                                </span>
-                            </Button>
-                        </div>
-                    </div>
-                </form>
+                <FormAMC
+                    schema={schema}
+                    defaultData={state}
+                    loading={state.loading}
+                    fileInputRef={fileInputRef}
+                    onSubmit={onSubmit}
+                    onCancel={onCancel}
+                    text={"Edit"}
+                />
             </div>
         </div>
     );

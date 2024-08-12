@@ -38,7 +38,7 @@ export default function AdminMaterial() {
     };
 
     useEffect(() => {
-        resetSelectedList([]);
+        resetSelectedList();
         getMaterialListAPI(dt)
             .then((res) => {
                 if (res?.status === 200) {

@@ -17,10 +17,11 @@ import {
 } from "../../../../_components";
 import { getComparator, stableSort } from "../../../../utils/function/function";
 import { useNavigate } from "react-router-dom";
-import { deleteMaterialByIdAPI } from "../../../../utils/services/admin.api";
+import { deleteMaterialListAPI } from "../../../../utils/services/admin.api";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import MaterialView from "./MaterialView";
+import { setGetMaterial } from "../../../../utils/store/admin.slice";
 
 const createData = (
     id,
@@ -158,9 +159,9 @@ export default function MaterialTable({
 
     const handleDelete = async () => {
         try {
-            await deleteMaterialByIdAPI(selectedList);
+            await deleteMaterialListAPI(selectedList);
             setDataDelete(defaultDataDel);
-            dispatch(setGetMC(!getMaterial));
+            dispatch(setGetMaterial(!getMaterial));
             toast.success("Delete Success!");
             resetSelectedList();
         } catch (error) {

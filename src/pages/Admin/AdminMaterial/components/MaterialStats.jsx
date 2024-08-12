@@ -46,20 +46,6 @@ export default function MaterialStats({ count }) {
                     </span>
                 </div>
             </StatsItemWrap>
-            <StatsItemWrap className="flex flex-col justify-start gap-y-4 shadow-lg">
-                <div className="flex w-full justify-between items-start">
-                    <h4 className="text-gray500 font-extrabold text-sm">
-                        New Material
-                    </h4>
-                    <span className="text-12 text-gray500">15k</span>
-                </div>
-                <div className="text-36 leading-40 font-normal text-gray500">
-                    75%
-                </div>
-                <div>
-                    <BorderLinearProgress variant="determinate" value={75} />
-                </div>
-            </StatsItemWrap>
         </div>
     );
 }

@@ -99,7 +99,6 @@ export const CustomInput = styled(
 )(({ theme }) => ({
     width: "100%",
     maxWidth: "350px",
-    border: "1px solid #d1d5db",
     borderRadius: 4,
     "& .MuiInputBase-input ": {
         padding: "8px 12px",

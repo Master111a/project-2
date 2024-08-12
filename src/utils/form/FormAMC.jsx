@@ -2,52 +2,41 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Label } from "../../_components";
-import { CustomSelect } from "../styled";
+import { CustomInput, CustomSelect } from "../styled";
 import { Button, MenuItem } from "@mui/material";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import { useNavigate } from "react-router-dom";
 
-export default function FormAMC({ schema, navigate, fetchFunction }) {
+export default function FormAMC({
+    schema,
+    defaultData,
+    loading,
+    fileInputRef,
+    onSubmit,
+    onCancel,
+    text,
+}) {
+    const navigate = useNavigate();
+
     const {
-        register,
         handleSubmit,
         formState: { errors },
         reset,
         control,
     } = useForm({
         resolver: yupResolver(schema),
+        defaultValues: {
+            image: defaultData?.image || "",
+            name: defaultData?.name || "",
+            price_type: defaultData?.price_type || "per_quantity",
+        },
     });
 
-    const defaultData = {
-        loading: false,
-        data: {
-            image: "",
-            name: "",
-            price_type: "per_quantity",
-        },
-    };
-
-    const [state, setState] = useState(defaultData);
-
     useEffect(() => {
-        if (!state.loading) return;
-        fetchFunction(state?.data);
-    }, [state.loading]);
+        reset(defaultData?.data);
+    }, [defaultData?.data]);
 
-    const onSubmit = (data) => {
-        setState({
-            loading: true,
-            data: data,
-        });
-    };
-
-    const onCancel = () => {
-        setState(defaultData);
-        reset(defaultData.data);
-        if (fileInputRef.current) {
-            fileInputRef.current.value = "";
-        }
-    };
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4 w-full">
@@ -71,16 +60,16 @@ export default function FormAMC({ schema, navigate, fetchFunction }) {
                                         className="aspect-video w-40 rounded-md shadow-md flex-shrink-0"
                                     />
                                 )}
-                                <div className="self-end">
-                                    <input
-                                        type="file"
-                                        id="image"
-                                        onChange={(e) =>
-                                            field.onChange(e.target.files[0])
-                                        }
-                                        className="form-item"
-                                    />
-                                </div>
+                                <CustomInput
+                                    type="file"
+                                    id="image"
+                                    onChange={(e) =>
+                                        field.onChange(e.target.files[0])
+                                    }
+                                    label=""
+                                    variant="outlined"
+                                    ref={fileInputRef}
+                                />
                             </div>
                         )}
                     />
@@ -136,7 +125,7 @@ export default function FormAMC({ schema, navigate, fetchFunction }) {
             <div className="w-full flex items-center justify-between mt-8">
                 <div
                     className="flex items-center gap-x-3 cursor-pointer"
-                    onClick={navigate}>
+                    onClick={() => navigate("/admin/material-categories")}>
                     <KeyboardBackspaceIcon />
                     <span>Back</span>
                 </div>
@@ -150,12 +139,13 @@ export default function FormAMC({ schema, navigate, fetchFunction }) {
                     <Button
                         variant="contained"
                         type="submit"
+                        disabled={loading}
                         className="!bg-primary">
                         <span className="txt-button">
-                            {state.loading ? (
+                            {loading ? (
                                 <AcUnitIcon className="animate-spin" />
                             ) : (
-                                "Save"
+                                text
                             )}
                         </span>
                     </Button>

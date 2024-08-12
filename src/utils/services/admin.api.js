@@ -59,7 +59,7 @@ export const createMaterialAPI = async (data) => {
 };
 export const updateMaterialByIdAPI = async (id, data) => {
     try {
-        const res = await axiosUrl.put("/cms/material" + id, data, {
+        const res = await axiosUrl.put("/cms/material/" + id, data, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
@@ -73,6 +73,14 @@ export const updateMaterialByIdAPI = async (id, data) => {
 export const deleteMaterialByIdAPI = async (id) => {
     try {
         const res = await axiosUrl.delete("/cms/material" + id);
+        return res;
+    } catch (error) {
+        throw error;
+    }
+};
+export const deleteMaterialListAPI = async (ids) => {
+    try {
+        const res = await axiosUrl.delete("/cms/material/bulk/" + ids);
         return res;
     } catch (error) {
         throw error;

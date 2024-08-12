@@ -27,6 +27,7 @@ export default function FormMaterial({
         handleSubmit,
         formState: { errors },
         control,
+        reset,
     } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
@@ -41,8 +42,14 @@ export default function FormMaterial({
             supplier: defaultData.data.supplier || "",
         },
     });
+
+    useEffect(() => {
+        reset(defaultData?.data);
+    }, [defaultData?.data]);
+
     const [categoryList, setCategoryList] = useState();
     const [supplierList, setSupplierList] = useState();
+
     useEffect(() => {
         getMaterialCategoryListAPI()
             .then((res) => {
@@ -65,9 +72,7 @@ export default function FormMaterial({
                 console.log(err);
             });
     }, []);
-    // const onSubmitForm = (dt) => {
-    //     onSubmit(dt);
-    // };
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4 w-full">
@@ -78,16 +83,31 @@ export default function FormMaterial({
                         control={control}
                         defaultValue={defaultData.data.image}
                         render={({ field }) => (
-                            <CustomInput
-                                type="file"
-                                id="image"
-                                onChange={(e) =>
-                                    field.onChange(e.target.files[0])
-                                }
-                                label=""
-                                variant="outlined"
-                                ref={fileInputRef}
-                            />
+                            <div className="w-full flex gap-x-4">
+                                {field.value && (
+                                    <img
+                                        alt="image"
+                                        src={
+                                            typeof field.value === "string"
+                                                ? field.value
+                                                : URL.createObjectURL(
+                                                      field.value
+                                                  )
+                                        }
+                                        className="aspect-video w-40 rounded-md shadow-md flex-shrink-0"
+                                    />
+                                )}
+                                <CustomInput
+                                    type="file"
+                                    id="image"
+                                    onChange={(e) =>
+                                        field.onChange(e.target.files[0])
+                                    }
+                                    label=""
+                                    variant="outlined"
+                                    ref={fileInputRef}
+                                />
+                            </div>
                         )}
                     />
                 </div>
@@ -292,6 +312,7 @@ export default function FormMaterial({
                     <Button
                         variant="contained"
                         type="submit"
+                        disabled={loading}
                         className="!bg-primary">
                         <span className="txt-button">
                             {loading ? (

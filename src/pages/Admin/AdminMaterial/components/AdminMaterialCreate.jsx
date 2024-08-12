@@ -100,7 +100,7 @@ export default function AdminMaterialCreate() {
     return (
         <div className="flex flex-col gap-y-3 w-full h-full min-h-screen">
             <h1 className="text-24 leading-32 text-gray500 font-normal text-left">
-                Create Material Category
+                Create Material
             </h1>
             <div className="rounded-lg w-full shadow-md p-6 txt-body bg-white">
                 <FormMaterial
