@@ -1,7 +1,7 @@
 import { Box, TableCell, TableHead, TableRow } from "@mui/material";
-import { StyledTableCellHead, StyledTableSortLabel } from "../utils/styled";
 import { visuallyHidden } from "@mui/utils";
 import { HiOutlineSelector } from "react-icons/hi";
+import { StyledTableCellHead, StyledTableSortLabel } from "utils/styled";
 
 const CustomTableSortLabel = ({ active, direction, children, ...props }) => {
     return (

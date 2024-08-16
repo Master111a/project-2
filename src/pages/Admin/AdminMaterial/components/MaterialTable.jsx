@@ -6,22 +6,22 @@ import {
     TableContainer,
     TableRow,
 } from "@mui/material";
-import { useEffect, useMemo, useState } from "react";
-import EnhancedTableToolbar from "../../../../_components/EnhancedTableToolbar";
 import {
     ActionRowTable,
     CustomTablePagination,
     DeleteDialog,
     ExhancedTableHead,
     ModalView,
-} from "../../../../_components";
-import { getComparator, stableSort } from "../../../../utils/function/function";
-import { useNavigate } from "react-router-dom";
-import { deleteMaterialListAPI } from "../../../../utils/services/admin.api";
-import { toast } from "react-toastify";
+} from "_components";
+import EnhancedTableToolbar from "_components/EnhancedTableToolbar";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { getComparator, stableSort } from "utils/function/function";
+import { deleteMaterialListAPI } from "utils/services/admin.api";
+import { setGetMaterial } from "utils/store/admin.slice";
 import MaterialView from "./MaterialView";
-import { setGetMaterial } from "../../../../utils/store/admin.slice";
 
 const createData = (
     id,

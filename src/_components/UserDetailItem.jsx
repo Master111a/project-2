@@ -1,11 +1,11 @@
+import { Avatar } from "@mui/material";
 import React from "react";
 import {
     HiOutlineCheckCircle,
-    HiOutlineXCircle,
     HiOutlineDownload,
+    HiOutlineXCircle,
 } from "react-icons/hi";
-import { AvatarPNG } from "../assets";
-import { Avatar } from "@mui/material";
+import { AvatarPNG } from "src/assets";
 const RowItem = ({ children }) => {
     return (
         <div className="flex border-t border-gray100 w-full">{children}</div>

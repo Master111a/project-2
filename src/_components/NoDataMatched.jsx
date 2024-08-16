@@ -1,5 +1,5 @@
 import React from "react";
-import { table } from "../assets";
+import { table } from "src/assets";
 
 export default function NoDataMatched() {
     return (

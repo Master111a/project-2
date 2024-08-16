@@ -1,15 +1,15 @@
-import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { toast } from "react-toastify";
 import { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import FormAMC from "utils/form/FormAMC";
+import { convertFormData } from "utils/function/function";
 import {
     getMaterialCategoryByIdAPI,
     updateMaterialCategoryByIdAPI,
-} from "../../../../utils/services/admin.api";
-import { useNavigate, useParams } from "react-router-dom";
-import { convertFormData } from "../../../../utils/function/function";
-import FormAMC from "../../../../utils/form/FormAMC";
-import { useForm } from "react-hook-form";
+} from "utils/services/admin.api";
+import * as Yup from "yup";
 
 const schema = Yup.object().shape({
     image: Yup.mixed().required("Image is require"),

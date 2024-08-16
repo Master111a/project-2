@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { getMaterialListAPI } from "../../../utils/services/admin.api";
-import { useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import MaterialTable from "./components/MaterialTable";
+import { useSearchParams } from "react-router-dom";
+import useSelected from "src/hooks/useSelected";
+import { getMaterialListAPI } from "utils/services/admin.api";
 import MaterialSearch from "./components/MaterialSearch";
 import MaterialStats from "./components/MaterialStats";
-import useSelected from "../../../hooks/useSelected";
+import MaterialTable from "./components/MaterialTable";
 
 export default function AdminMaterial() {
     const [searchParams, setSearchParams] = useSearchParams();

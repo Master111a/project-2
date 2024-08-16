@@ -1,17 +1,17 @@
-import { Controller, useForm } from "react-hook-form";
-import { useEffect, useRef, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Button, MenuItem, Select, styled } from "@mui/material";
-import { Label } from "../../_components";
-import { CustomInput, CustomSelect } from "../styled";
+import { Button, MenuItem } from "@mui/material";
+import { Label } from "_components";
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { convertData } from "utils/function/function";
 import {
     getMaterialCategoryListAPI,
     getSuplierListAPI,
-} from "../services/admin.api";
-import { convertData } from "../function/function";
+} from "utils/services/admin.api";
+import { CustomInput, CustomSelect } from "utils/styled";
 
 export default function FormMaterial({
     schema,

@@ -1,13 +1,13 @@
-import { useEffect, useState, useRef } from "react";
-import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { toast } from "react-toastify";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { createMaterialAPI } from "../../../../utils/services/admin.api";
 import { useDispatch, useSelector } from "react-redux";
-import { setGetMaterial } from "../../../../utils/store/admin.slice";
-import FormMaterial from "../../../../utils/form/FormMaterial";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import FormMaterial from "utils/form/FormMaterial";
+import { createMaterialAPI } from "utils/services/admin.api";
+import { setGetMaterial } from "utils/store/admin.slice";
+import * as Yup from "yup";
 
 const schema = Yup.object().shape({
     part_number: Yup.string()

@@ -84,4 +84,32 @@ axiosUrl.interceptors.response.use(
     }
 );
 
+export const getAPI = async (args) => {
+    const { url, params } = args;
+    const res = await axiosUrl.get(url, { params: params || null });
+    return res;
+};
+
+export const createAPI = async (args) => {
+    const { url, data } = args;
+    const res = await axiosUrl.post(url, data || null);
+
+    return res;
+};
+
+export const editAPI = async (args) => {
+    const { url, data } = args;
+    const res = await axiosUrl.put(url, data || null);
+
+    return res;
+};
+
+export const delAPI = async (data) => {
+    const { url, id } = data;
+
+    const res = await axiosUrl.delete(url + id);
+
+    return res;
+};
+
 export default axiosUrl;

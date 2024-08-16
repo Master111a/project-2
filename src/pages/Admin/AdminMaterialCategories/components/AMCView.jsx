@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function AMCView({ item }) {
     const getType = (type) => {
         if (type === "per_quantity") return 1;

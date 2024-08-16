@@ -1,16 +1,15 @@
-import { useState } from "react";
-import { styled, alpha } from "@mui/material/styles";
-import DashboardIcon from "@mui/icons-material/Dashboard";
 import ArchiveIcon from "@mui/icons-material/Archive";
-import FileCopyIcon from "@mui/icons-material/FileCopy";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import LogoutIcon from "@mui/icons-material/Logout";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import LogoutIcon from "@mui/icons-material/Logout";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import { Button, Divider, Menu, MenuItem } from "@mui/material";
+import { alpha, styled } from "@mui/material/styles";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { resetUser } from "../utils/store/auth.slice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { resetUser } from "utils/store/auth.slice";
 
 export const StyledMenu = styled((props) => (
     <Menu

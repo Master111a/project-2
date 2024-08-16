@@ -1,9 +1,8 @@
-import { StatsItemWrap } from "../../../../_components";
 import MenuItem from "@mui/material/MenuItem";
-import { HiOutlineChartBar } from "react-icons/hi";
-
+import { StatsItemWrap } from "_components";
 import { useState } from "react";
-import { BorderLinearProgress, StyledSelect } from "../../../../utils/styled";
+import { HiOutlineChartBar } from "react-icons/hi";
+import { StyledSelect } from "utils/styled";
 
 export default function MaterialStats({ count }) {
     const [day, setDay] = useState(30);

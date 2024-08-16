@@ -1,8 +1,8 @@
 import {
     HiOutlineDotsHorizontal,
-    HiOutlineTrash,
-    HiOutlinePencilAlt,
     HiOutlineEye,
+    HiOutlinePencilAlt,
+    HiOutlineTrash,
 } from "react-icons/hi";
 export default function ActionRowTable({
     dotClick,

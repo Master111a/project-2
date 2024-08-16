@@ -2,8 +2,8 @@ import {
     DropdownAvatarMenu,
     DropdownNotificationMenu,
     Logo,
-} from "../../../_components";
-import { AvatarPNG } from "../../../assets";
+} from "_components";
+import { AvatarPNG } from "src/assets";
 
 export default function Header() {
     const item = {

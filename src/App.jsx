@@ -1,27 +1,23 @@
 import {
-    Route,
-    Routes,
-    Navigate,
-    useLocation,
-    useNavigate,
-} from "react-router-dom";
+    Admin,
+    AdminMaterial,
+    AdminMaterialCategories,
+    AdminMaterialCreate,
+    AdminMaterialDetail,
+    AdminUser,
+    AdminUserDetail,
+    AMCCreate,
+    AMCEdit,
+} from "pages/Admin";
+import Home from "pages/Home/Home";
+import Login from "pages/Login/Login";
 import { useEffect } from "react";
-import Admin from "./pages/Admin/Admin";
-import Home from "./pages/Home/Home";
-import Login from "./pages/Login/Login";
 import { useDispatch, useSelector } from "react-redux";
-import AdminUser from "./pages/Admin/AdminUser/AdminUser";
-import AdminUserDetail from "./pages/Admin/AdminUser/AdminUserDetail/AdminUserDetail";
-import AdminMaterialCategories from "./pages/Admin/AdminMaterialCategories";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { setUser } from "./utils/store/auth.slice";
-import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
-import AMCCreate from "./pages/Admin/AdminMaterialCategories/components/AMCCreate";
-import AMCEdit from "./pages/Admin/AdminMaterialCategories/components/AMCEdit";
-import AdminMaterial from "./pages/Admin/AdminMaterial";
-import AdminMaterialCreate from "./pages/Admin/AdminMaterial/components/AdminMaterialCreate";
-import AdminMaterialDetail from "./pages/Admin/AdminMaterial/components/AdminMaterialDetail";
+import "./App.css";
+
 function App() {
     const dispatch = useDispatch();
     const location = useLocation();
@@ -46,7 +42,7 @@ function App() {
                         user ? (
                             <Admin />
                         ) : (
-                            <Navigate to="/login" state={location.pathname} />
+                            <Navigate to="/Login" state={location.pathname} />
                         )
                     }>
                     <Route path="main" element={<div>Home</div>} />

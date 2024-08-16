@@ -1,12 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { Label } from "../../_components";
-import { CustomInput, CustomSelect } from "../styled";
-import { Button, MenuItem } from "@mui/material";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import { Button, MenuItem } from "@mui/material";
+import { Label } from "_components";
+import { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { CustomInput, CustomSelect } from "utils/styled";
 
 export default function FormAMC({
     schema,

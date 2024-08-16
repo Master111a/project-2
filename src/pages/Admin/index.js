@@ -1,5 +1,13 @@
-export { default as AdminUser } from "./AdminUser/AdminUser";
+export { default as Admin } from "./Admin";
+export { default as AdminMaterial } from "./AdminMaterial";
+export { default as AdminMaterialCreate } from "./AdminMaterial/components/AdminMaterialCreate";
+export { default as AdminMaterialDetail } from "./AdminMaterial/components/AdminMaterialDetail";
+export { default as AdminMaterialCategories } from "./AdminMaterialCategories";
+export { default as AMCCreate } from "./AdminMaterialCategories/components/AMCCreate";
+export { default as AMCEdit } from "./AdminMaterialCategories/components/AMCEdit";
+export { default as AdminUser } from "./AdminUser";
+export { default as AdminUserDetail } from "./AdminUser/AdminUserDetail";
 export { default as AdminAside } from "./components/AdminAside";
 export { default as AdminContent } from "./components/AdminContent";
-export { default as AdminHeader } from "./components/AdminHeader";
 export { default as AdminFooter } from "./components/AdminFooter";
+export { default as AdminHeader } from "./components/AdminHeader";

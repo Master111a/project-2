@@ -6,22 +6,22 @@ import {
     TableContainer,
     TableRow,
 } from "@mui/material";
-import { useMemo, useState } from "react";
-import EnhancedTableToolbar from "../../../../_components/EnhancedTableToolbar";
 import {
     ActionRowTable,
     CustomTablePagination,
     DeleteDialog,
     ExhancedTableHead,
     ModalView,
-} from "../../../../_components";
-import { getComparator, stableSort } from "../../../../utils/function/function";
-import { deleteManyMaterialCategoryAPI } from "../../../../utils/services/admin.api";
-import { toast } from "react-toastify";
+} from "_components";
+import EnhancedTableToolbar from "_components/EnhancedTableToolbar";
+import { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setGetMC } from "../../../../utils/store/admin.slice";
-import AMCView from "./AMCView";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { getComparator, stableSort } from "utils/function/function";
+import { deleteManyMaterialCategoryAPI } from "utils/services/admin.api";
+import { setGetMC } from "utils/store/admin.slice";
+import AMCView from "./AMCView";
 
 const createData = (id, stt, image, name, price_type) => {
     return {

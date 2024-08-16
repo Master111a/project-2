@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import useChangePage from "../hooks/useChangePage";
+import useChangePage from "src/hooks/useChangePage";
 
 export default function CustomTablePagination(props) {
     const { count } = props;

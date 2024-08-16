@@ -1,13 +1,13 @@
-import { useEffect, useState, useRef } from "react";
-import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { toast } from "react-toastify";
-import { createMaterialCategoryListAPI } from "../../../../utils/services/admin.api";
+import { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setGetMC } from "../../../../utils/store/admin.slice";
-import FormAMC from "../../../../utils/form/FormAMC";
-import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import FormAMC from "utils/form/FormAMC";
+import { createMaterialCategoryListAPI } from "utils/services/admin.api";
+import { setGetMC } from "utils/store/admin.slice";
+import * as Yup from "yup";
 
 const schema = Yup.object().shape({
     image: Yup.mixed().required("Trường này là bắt buộc"),

@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { SearchInput } from "../../../../_components";
 import { Button } from "@mui/material";
+import { SearchInput } from "_components";
+import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 export default function MaterialSearch() {
     const [textSearch, setTextSearch] = useState("");

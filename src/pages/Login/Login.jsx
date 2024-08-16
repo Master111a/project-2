@@ -1,14 +1,14 @@
-import { Button } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
-import { setUser } from "../../utils/store/auth.slice";
-import { loginAPI } from "../../utils/services/auth.api";
-import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
+import { Button } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { loginAPI } from "utils/services/auth.api";
+import { setUser } from "utils/store/auth.slice";
+import * as Yup from "yup";
 const schema = Yup.object().shape({
     email: Yup.string().required("Trường này là bắt buộc"),
     password: Yup.string().required("Trường này là bắt buộc"),
