@@ -15,16 +15,22 @@ export default function MaterialView({ item }) {
             </div>
             <h2 className="text-lg font-semibold text-center">{item?.name}</h2>
             <h4 className="text-sm text-gray-500 font-normal text-center italic">
-                Type:{" "}
-                {getType(item?.price_type) === 1 ? (
-                    <span className="text-sm text-green-600 px-3 py-1 rounded-md bg-green-300/50 font-semibold">
-                        Quantity
-                    </span>
-                ) : (
-                    <span className="text-sm text-yellow-600 px-3 py-1 rounded-md bg-yellow-300/50 font-semibold">
-                        Metter
-                    </span>
-                )}
+                Supplier:{" "}
+                <span className="text-sm text-blue-600 px-3 py-1 rounded-md font-semibold">
+                    {item?.supplier?.name}
+                </span>
+            </h4>
+            <h4 className="text-sm text-gray-500 font-normal text-center italic">
+                Category:{" "}
+                <span className="text-sm text-green-600 px-3 py-1 rounded-md font-semibold">
+                    {item?.category?.name}
+                </span>
+            </h4>
+            <h4 className="text-sm text-gray-500 font-normal text-center italic">
+                Price:{" "}
+                <span className="text-sm text-gray-600 px-3 py-1 rounded-md font-semibold">
+                    {item?.basic_price}
+                </span>
             </h4>
         </div>
     );

@@ -1,5 +1,5 @@
 import axiosUrl from ".";
-
+import ROUTER_API from "./routers";
 export const getUserListAPI = async (data) => {
     try {
         const res = await axiosUrl.get("/", {
@@ -22,7 +22,7 @@ export const getMaterialListAPI = async (data) => {
         const category = data?.category || "";
         const limit = data?.row || 5;
         const page = (data?.row || 5) * (data?.page ? data?.page - 1 : 0);
-        const res = await axiosUrl.get("/cms/material", {
+        const res = await axiosUrl.get(ROUTER_API.material, {
             params: {
                 name: name,
                 category: category,
@@ -38,7 +38,7 @@ export const getMaterialListAPI = async (data) => {
 
 export const getMaterialByIdAPI = async (id) => {
     try {
-        const res = await axiosUrl.get("/cms/material/" + id);
+        const res = await axiosUrl.get(ROUTER_API.material + "/" + id);
         return res;
     } catch (error) {
         throw error;
@@ -46,7 +46,7 @@ export const getMaterialByIdAPI = async (id) => {
 };
 export const createMaterialAPI = async (data) => {
     try {
-        const res = await axiosUrl.post("/cms/material", data, {
+        const res = await axiosUrl.post(ROUTER_API.material, data, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
@@ -59,7 +59,7 @@ export const createMaterialAPI = async (data) => {
 };
 export const updateMaterialByIdAPI = async (id, data) => {
     try {
-        const res = await axiosUrl.put("/cms/material/" + id, data, {
+        const res = await axiosUrl.put(ROUTER_API.material + "/" + id, data, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
@@ -72,7 +72,7 @@ export const updateMaterialByIdAPI = async (id, data) => {
 
 export const deleteMaterialByIdAPI = async (id) => {
     try {
-        const res = await axiosUrl.delete("/cms/material" + id);
+        const res = await axiosUrl.delete(ROUTER_API.material + id);
         return res;
     } catch (error) {
         throw error;
@@ -80,7 +80,7 @@ export const deleteMaterialByIdAPI = async (id) => {
 };
 export const deleteMaterialListAPI = async (ids) => {
     try {
-        const res = await axiosUrl.delete("/cms/material/bulk/" + ids);
+        const res = await axiosUrl.delete(ROUTER_API.delManyMaterial + ids);
         return res;
     } catch (error) {
         throw error;
@@ -93,7 +93,7 @@ export const getMaterialCategoryListAPI = async (data) => {
         const name = data?.search || "";
         const limit = data?.row || 5;
         const page = (data?.row || 5) * (data?.page ? data?.page - 1 : 0);
-        const res = await axiosUrl.get("/cms/material_categories", {
+        const res = await axiosUrl.get(ROUTER_API.materialCategory, {
             params: {
                 name: name,
                 limit: limit,
@@ -107,7 +107,7 @@ export const getMaterialCategoryListAPI = async (data) => {
 };
 export const getMaterialCategoryByIdAPI = async (id) => {
     try {
-        const res = await axiosUrl.get("/cms/material_categories/" + id);
+        const res = await axiosUrl.get(ROUTER_API.materialCategory + "/" + id);
         return res;
     } catch (error) {
         throw error;
@@ -115,11 +115,15 @@ export const getMaterialCategoryByIdAPI = async (id) => {
 };
 export const updateMaterialCategoryByIdAPI = async (id, data) => {
     try {
-        const res = await axiosUrl.put("/cms/material_categories/" + id, data, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        });
+        const res = await axiosUrl.put(
+            ROUTER_API.materialCategory + "/" + id,
+            data,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        );
         return res;
     } catch (error) {
         throw error;
@@ -127,7 +131,9 @@ export const updateMaterialCategoryByIdAPI = async (id, data) => {
 };
 export const deleteMaterialCategoryByIdAPI = async (id) => {
     try {
-        const res = await axiosUrl.delete("/cms/material_categories/" + id);
+        const res = await axiosUrl.delete(
+            ROUTER_API.materialCategory + "/" + id
+        );
         return res;
     } catch (error) {
         throw error;
@@ -136,7 +142,7 @@ export const deleteMaterialCategoryByIdAPI = async (id) => {
 export const deleteManyMaterialCategoryAPI = async (ids) => {
     try {
         const res = await axiosUrl.delete(
-            "cms/material_categories/bulk/" + ids
+            ROUTER_API.delManyMaterialCategory + ids
         );
         return res;
     } catch (error) {
@@ -145,7 +151,7 @@ export const deleteManyMaterialCategoryAPI = async (ids) => {
 };
 export const createMaterialCategoryListAPI = async (data) => {
     try {
-        const res = await axiosUrl.post("/cms/material_categories", data, {
+        const res = await axiosUrl.post(ROUTER_API.materialCategory, data, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
@@ -162,7 +168,7 @@ export const getSuplierListAPI = async (data) => {
         const name = data?.search || "";
         const limit = data?.row || 5;
         const page = (data?.row || 5) * (data?.page ? data?.page - 1 : 0);
-        const res = await axiosUrl.get("/cms/supplier", {
+        const res = await axiosUrl.get(ROUTER_API.supplier, {
             params: {
                 name: name,
                 limit: limit,

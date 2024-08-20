@@ -85,8 +85,8 @@ axiosUrl.interceptors.response.use(
 );
 
 export const getAPI = async (args) => {
-    const { url, params } = args;
-    const res = await axiosUrl.get(url, { params: params || null });
+    const [url, config] = args;
+    const res = await axiosUrl.get(url, { ...config });
     return res;
 };
 

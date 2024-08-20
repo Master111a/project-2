@@ -36,7 +36,7 @@ export default function Login() {
         if (!state.loading) return;
         loginAPI(state.data)
             .then((res) => {
-                toast.success("Login success! 🦄");
+                toast.success("Login success🦄");
                 localStorage.setItem("token", JSON.stringify(res?.data));
                 dispatch(setUser(res?.data));
                 if (location?.state) {
@@ -47,7 +47,7 @@ export default function Login() {
                 setState((v) => ({ ...v, loading: false }));
             })
             .catch((er) => {
-                toast.error("Login error! 🦄");
+                toast.error("Login error🦄");
                 setState((v) => ({ ...v, loading: false }));
             });
     }, [state.loading, state.data]);
