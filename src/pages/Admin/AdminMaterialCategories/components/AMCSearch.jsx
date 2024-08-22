@@ -10,11 +10,11 @@ export default function AMCSearch() {
     useEffect(() => {
         const query = searchParams.get("materialCategoryName");
         setTextSearch(query || "");
-    }, []);
+    }, [searchParams]);
 
     const handleSearch = (event) => {
         event.preventDefault();
-        Boolean(textSearch)
+        textSearch
             ? setSearchParams({
                   materialCategoryName: textSearch,
               })

@@ -2,15 +2,16 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import useSelected from "src/hooks/useSelected";
+import { convertPage } from "utils/function/function";
 import { getMaterialListAPI } from "utils/services/admin.api";
-import MaterialSearch from "./components/MaterialSearch";
-import MaterialStats from "./components/MaterialStats";
-import MaterialTable from "./components/MaterialTable";
+import MaterialSearch from "./components/AMSearch";
+import MaterialStats from "./components/AMStats";
+import MaterialTable from "./components/AMTable";
 
 export default function AdminMaterial() {
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
-    const pageParams = searchParams.get("page");
+    const pageParams = convertPage(searchParams.get("page"));
     const rowParams = searchParams.get("row");
     const search = searchParams.get("materialName");
     const category = searchParams.get("materialCategory");
@@ -30,22 +31,26 @@ export default function AdminMaterial() {
     });
 
     const getMaterial = useSelector((state) => state.admin.getMaterial);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const dt = {
         search: search,
-        row: Number(rowParams),
-        page: Number(pageParams),
+        row: rowParams,
+        page: pageParams,
         category: category,
     };
 
     useEffect(() => {
         resetSelectedList();
-        getMaterialListAPI(dt)
+        getMaterialListAPI({
+            search: dt.search,
+            row: dt.row,
+            page: dt.page,
+        })
             .then((res) => {
                 if (res?.status === 200) {
                     setData({
-                        count: !Boolean(dt.search)
-                            ? res?.data?.count
-                            : data?.count,
+                        count: !dt.search ? res?.data?.count : data?.count,
                         currentCount: res?.data?.count,
                         materialList: res?.data?.results,
                     });
@@ -56,7 +61,15 @@ export default function AdminMaterial() {
             .catch((err) => {
                 console.log(err);
             });
-    }, [getMaterial, dt.search, dt.row, dt.page, dt.category]);
+    }, [
+        getMaterial,
+        dt.search,
+        dt.row,
+        dt.page,
+        dt.category,
+        resetSelectedList,
+        data?.count,
+    ]);
 
     return (
         <div className="w-full h-full flex flex-col gap-y-6">
@@ -69,7 +82,7 @@ export default function AdminMaterial() {
                 materialList={data.materialList}
                 count={data.currentCount}
                 page={Number(pageParams)}
-                rowsPerPage={Boolean(rowParams) ? rowParams : 5}
+                rowsPerPage={rowParams ? rowParams : 5}
                 selectedList={selectedList}
                 setSelectedList={setSelectedList}
                 toggleSelection={toggleSelection}

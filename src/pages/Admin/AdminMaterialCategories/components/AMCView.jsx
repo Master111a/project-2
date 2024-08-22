@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 export default function AMCView({ item }) {
     const getType = (type) => {
         if (type === "per_quantity") return 1;

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import {
     NoDataMatched,
     SearchInput,
     UserDetailItem,
 } from "../../../../_components";
-import { useLocation } from "react-router-dom";
 
 export default function AdminUserDetail() {
     const [textSearch, setTextSearch] = useState("");
@@ -13,18 +13,19 @@ export default function AdminUserDetail() {
         const params = new URLSearchParams(location.search);
         const query = params.get("search");
         setTextSearch(query || "");
-    }, []);
+    }, [location.search]);
 
     const handleSearch = (event) => {
         event.preventDefault();
         const params = new URLSearchParams(location.search);
         params.set("search", textSearch);
         {
-            Boolean(textSearch)
+            textSearch
                 ? history.replaceState({}, "", `${location.pathname}?${params}`)
                 : history.replaceState({}, "", location.pathname);
         }
     };
+
     return (
         <div className="w-full h-full flex flex-col gap-y-6">
             <div className="flex flex-col gap-y-3">

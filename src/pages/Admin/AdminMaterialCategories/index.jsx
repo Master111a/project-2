@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import AMCTable from "./components/AMCTable";
-import AMCSearch from "./components/AMCSearch";
-import AMCStats from "./components/AMCStats";
-import { getMaterialCategoryListAPI } from "../../../utils/services/admin.api";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
+import { convertPage } from "utils/function/function";
 import useSelected from "../../../hooks/useSelected";
+import { getMaterialCategoryListAPI } from "../../../utils/services/admin.api";
+import AMCSearch from "./components/AMCSearch";
+import AMCStats from "./components/AMCStats";
+import AMCTable from "./components/AMCTable";
 
 export default function AdminMaterialCategories() {
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
-    const pageParams = searchParams.get("page");
+    const pageParams = convertPage(searchParams.get("page"));
     const rowParams = searchParams.get("row");
     const search = searchParams.get("materialCategoryName");
 
@@ -29,21 +30,24 @@ export default function AdminMaterialCategories() {
     });
 
     const getMC = useSelector((state) => state.admin.getMC);
+
     const dt = {
         search: search,
-        row: Number(rowParams),
-        page: Number(pageParams),
+        row: rowParams,
+        page: pageParams,
     };
 
     useEffect(() => {
         resetSelectedList([]);
-        getMaterialCategoryListAPI(dt)
+        getMaterialCategoryListAPI({
+            search: dt.search,
+            row: dt.row,
+            page: dt.page,
+        })
             .then((res) => {
                 if (res?.status === 200) {
                     setData({
-                        count: !Boolean(dt.search)
-                            ? res?.data?.count
-                            : data?.count,
+                        count: !dt.search ? res?.data?.count : data?.count,
                         currentCount: res?.data?.count,
                         categoryList: res?.data?.results,
                     });
@@ -54,7 +58,7 @@ export default function AdminMaterialCategories() {
             .catch((err) => {
                 console.log(err);
             });
-    }, [getMC, dt.search, dt.row, dt.page, data?.count]);
+    }, [getMC, dt.search, dt.row, dt.page, data?.count, resetSelectedList]);
 
     return (
         <div className="w-full h-full flex flex-col gap-y-6">
@@ -69,7 +73,7 @@ export default function AdminMaterialCategories() {
                 categoryList={data.categoryList}
                 count={data.currentCount}
                 page={Number(pageParams)}
-                rowsPerPage={Boolean(rowParams) ? rowParams : 5}
+                rowsPerPage={rowParams ? rowParams : 5}
                 selectedList={selectedList}
                 setSelectedList={setSelectedList}
                 toggleSelection={toggleSelection}

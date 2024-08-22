@@ -1,8 +1,5 @@
+/* eslint-disable react/prop-types */
 export default function MaterialView({ item }) {
-    const getType = (type) => {
-        if (type === "per_quantity") return 1;
-        else if (type === "per_metter") return 2;
-    };
     return (
         <div className="w-full h-full flex flex-col items-center justify-center gap-y-2">
             <h1 className="font-bold text-24">Material Information</h1>

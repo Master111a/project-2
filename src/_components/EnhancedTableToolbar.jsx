@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Box, Button, Checkbox, Toolbar, Typography } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 

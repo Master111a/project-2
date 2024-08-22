@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { yupResolver } from "@hookform/resolvers/yup";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
@@ -7,21 +8,18 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { convertData } from "utils/function/function";
-import {
-    getMaterialCategoryListAPI,
-    getSuplierListAPI,
-} from "utils/services/admin.api";
+import withCategories from "utils/hoc/withCategories";
+import { getSuplierListAPI } from "utils/services/admin.api";
 import { CustomInput, CustomSelect } from "utils/styled";
 
-export default function FormMaterial({
+const FormMaterial = ({
     schema,
     defaultData,
     loading,
-    fileInputRef,
     onSubmit,
-    onCancel,
     text,
-}) {
+    categoryList,
+}) => {
     const navigate = useNavigate();
     const {
         handleSubmit,
@@ -34,10 +32,10 @@ export default function FormMaterial({
             image: defaultData.data.image || null,
             part_number: defaultData.data.part_number || "",
             name: defaultData.data.name || "",
-            type: defaultData.data.type || "",
+            type: defaultData.data.type || 0,
             large_title: defaultData.data.large_title || "",
             small_title: defaultData.data.small_title || "",
-            basic_price: defaultData.data.basic_price || "",
+            basic_price: defaultData.data.basic_price || 0,
             category: defaultData.data.category || "",
             supplier: defaultData.data.supplier || "",
         },
@@ -45,22 +43,9 @@ export default function FormMaterial({
 
     useEffect(() => {
         reset(defaultData?.data);
-    }, [defaultData?.data]);
-
-    const [categoryList, setCategoryList] = useState();
+    }, [defaultData?.data, reset]);
     const [supplierList, setSupplierList] = useState();
 
-    useEffect(() => {
-        getMaterialCategoryListAPI()
-            .then((res) => {
-                if (res?.status === 200) {
-                    setCategoryList(convertData(res?.data?.results));
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, []);
     useEffect(() => {
         getSuplierListAPI()
             .then((res) => {
@@ -72,7 +57,6 @@ export default function FormMaterial({
                 console.log(err);
             });
     }, []);
-
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4 w-full">
@@ -100,12 +84,13 @@ export default function FormMaterial({
                                 <CustomInput
                                     type="file"
                                     id="image"
+                                    accept="image/*"
                                     onChange={(e) =>
                                         field.onChange(e.target.files[0])
                                     }
                                     label=""
                                     variant="outlined"
-                                    ref={fileInputRef}
+                                    ref={field.ref}
                                 />
                             </div>
                         )}
@@ -172,6 +157,9 @@ export default function FormMaterial({
                         )}
                     />
                 </div>
+                {errors.type && (
+                    <p className="txt-error">{errors.type.message}</p>
+                )}
             </div>
             <div className="mb-4 w-full">
                 <div className="flex items-center">
@@ -282,7 +270,7 @@ export default function FormMaterial({
                                 onChange={(e) =>
                                     field.onChange(e.target.value)
                                 }>
-                                {supplierList?.map((item, index) => (
+                                {supplierList?.map((item) => (
                                     <MenuItem value={item.id} key={item.id}>
                                         {item.name}
                                     </MenuItem>
@@ -305,12 +293,6 @@ export default function FormMaterial({
                 <div className="flex gap-x-3 items-center">
                     <Button
                         variant="contained"
-                        className="!bg-gray500"
-                        onClick={onCancel}>
-                        <span className="txt-button">Cancel</span>
-                    </Button>
-                    <Button
-                        variant="contained"
                         type="submit"
                         disabled={loading}
                         className="!bg-primary">
@@ -326,4 +308,7 @@ export default function FormMaterial({
             </div>
         </form>
     );
-}
+};
+
+const FMaterrial = withCategories(FormMaterial);
+export default FMaterrial;

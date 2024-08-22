@@ -1,48 +1,36 @@
 import axiosUrl from ".";
 import ROUTER_API from "./routers";
 export const getUserListAPI = async (data) => {
-    try {
-        const res = await axiosUrl.get("/", {
-            params: {
-                page: data?.page || 0,
-                row: data?.row || 0,
-                search: data?.search || "",
-            },
-        });
-        return res;
-    } catch (error) {
-        throw res;
-    }
+    const res = await axiosUrl.get("/", {
+        params: {
+            page: data?.page || 0,
+            row: data?.row || 0,
+            search: data?.search || "",
+        },
+    });
+    return res;
 };
 
 // Material
 export const getMaterialListAPI = async (data) => {
-    try {
-        const name = data?.search || "";
-        const category = data?.category || "";
-        const limit = data?.row || 5;
-        const page = (data?.row || 5) * (data?.page ? data?.page - 1 : 0);
-        const res = await axiosUrl.get(ROUTER_API.material, {
-            params: {
-                name: name,
-                category: category,
-                limit: limit,
-                offset: page || 0,
-            },
-        });
-        return res;
-    } catch (error) {
-        throw error;
-    }
+    const name = data?.search || "";
+    const category = data?.category || "";
+    const limit = data?.row || 5;
+    const page = (data?.row || 5) * (data?.page ? data?.page - 1 : 0);
+    const res = await axiosUrl.get(ROUTER_API.material, {
+        params: {
+            name: name,
+            category: category,
+            limit: limit,
+            offset: page || 0,
+        },
+    });
+    return res;
 };
 
 export const getMaterialByIdAPI = async (id) => {
-    try {
-        const res = await axiosUrl.get(ROUTER_API.material + "/" + id);
-        return res;
-    } catch (error) {
-        throw error;
-    }
+    const res = await axiosUrl.get(ROUTER_API.material + "/" + id);
+    return res;
 };
 export const createMaterialAPI = async (data) => {
     try {
@@ -58,125 +46,80 @@ export const createMaterialAPI = async (data) => {
     }
 };
 export const updateMaterialByIdAPI = async (id, data) => {
-    try {
-        const res = await axiosUrl.put(ROUTER_API.material + "/" + id, data, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        });
-        return res;
-    } catch (error) {
-        throw error;
-    }
+    const res = await axiosUrl.put(ROUTER_API.material + "/" + id, data, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    });
+    return res;
 };
 
 export const deleteMaterialByIdAPI = async (id) => {
-    try {
-        const res = await axiosUrl.delete(ROUTER_API.material + id);
-        return res;
-    } catch (error) {
-        throw error;
-    }
+    const res = await axiosUrl.delete(ROUTER_API.material + id);
+    return res;
 };
 export const deleteMaterialListAPI = async (ids) => {
-    try {
-        const res = await axiosUrl.delete(ROUTER_API.delManyMaterial + ids);
-        return res;
-    } catch (error) {
-        throw error;
-    }
+    const res = await axiosUrl.delete(ROUTER_API.delManyMaterial + ids);
+    return res;
 };
 
 // Material Category
 export const getMaterialCategoryListAPI = async (data) => {
-    try {
-        const name = data?.search || "";
-        const limit = data?.row || 5;
-        const page = (data?.row || 5) * (data?.page ? data?.page - 1 : 0);
-        const res = await axiosUrl.get(ROUTER_API.materialCategory, {
-            params: {
-                name: name,
-                limit: limit,
-                offset: page || 0,
-            },
-        });
-        return res;
-    } catch (error) {
-        throw error;
-    }
+    const name = data?.search || "";
+    const limit = data?.row || 5;
+    const page = (data?.row || 5) * (data?.page ? data?.page - 1 : 0);
+    const res = await axiosUrl.get(ROUTER_API.materialCategory, {
+        params: {
+            name: name,
+            limit: limit,
+            offset: page || 0,
+        },
+    });
+    return res;
 };
 export const getMaterialCategoryByIdAPI = async (id) => {
-    try {
-        const res = await axiosUrl.get(ROUTER_API.materialCategory + "/" + id);
-        return res;
-    } catch (error) {
-        throw error;
-    }
+    const res = await axiosUrl.get(ROUTER_API.materialCategory + "/" + id);
+    return res;
 };
 export const updateMaterialCategoryByIdAPI = async (id, data) => {
-    try {
-        const res = await axiosUrl.put(
-            ROUTER_API.materialCategory + "/" + id,
-            data,
-            {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            }
-        );
-        return res;
-    } catch (error) {
-        throw error;
-    }
-};
-export const deleteMaterialCategoryByIdAPI = async (id) => {
-    try {
-        const res = await axiosUrl.delete(
-            ROUTER_API.materialCategory + "/" + id
-        );
-        return res;
-    } catch (error) {
-        throw error;
-    }
-};
-export const deleteManyMaterialCategoryAPI = async (ids) => {
-    try {
-        const res = await axiosUrl.delete(
-            ROUTER_API.delManyMaterialCategory + ids
-        );
-        return res;
-    } catch (error) {
-        throw error;
-    }
-};
-export const createMaterialCategoryListAPI = async (data) => {
-    try {
-        const res = await axiosUrl.post(ROUTER_API.materialCategory, data, {
+    const res = await axiosUrl.put(
+        ROUTER_API.materialCategory + "/" + id,
+        data,
+        {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
-        });
-        return res;
-    } catch (error) {
-        console.log(error);
-        throw error;
-    }
+        }
+    );
+    return res;
+};
+export const deleteMaterialCategoryByIdAPI = async (id) => {
+    const res = await axiosUrl.delete(ROUTER_API.materialCategory + "/" + id);
+    return res;
+};
+export const deleteManyMaterialCategoryAPI = async (ids) => {
+    const res = await axiosUrl.delete(ROUTER_API.delManyMaterialCategory + ids);
+    return res;
+};
+export const createMaterialCategoryListAPI = async (data) => {
+    const res = await axiosUrl.post(ROUTER_API.materialCategory, data, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    });
+    return res;
 };
 // Supplier
 export const getSuplierListAPI = async (data) => {
-    try {
-        const name = data?.search || "";
-        const limit = data?.row || 5;
-        const page = (data?.row || 5) * (data?.page ? data?.page - 1 : 0);
-        const res = await axiosUrl.get(ROUTER_API.supplier, {
-            params: {
-                name: name,
-                limit: limit,
-                offset: page || 0,
-            },
-        });
-        return res;
-    } catch (error) {
-        throw error;
-    }
+    const name = data?.search || "";
+    const limit = data?.row || 5;
+    const page = (data?.row || 5) * (data?.page ? data?.page - 1 : 0);
+    const res = await axiosUrl.get(ROUTER_API.supplier, {
+        params: {
+            name: name,
+            limit: limit,
+            offset: page || 0,
+        },
+    });
+    return res;
 };

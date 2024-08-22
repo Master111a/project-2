@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import {
     Button,
     Dialog,
@@ -6,7 +7,6 @@ import {
     DialogContentText,
     DialogTitle,
 } from "@mui/material";
-import React from "react";
 
 export default function DeleteDialog({ open, handleCancel, handleDelete }) {
     return (

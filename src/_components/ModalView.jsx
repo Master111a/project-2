@@ -1,5 +1,4 @@
-import { useState } from "react";
-
+/* eslint-disable react/prop-types */
 export default function ModalView({ open = false, setOpen, children }) {
     return (
         <div

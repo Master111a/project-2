@@ -1,9 +1,9 @@
-import { IconButton, Menu, MenuItem } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { IconButton, MenuItem } from "@mui/material";
 import { useState } from "react";
 import { StyledMenu } from "./DropdownAvatarMenu";
 
-export default function DropdownNotificationMenu({ listItem }) {
+export default function DropdownNotificationMenu() {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {

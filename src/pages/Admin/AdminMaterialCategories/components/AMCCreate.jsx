@@ -1,81 +1,55 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import FormAMC from "utils/form/FormAMC";
 import { createMaterialCategoryListAPI } from "utils/services/admin.api";
-import { setGetMC } from "utils/store/admin.slice";
 import * as Yup from "yup";
 
 const schema = Yup.object().shape({
-    image: Yup.mixed().required("Trường này là bắt buộc"),
-    name: Yup.string().required("Trường này là bắt buộc"),
-    price_type: Yup.string().required("Trường này là bắt buộc"),
+    image: Yup.mixed()
+        .test("file-or-string", "Image is require", (value) => {
+            return (
+                value && (typeof value === "string" || value instanceof File)
+            );
+        })
+        .required("Image is require"),
+    name: Yup.string().trim().required("Name is require"),
+    price_type: Yup.string().trim().required("Price type is require"),
 });
 
 export default function AMCCreate() {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const getMC = useSelector((state) => state.admin.getMC);
-
     const defaultData = {
-        loading: false,
-        data: {
-            image: "",
-            name: "",
-            price_type: "per_quantity",
-        },
+        image: "",
+        name: "",
+        price_type: "per_quantity",
     };
-    const [state, setState] = useState(defaultData);
-    const { reset } = useForm({
-        resolver: yupResolver(schema),
+    const [state, setState] = useState({
+        loading: false,
+        data: defaultData,
     });
-
-    const fileInputRef = useRef(null);
 
     useEffect(() => {
         if (!state.loading) return;
-        createMC(state?.data);
-    }, [state.loading]);
-
-    const createMC = async (data) => {
-        try {
-            await createMaterialCategoryListAPI(data)
-                .then((res) => {
-                    toast.success("Create success! 😊");
-                    setState(defaultData);
-                    dispatch(setGetMC(!getMC));
-                    reset(defaultData.data);
-                    if (fileInputRef.current) {
-                        fileInputRef.current.value = "";
-                    }
-                    navigate("/admin/material-categories");
-                })
-                .catch(() => {
-                    toast.error("Create error! 😟");
-                    setState((x) => ({ ...x, loading: false }));
-                });
-        } catch (error) {
-            toast.error("Create error! 😟");
-            setState((x) => ({ ...x, loading: false }));
-        }
-    };
+        createMaterialCategoryListAPI(state?.data)
+            .then(() => {
+                toast.success("Create success! 😊");
+                navigate("/admin/material-categories");
+            })
+            .catch((error) => {
+                console.log("API call failed: ", error);
+                toast.error("Create error! 😟");
+            })
+            .finally(() => {
+                setState((x) => ({ ...x, loading: false }));
+            });
+    }, [state.data, state.loading, navigate]);
 
     const onSubmit = (data) => {
         setState({
             loading: true,
             data: data,
         });
-    };
-
-    const onCancel = () => {
-        setState(defaultData);
-        reset(defaultData.data);
-        if (fileInputRef.current) {
-            fileInputRef.current.value = "";
-        }
     };
 
     return (
@@ -86,11 +60,9 @@ export default function AMCCreate() {
             <div className="rounded-lg w-full shadow-md p-6 txt-body bg-white">
                 <FormAMC
                     schema={schema}
-                    defaultData={defaultData}
+                    defaultData={state.data}
                     loading={state.loading}
-                    fileInputRef={fileInputRef}
                     onSubmit={onSubmit}
-                    onCancel={onCancel}
                     text={"Create"}
                 />
             </div>

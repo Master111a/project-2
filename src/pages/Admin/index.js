@@ -1,7 +1,7 @@
 export { default as Admin } from "./Admin";
 export { default as AdminMaterial } from "./AdminMaterial";
-export { default as AdminMaterialCreate } from "./AdminMaterial/components/AdminMaterialCreate";
-export { default as AdminMaterialDetail } from "./AdminMaterial/components/AdminMaterialDetail";
+export { default as AdminMaterialCreate } from "./AdminMaterial/components/AMCreate";
+export { default as AdminMaterialDetail } from "./AdminMaterial/components/AMDetail";
 export { default as AdminMaterialCategories } from "./AdminMaterialCategories";
 export { default as AMCCreate } from "./AdminMaterialCategories/components/AMCCreate";
 export { default as AMCEdit } from "./AdminMaterialCategories/components/AMCEdit";

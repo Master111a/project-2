@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import {
     Checkbox,
     Table,
@@ -14,14 +15,13 @@ import {
     ModalView,
 } from "_components";
 import EnhancedTableToolbar from "_components/EnhancedTableToolbar";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { getComparator, stableSort } from "utils/function/function";
 import { deleteMaterialListAPI } from "utils/services/admin.api";
 import { setGetMaterial } from "utils/store/admin.slice";
-import MaterialView from "./MaterialView";
+import MaterialView from "./AMView";
 
 const createData = (
     id,
@@ -169,10 +169,6 @@ export default function MaterialTable({
         }
     };
 
-    const visibleRows = useMemo(
-        () => stableSort(rows, getComparator(order, orderBy))[(order, orderBy)]
-    );
-
     return (
         <div className="w-full bg-white rounded-lg shadow-sm">
             <EnhancedTableToolbar
@@ -315,9 +311,9 @@ export default function MaterialTable({
                 open={openView}
                 setOpen={() => {
                     setOpenView(false), resetSelectedList();
-                }}
-                children={<MaterialView item={itemView} />}
-            />
+                }}>
+                <MaterialView item={itemView} />
+            </ModalView>
         </div>
     );
 }

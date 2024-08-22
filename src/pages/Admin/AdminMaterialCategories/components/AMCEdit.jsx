@@ -12,11 +12,18 @@ import {
 import * as Yup from "yup";
 
 const schema = Yup.object().shape({
-    image: Yup.mixed().required("Image is require"),
+    image: Yup.mixed()
+        .test("file-or-string", "Image is require", (value) => {
+            return (
+                value && (typeof value === "string" || value instanceof File)
+            );
+        })
+        .required("Image is require"),
     name: Yup.string()
+        .trim()
         .max(255, "The maximum length of the string is 255")
         .required("Name is require"),
-    price_type: Yup.string().required("Type is require"),
+    price_type: Yup.string().required("Type is require").trim(),
 });
 export default function AMCEdit() {
     const { id } = useParams();
@@ -69,14 +76,14 @@ export default function AMCEdit() {
                     navigate("/admin/material-categories");
                 } else {
                     setState((x) => ({ ...x, loading: false }));
-
                     toast.error("😖Update error!");
                 }
             })
             .catch((err) => {
+                toast.error("😖Update error!😖");
                 console.log(err);
             });
-    }, [id, state.loading, state?.data]);
+    }, [id, state.loading, state?.data, navigate]);
 
     const onSubmit = (data) => {
         const formData = convertFormData(data);
@@ -97,7 +104,7 @@ export default function AMCEdit() {
             <div className="rounded-lg w-full shadow-md p-6 txt-body bg-white">
                 <FormAMC
                     schema={schema}
-                    defaultData={state}
+                    defaultData={state.data}
                     loading={state.loading}
                     fileInputRef={fileInputRef}
                     onSubmit={onSubmit}

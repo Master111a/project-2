@@ -46,11 +46,11 @@ export default function Login() {
                 }
                 setState((v) => ({ ...v, loading: false }));
             })
-            .catch((er) => {
+            .catch(() => {
                 toast.error("Login error🦄");
                 setState((v) => ({ ...v, loading: false }));
             });
-    }, [state.loading, state.data]);
+    }, [state.loading, state.data, dispatch, location?.state, navigate]);
 
     const onSubmit = (data) => {
         setState({

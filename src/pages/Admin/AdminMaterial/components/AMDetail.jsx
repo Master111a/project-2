@@ -1,45 +1,50 @@
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import FormMaterial from "utils/form/FormMaterial";
+import FMaterrial from "utils/form/FormMaterial";
 import { convertFormData } from "utils/function/function";
 import {
     getMaterialByIdAPI,
     updateMaterialByIdAPI,
 } from "utils/services/admin.api";
-import { setGetMaterial } from "utils/store/admin.slice";
 import * as Yup from "yup";
 
 const schema = Yup.object().shape({
     part_number: Yup.string()
-        .max(255, "Quá dài")
-        .required("Trường này là bắt buộc"),
+        .max(255, "The field is too long")
+        .trim()
+        .required("This field is required"),
     large_title: Yup.string()
-        .max(255, "Quá dài")
-        .required("Trường này là bắt buộc"),
-    type: Yup.number(),
+        .max(255, "The field is too long")
+        .trim()
+        .required(""),
+    type: Yup.number().typeError("Type must be a number"),
     small_title: Yup.string()
-        .max(255, "Quá dài")
-        .required("Trường này là bắt buộc"),
-    basic_price: Yup.number().required("Trường này là bắt buộc"),
+        .trim()
+        .max(255, "The field is too long")
+        .required("This field is required"),
+    basic_price: Yup.number()
+        .moreThan(0, "Basic price must be greater than 0")
+        .typeError("Type must be a number")
+        .required("This field is required"),
     category: Yup.string()
-        .max(255, "Quá dài")
-        .required("Trường này là bắt buộc"),
+        .trim()
+        .max(255, "The field is too long")
+        .required("This field is required"),
     supplier: Yup.string()
-        .max(255, "Quá dài")
-        .required("Trường này là bắt buộc"),
+        .trim()
+        .max(255, "The field is too long")
+        .required("This field is required"),
 });
 export default function AdminMaterialDetail() {
     const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const getMaterial = useSelector((state) => state.admin.getMaterial);
 
     const defaultData = {
         loading: false,
+        error: false,
         data: {
             image: "",
             part_number: "",
@@ -69,10 +74,6 @@ export default function AdminMaterialDetail() {
     const [state, setState] = useState(defaultData);
     const fileInputRef = useRef(null);
 
-    const { reset } = useForm({
-        resolver: yupResolver(schema),
-    });
-
     useEffect(() => {
         if (!id) return;
         getMaterialByIdAPI(id)
@@ -85,7 +86,7 @@ export default function AdminMaterialDetail() {
             .catch((err) => {
                 console.log(err);
             });
-    }, [id, reset]);
+    }, [id]);
 
     useEffect(() => {
         if (!state.loading) return;
@@ -94,21 +95,21 @@ export default function AdminMaterialDetail() {
                 if (res.status === 200) {
                     setState({
                         loading: false,
+                        error: false,
                         data: convertStateData(res?.data),
                     });
-                    dispatch(setGetMaterial(!getMaterial));
-                    toast.success("😊Update success!😊");
+                    toast.success("Update success!😊");
                     navigate("/admin/material");
                 } else {
-                    setState((x) => ({ ...x, loading: false }));
-                    toast.error("😖Update error!😖");
+                    setState((x) => ({ ...x, loading: false, error: true }));
+                    toast.error("Update error!😖");
                 }
             })
-            .catch((err) => {
-                setState((x) => ({ ...x, loading: false }));
-                console.log(err);
+            .catch(() => {
+                setState((x) => ({ ...x, loading: false, error: true }));
+                toast.error("Update error!😖");
             });
-    }, [id, state.loading, state?.data]);
+    }, [id, state.loading, state?.data, dispatch, navigate]);
 
     const onSubmit = (data) => {
         const formData = convertFormData(data);
@@ -117,23 +118,19 @@ export default function AdminMaterialDetail() {
             data: formData,
         });
     };
-    const onCancel = () => {
-        setState((x) => ({ ...x, loading: false }));
-        navigate("/admin/material");
-    };
+
     return (
         <div className="flex flex-col gap-y-3 w-full h-full min-h-screen">
             <h1 className="text-24 leading-32 text-gray500 font-normal text-left">
                 Material Detail
             </h1>
             <div className="rounded-lg w-full shadow-md p-6 txt-body bg-white">
-                <FormMaterial
+                <FMaterrial
                     schema={schema}
                     defaultData={state}
                     loading={state.loading}
                     fileInputRef={fileInputRef}
                     onSubmit={onSubmit}
-                    onCancel={onCancel}
                     text={"Edit"}
                 />
             </div>

@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function AdminFooter() {
     return (
         <div className="flex flex-col gap-1 pb-4">

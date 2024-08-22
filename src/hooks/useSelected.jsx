@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
+
 function useSelected() {
     const [selectedList, setSelectedList] = useState([]);
 
-    const toggleSelection = (id) => {
+    const toggleSelection = useCallback((id) => {
         setSelectedList((prevSelectedList) => {
             const selectedIndex = prevSelectedList.indexOf(id);
             if (selectedIndex === -1) {
@@ -11,10 +12,16 @@ function useSelected() {
                 return prevSelectedList.filter((item) => item !== id);
             }
         });
-    };
+    }, []);
 
-    const isSelected = (id) => selectedList.includes(id);
-    const resetSelectedList = () => setSelectedList([]);
+    const resetSelectedList = useCallback(() => {
+        setSelectedList([]);
+    }, []);
+
+    const isSelected = useCallback(
+        (id) => selectedList.includes(id),
+        [selectedList]
+    );
 
     return [
         selectedList,

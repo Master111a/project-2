@@ -1,8 +1,7 @@
-import { StatsItemWrap } from "../../../../_components";
 import MenuItem from "@mui/material/MenuItem";
-import { HiOutlineChartBar } from "react-icons/hi";
-
 import { useState } from "react";
+import { HiOutlineChartBar } from "react-icons/hi";
+import { StatsItemWrap } from "../../../../_components";
 import { BorderLinearProgress, StyledSelect } from "../../../../utils/styled";
 
 export default function AdminUserStats() {

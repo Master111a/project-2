@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { Box, TableCell, TableHead, TableRow } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 import { HiOutlineSelector } from "react-icons/hi";

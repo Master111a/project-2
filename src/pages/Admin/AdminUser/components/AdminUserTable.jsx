@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
     Avatar,
     Checkbox,
@@ -15,8 +16,8 @@ import {
 import EnhancedTableToolbar from "_components/EnhancedTableToolbar";
 import { useEffect, useState } from "react";
 import { HiOutlineCheckCircle, HiOutlineXCircle } from "react-icons/hi";
+import { getAPI } from "utils/services";
 import ROUTER_API from "utils/services/routers";
-import { getAPI } from "../../../../utils/services";
 function createData(id, avatar, name, email, isAdmin, twoFA) {
     return {
         id,
@@ -97,13 +98,12 @@ export default function AdminUserTable() {
                     />
                     <TableBody>
                         {rows?.map((row, index) => {
-                            const isItemSelected = isSelected(row.id);
                             const labelId = `enhanced-table-checkbox-${index}`;
 
                             return (
                                 <TableRow
                                     hover
-                                    onClick={(event) => console.log(row?.id)}
+                                    onClick={() => console.log(row?.id)}
                                     role="checkbox"
                                     tabIndex={-1}
                                     key={row?.id}

@@ -1,4 +1,3 @@
-import React from "react";
 import { table } from "src/assets";
 
 export default function NoDataMatched() {

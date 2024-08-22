@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Button } from "@mui/material";
 import useChangePage from "src/hooks/useChangePage";
 

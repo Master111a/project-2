@@ -1,19 +1,18 @@
-import { Logo } from "../../../_components";
-import { useState } from "react";
-import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import { RxDashboard } from "react-icons/rx";
+import Collapse from "@mui/material/Collapse";
+import ListItemText from "@mui/material/ListItemText";
+import { useState } from "react";
 import { HiOutlineCollection } from "react-icons/hi";
-import { StyledList, StyledListItemButton } from "../../../utils/styled";
-import { Link, NavLink, useLocation, useParams } from "react-router-dom";
+import { RxDashboard } from "react-icons/rx";
+import { NavLink } from "react-router-dom";
+import { Logo } from "../../../_components";
 import { dashboardList, resourcesList } from "../../../utils/data";
+import { StyledList, StyledListItemButton } from "../../../utils/styled";
 
 export default function AdminAside() {
     const [open, setOpen] = useState(true);
     const [open2, setOpen2] = useState(true);
-    const location = useLocation();
     const handleClick = () => {
         setOpen(!open);
     };

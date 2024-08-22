@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { yupResolver } from "@hookform/resolvers/yup";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
@@ -12,13 +13,10 @@ export default function FormAMC({
     schema,
     defaultData,
     loading,
-    fileInputRef,
     onSubmit,
-    onCancel,
     text,
 }) {
     const navigate = useNavigate();
-
     const {
         handleSubmit,
         formState: { errors },
@@ -34,9 +32,8 @@ export default function FormAMC({
     });
 
     useEffect(() => {
-        reset(defaultData?.data);
-    }, [defaultData?.data]);
-
+        reset(defaultData);
+    }, [defaultData, reset]);
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4 w-full">
@@ -63,12 +60,13 @@ export default function FormAMC({
                                 <CustomInput
                                     type="file"
                                     id="image"
+                                    accept="image/*"
                                     onChange={(e) =>
                                         field.onChange(e.target.files[0])
                                     }
                                     label=""
                                     variant="outlined"
-                                    ref={fileInputRef}
+                                    ref={field.ref}
                                 />
                             </div>
                         )}
@@ -130,12 +128,6 @@ export default function FormAMC({
                     <span>Back</span>
                 </div>
                 <div className="flex gap-x-3 items-center">
-                    <Button
-                        variant="contained"
-                        className="!bg-gray500"
-                        onClick={onCancel}>
-                        <span className="txt-button">Cancel</span>
-                    </Button>
                     <Button
                         variant="contained"
                         type="submit"

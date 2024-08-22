@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 import MenuItem from "@mui/material/MenuItem";
 import { StatsItemWrap } from "_components";
 import { useState } from "react";

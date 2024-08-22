@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import {
     Checkbox,
     Table,
@@ -14,11 +15,10 @@ import {
     ModalView,
 } from "_components";
 import EnhancedTableToolbar from "_components/EnhancedTableToolbar";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { getComparator, stableSort } from "utils/function/function";
 import { deleteManyMaterialCategoryAPI } from "utils/services/admin.api";
 import { setGetMC } from "utils/store/admin.slice";
 import AMCView from "./AMCView";
@@ -123,10 +123,6 @@ export default function AMCTable({
             toast.error("Delete Fail!");
         }
     };
-
-    const visibleRows = useMemo(
-        () => stableSort(rows, getComparator(order, orderBy))[(order, orderBy)]
-    );
 
     return (
         <div className="w-full bg-white rounded-lg shadow-sm">
@@ -248,9 +244,9 @@ export default function AMCTable({
                 open={openView}
                 setOpen={() => {
                     setOpenView(false), resetSelectedList();
-                }}
-                children={<AMCView item={itemView} />}
-            />
+                }}>
+                <AMCView item={itemView} />
+            </ModalView>
         </div>
     );
 }

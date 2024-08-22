@@ -3,17 +3,17 @@ import { SearchInput } from "_components";
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 export default function MaterialSearch() {
-    const [textSearch, setTextSearch] = useState("");
+    const [textSearch, setTextSearch] = useState();
     const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
         const query = searchParams.get("materialName");
         setTextSearch(query || "");
-    }, []);
+    }, [searchParams]);
 
     const handleSearch = (event) => {
         event.preventDefault();
-        Boolean(textSearch)
+        textSearch
             ? setSearchParams({
                   materialName: textSearch,
               })

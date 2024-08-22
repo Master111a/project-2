@@ -1,16 +1,12 @@
+/* eslint-disable react/prop-types */
 import { Avatar } from "@mui/material";
-import React from "react";
 import {
     HiOutlineCheckCircle,
     HiOutlineDownload,
     HiOutlineXCircle,
 } from "react-icons/hi";
 import { AvatarPNG } from "src/assets";
-const RowItem = ({ children }) => {
-    return (
-        <div className="flex border-t border-gray100 w-full">{children}</div>
-    );
-};
+
 export default function UserDetailItem({ item }) {
     return (
         <div className="py-2 rounded-lg w-full shadow-md px-6 txt-body bg-white">

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import {
     Admin,
     AdminMaterial,
@@ -16,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { setUser } from "utils/store/auth.slice";
 import "./App.css";
 
 function App() {
@@ -23,13 +25,12 @@ function App() {
     const location = useLocation();
     const user = useSelector((state) => state.auth.user);
     useEffect(() => {
-        if (!user) {
-            const tokenJson = localStorage.getItem("token");
-            if (tokenJson) {
-                dispatch(setUser(JSON.parse(tokenJson)));
-            }
+        if (user) return;
+        const tokenJson = localStorage.getItem("token");
+        if (tokenJson) {
+            dispatch(setUser(JSON.parse(tokenJson)));
         }
-    }, [user]);
+    }, [dispatch, user]);
     return (
         <>
             <Routes>

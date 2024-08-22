@@ -50,7 +50,12 @@ export const convertFormData = (data) => {
 export const isNumber = (number) => {
     return !Number.isNaN(Number(number));
 };
-
+export const convertPage = (page) => {
+    if (!Number.isInteger(Number(page))) {
+        return 1;
+    }
+    return Number(page);
+};
 export const convertData = (data) => {
     return data.map((item) => ({
         id: item?.id,

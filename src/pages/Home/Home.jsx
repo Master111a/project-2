@@ -1,6 +1,6 @@
 import Footer from "pages/Home/components/Footer";
 import Header from "pages/Home/components/Header";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
 export default function Home() {

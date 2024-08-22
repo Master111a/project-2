@@ -1,11 +1,11 @@
-import { AvatarPNG } from "../../../assets";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import {
     DropdownAvatarMenu,
     DropdownNotificationMenu,
     SearchInput,
 } from "../../../_components";
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { AvatarPNG } from "../../../assets";
 export default function AdminHeader() {
     const location = useLocation();
 
@@ -26,7 +26,7 @@ export default function AdminHeader() {
         const params = new URLSearchParams(location.search);
         params.set("search", textSearch);
         {
-            Boolean(textSearch)
+            textSearch
                 ? history.replaceState({}, "", `${location.pathname}?${params}`)
                 : history.replaceState({}, "", location.pathname);
         }
