@@ -46,11 +46,15 @@ export default function AdminMaterial() {
             search: dt.search,
             row: dt.row,
             page: dt.page,
+            category: dt?.category,
         })
             .then((res) => {
                 if (res?.status === 200) {
                     setData({
-                        count: !dt.search ? res?.data?.count : data?.count,
+                        count:
+                            !dt.search || !dt.category
+                                ? res?.data?.count
+                                : data?.count,
                         currentCount: res?.data?.count,
                         materialList: res?.data?.results,
                     });

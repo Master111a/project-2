@@ -1,5 +1,5 @@
-import AdminUserStats from "./components/AdminUserStats";
 import AdminUserSearch from "./components/AdminUserSearch";
+import AdminUserStats from "./components/AdminUserStats";
 import AdminUserTable from "./components/AdminUserTable";
 
 export default function AdminUser() {

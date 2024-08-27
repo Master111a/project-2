@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 
 const useChangePage = (totalCount) => {
@@ -51,6 +52,13 @@ const useChangePage = (totalCount) => {
             handlePageChange(pageNumber + 1);
         }
     };
+    const handleSearchChange = useCallback(
+        (key, value) => {
+            updateSearchParams("page", null);
+            updateSearchParams(key, value);
+        },
+        [updateSearchParams]
+    );
 
     return {
         pageNumber,
@@ -61,6 +69,7 @@ const useChangePage = (totalCount) => {
         handlePreviousPage,
         handleNextPage,
         handleRowsChange,
+        handleSearchChange,
     };
 };
 

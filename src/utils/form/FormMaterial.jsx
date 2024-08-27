@@ -4,6 +4,7 @@ import AcUnitIcon from "@mui/icons-material/AcUnit";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { Button, MenuItem } from "@mui/material";
 import { Label } from "_components";
+import { InputImage } from "_components/index";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -58,232 +59,270 @@ const FormMaterial = ({
             });
     }, []);
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mb-4 w-full">
-                <div className="flex items-center">
+        <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="grid grid-cols-3 gap-x-4">
+            <div className="mb-4 h-full w-full bg-background p-6 rounded-md shadow-md">
+                <ItemFormWrap>
                     <Label name="Image" id="image" />
                     <Controller
                         name="image"
                         control={control}
                         defaultValue={defaultData.data.image}
                         render={({ field }) => (
-                            <div className="w-full flex gap-x-4">
-                                {field.value && (
-                                    <img
-                                        alt="image"
-                                        src={
-                                            typeof field.value === "string"
-                                                ? field.value
-                                                : URL.createObjectURL(
-                                                      field.value
-                                                  )
+                            <div className="w-full">
+                                {field.value ? (
+                                    <div className="flex flex-col gap-y-4 items-center w-full">
+                                        <img
+                                            alt="image"
+                                            src={
+                                                typeof field.value === "string"
+                                                    ? field.value
+                                                    : URL.createObjectURL(
+                                                          field.value
+                                                      )
+                                            }
+                                            className="aspect-video object-cover object-center w-full rounded-md shadow-md flex-shrink-0"
+                                        />
+                                        <Button variant="outlined">
+                                            <label
+                                                htmlFor="input_image"
+                                                className="w-full h-full">
+                                                Change image
+                                            </label>
+                                        </Button>
+                                    </div>
+                                ) : (
+                                    <InputImage
+                                        onChange={(e) =>
+                                            field.onChange(e.target.files[0])
                                         }
-                                        className="aspect-video w-40 rounded-md shadow-md flex-shrink-0"
                                     />
                                 )}
-                                <CustomInput
+                                <input
                                     type="file"
-                                    id="image"
+                                    id="input_image"
+                                    className="h-full w-full hidden"
                                     accept="image/*"
+                                    ref={field.ref}
                                     onChange={(e) =>
                                         field.onChange(e.target.files[0])
                                     }
-                                    label=""
-                                    variant="outlined"
-                                    ref={field.ref}
                                 />
                             </div>
                         )}
                     />
+                </ItemFormWrap>
+            </div>
+            <div className="grid grid-cols-2 gap-x-6 gap-y-4 col-span-2 p-6 rounded-md shadow-md bg-background">
+                <div className="mb-4 w-full">
+                    <ItemFormWrap>
+                        <Label name="Part number" id="part_number" />
+                        <Controller
+                            name="part_number"
+                            control={control}
+                            render={({ field }) => (
+                                <CustomInput
+                                    {...field}
+                                    value={field.value}
+                                    onChange={(e) =>
+                                        field.onChange(e.target.value)
+                                    }
+                                    id="part_number"
+                                    label=""
+                                    variant="outlined"
+                                />
+                            )}
+                        />
+                    </ItemFormWrap>
+                    {errors.part_number && (
+                        <p className="txt-error">
+                            {errors.part_number.message}
+                        </p>
+                    )}
+                </div>
+                <div className="mb-4 w-full">
+                    <ItemFormWrap>
+                        <Label name="Name" id="name" />
+                        <Controller
+                            name="name"
+                            control={control}
+                            render={({ field }) => (
+                                <CustomInput
+                                    {...field}
+                                    value={field.value}
+                                    onChange={(e) =>
+                                        field.onChange(e.target.value)
+                                    }
+                                    id="name"
+                                    label=""
+                                    variant="outlined"
+                                />
+                            )}
+                        />
+                    </ItemFormWrap>
+                </div>
+                <div className="mb-4 w-full">
+                    <ItemFormWrap>
+                        <Label name="Type" id="type" />
+                        <Controller
+                            name="type"
+                            control={control}
+                            render={({ field }) => (
+                                <CustomInput
+                                    {...field}
+                                    value={field.value}
+                                    onChange={(e) =>
+                                        field.onChange(e.target.value)
+                                    }
+                                    id="type"
+                                    label=""
+                                    variant="outlined"
+                                />
+                            )}
+                        />
+                    </ItemFormWrap>
+                    {errors.type && (
+                        <p className="txt-error">{errors.type.message}</p>
+                    )}
+                </div>
+                <div className="mb-4 w-full">
+                    <ItemFormWrap>
+                        <Label name="Large Title" id="large_title" />
+                        <Controller
+                            name="large_title"
+                            control={control}
+                            render={({ field }) => (
+                                <CustomInput
+                                    {...field}
+                                    value={field.value}
+                                    onChange={(e) =>
+                                        field.onChange(e.target.value)
+                                    }
+                                    id="large_title"
+                                    label=""
+                                    variant="outlined"
+                                />
+                            )}
+                        />
+                    </ItemFormWrap>
+                    {errors.large_title && (
+                        <p className="txt-error">
+                            {errors.large_title.message}
+                        </p>
+                    )}
+                </div>
+                <div className="mb-4 w-full">
+                    <ItemFormWrap>
+                        <Label name="Small Title" id="small_title" />
+                        <Controller
+                            name="small_title"
+                            control={control}
+                            render={({ field }) => (
+                                <CustomInput
+                                    {...field}
+                                    value={field.value}
+                                    onChange={(e) =>
+                                        field.onChange(e.target.value)
+                                    }
+                                    id="small_title"
+                                    label=""
+                                    variant="outlined"
+                                />
+                            )}
+                        />
+                    </ItemFormWrap>
+                    {errors.small_title && (
+                        <p className="txt-error">
+                            {errors.small_title.message}
+                        </p>
+                    )}
+                </div>
+                <div className="mb-4 w-full">
+                    <ItemFormWrap>
+                        <Label name="Basic Price" id="basic_price" />
+                        <Controller
+                            name="basic_price"
+                            control={control}
+                            render={({ field }) => (
+                                <CustomInput
+                                    {...field}
+                                    value={field.value}
+                                    onChange={(e) =>
+                                        field.onChange(e.target.value)
+                                    }
+                                    id="basic_price"
+                                    label=""
+                                    variant="outlined"
+                                />
+                            )}
+                        />
+                    </ItemFormWrap>
+                    {errors.basic_price && (
+                        <p className="txt-error">
+                            {errors.basic_price.message}
+                        </p>
+                    )}
+                </div>
+                <div className="mb-4 w-full">
+                    <ItemFormWrap>
+                        <Label name="Category" id="category" />
+                        <Controller
+                            name="category"
+                            control={control}
+                            defaultValue={defaultData.data.category}
+                            render={({ field }) => (
+                                <CustomSelect
+                                    {...field}
+                                    id="category"
+                                    value={field.value || ""}
+                                    onChange={(e) =>
+                                        field.onChange(e.target.value)
+                                    }>
+                                    {categoryList?.map((item) => (
+                                        <MenuItem value={item.id} key={item.id}>
+                                            {item.name}
+                                        </MenuItem>
+                                    ))}
+                                </CustomSelect>
+                            )}
+                        />
+                    </ItemFormWrap>
+                    {errors.category && (
+                        <p className="txt-error">{errors.category.message}</p>
+                    )}
+                </div>
+                <div className="mb-4 w-full">
+                    <ItemFormWrap>
+                        <Label name="Supplier" id="supplier" />
+                        <Controller
+                            name="supplier"
+                            control={control}
+                            defaultValue={defaultData.data.supplier}
+                            render={({ field }) => (
+                                <CustomSelect
+                                    {...field}
+                                    id="supplier"
+                                    value={field.value || ""}
+                                    onChange={(e) =>
+                                        field.onChange(e.target.value)
+                                    }>
+                                    {supplierList?.map((item) => (
+                                        <MenuItem value={item.id} key={item.id}>
+                                            {item.name}
+                                        </MenuItem>
+                                    ))}
+                                </CustomSelect>
+                            )}
+                        />
+                    </ItemFormWrap>
+                    {errors.supplier && (
+                        <p className="txt-error">{errors.supplier.message}</p>
+                    )}
                 </div>
             </div>
 
-            <div className="mb-4 w-full">
-                <div className="flex items-center">
-                    <Label name="Part number" id="part_number" />
-                    <Controller
-                        name="part_number"
-                        control={control}
-                        render={({ field }) => (
-                            <CustomInput
-                                {...field}
-                                value={field.value}
-                                onChange={(e) => field.onChange(e.target.value)}
-                                id="part_number"
-                                label=""
-                                variant="outlined"
-                            />
-                        )}
-                    />
-                </div>
-                {errors.part_number && (
-                    <p className="txt-error">{errors.part_number.message}</p>
-                )}
-            </div>
-            <div className="mb-4 w-full">
-                <div className="flex items-center">
-                    <Label name="Name" id="name" />
-                    <Controller
-                        name="name"
-                        control={control}
-                        render={({ field }) => (
-                            <CustomInput
-                                {...field}
-                                value={field.value}
-                                onChange={(e) => field.onChange(e.target.value)}
-                                id="name"
-                                label=""
-                                variant="outlined"
-                            />
-                        )}
-                    />
-                </div>
-            </div>
-            <div className="mb-4 w-full">
-                <div className="flex items-center">
-                    <Label name="Type" id="type" />
-                    <Controller
-                        name="type"
-                        control={control}
-                        render={({ field }) => (
-                            <CustomInput
-                                {...field}
-                                value={field.value}
-                                onChange={(e) => field.onChange(e.target.value)}
-                                id="type"
-                                label=""
-                                variant="outlined"
-                            />
-                        )}
-                    />
-                </div>
-                {errors.type && (
-                    <p className="txt-error">{errors.type.message}</p>
-                )}
-            </div>
-            <div className="mb-4 w-full">
-                <div className="flex items-center">
-                    <Label name="Large Title" id="large_title" />
-                    <Controller
-                        name="large_title"
-                        control={control}
-                        render={({ field }) => (
-                            <CustomInput
-                                {...field}
-                                value={field.value}
-                                onChange={(e) => field.onChange(e.target.value)}
-                                id="large_title"
-                                label=""
-                                variant="outlined"
-                            />
-                        )}
-                    />
-                </div>
-                {errors.large_title && (
-                    <p className="txt-error">{errors.large_title.message}</p>
-                )}
-            </div>
-            <div className="mb-4 w-full">
-                <div className="flex items-center">
-                    <Label name="Small Title" id="small_title" />
-                    <Controller
-                        name="small_title"
-                        control={control}
-                        render={({ field }) => (
-                            <CustomInput
-                                {...field}
-                                value={field.value}
-                                onChange={(e) => field.onChange(e.target.value)}
-                                id="small_title"
-                                label=""
-                                variant="outlined"
-                            />
-                        )}
-                    />
-                </div>
-                {errors.small_title && (
-                    <p className="txt-error">{errors.small_title.message}</p>
-                )}
-            </div>
-            <div className="mb-4 w-full">
-                <div className="flex items-center">
-                    <Label name="Basic Price" id="basic_price" />
-                    <Controller
-                        name="basic_price"
-                        control={control}
-                        render={({ field }) => (
-                            <CustomInput
-                                {...field}
-                                value={field.value}
-                                onChange={(e) => field.onChange(e.target.value)}
-                                id="basic_price"
-                                label=""
-                                variant="outlined"
-                            />
-                        )}
-                    />
-                </div>
-                {errors.basic_price && (
-                    <p className="txt-error">{errors.basic_price.message}</p>
-                )}
-            </div>
-            <div className="mb-4 w-full">
-                <div className="flex items-center">
-                    <Label name="Category" id="category" />
-                    <Controller
-                        name="category"
-                        control={control}
-                        defaultValue={defaultData.data.category}
-                        render={({ field }) => (
-                            <CustomSelect
-                                {...field}
-                                id="category"
-                                value={field.value || ""}
-                                onChange={(e) =>
-                                    field.onChange(e.target.value)
-                                }>
-                                {categoryList?.map((item) => (
-                                    <MenuItem value={item.id} key={item.id}>
-                                        {item.name}
-                                    </MenuItem>
-                                ))}
-                            </CustomSelect>
-                        )}
-                    />
-                </div>
-                {errors.category && (
-                    <p className="txt-error">{errors.category.message}</p>
-                )}
-            </div>
-            <div className="mb-4 w-full">
-                <div className="flex items-center">
-                    <Label name="Supplier" id="supplier" />
-                    <Controller
-                        name="supplier"
-                        control={control}
-                        defaultValue={defaultData.data.supplier}
-                        render={({ field }) => (
-                            <CustomSelect
-                                {...field}
-                                id="supplier"
-                                value={field.value || ""}
-                                onChange={(e) =>
-                                    field.onChange(e.target.value)
-                                }>
-                                {supplierList?.map((item) => (
-                                    <MenuItem value={item.id} key={item.id}>
-                                        {item.name}
-                                    </MenuItem>
-                                ))}
-                            </CustomSelect>
-                        )}
-                    />
-                </div>
-                {errors.supplier && (
-                    <p className="txt-error">{errors.supplier.message}</p>
-                )}
-            </div>
-            <div className="w-full flex items-center justify-between  mt-8">
+            <div className="w-full flex items-center justify-between mt-8 col-span-3">
                 <div
                     className="flex items-center gap-x-3 cursor-pointer"
                     onClick={() => navigate("/admin/material")}>
@@ -309,6 +348,8 @@ const FormMaterial = ({
         </form>
     );
 };
-
+const ItemFormWrap = ({ children }) => {
+    return <div className="flex flex-col items-start">{children}</div>;
+};
 const FMaterrial = withCategories(FormMaterial);
 export default FMaterrial;

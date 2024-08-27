@@ -1,5 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useRef, useState } from "react";
+import { Button } from "@mui/material";
+import LoaderForm from "_components/LoaderForm";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -30,6 +32,7 @@ export default function AMCEdit() {
     const navigate = useNavigate();
     const [state, setState] = useState({
         loading: false,
+        error: false,
         data: {
             image: "",
             name: "",
@@ -39,7 +42,6 @@ export default function AMCEdit() {
     const { reset } = useForm({
         resolver: yupResolver(schema),
     });
-    const fileInputRef = useRef(null);
 
     useEffect(() => {
         if (!id) return;
@@ -66,6 +68,7 @@ export default function AMCEdit() {
                 if (res.status === 200) {
                     setState({
                         loading: false,
+                        error: false,
                         data: {
                             image: res?.data?.image,
                             name: res?.data?.name,
@@ -79,9 +82,12 @@ export default function AMCEdit() {
                     toast.error("😖Update error!");
                 }
             })
-            .catch((err) => {
+            .catch(() => {
                 toast.error("😖Update error!😖");
-                console.log(err);
+                setState((x) => ({ ...x, error: true }));
+            })
+            .finally(() => {
+                setState((x) => ({ ...x, loading: false }));
             });
     }, [id, state.loading, state?.data, navigate]);
 
@@ -89,28 +95,33 @@ export default function AMCEdit() {
         const formData = convertFormData(data);
         setState({
             loading: true,
+            error: false,
             data: formData,
         });
     };
-    const onCancel = () => {
-        setState((x) => ({ ...x, loading: false }));
-        navigate("/admin/material-categories");
-    };
+
     return (
         <div className="flex flex-col gap-y-3 w-full h-full min-h-screen">
             <h1 className="text-24 leading-32 text-gray500 font-normal text-left">
                 Material Category Detail
             </h1>
             <div className="rounded-lg w-full shadow-md p-6 txt-body bg-white">
-                <FormAMC
-                    schema={schema}
-                    defaultData={state.data}
-                    loading={state.loading}
-                    fileInputRef={fileInputRef}
-                    onSubmit={onSubmit}
-                    onCancel={onCancel}
-                    text={"Edit"}
-                />
+                {!state.error ? (
+                    <FormAMC
+                        schema={schema}
+                        defaultData={state.data}
+                        loading={state.loading}
+                        onSubmit={onSubmit}
+                        text={"Edit"}
+                    />
+                ) : (
+                    <div className="w-full flex flex-col items-center justify-center gap-4">
+                        <LoaderForm />
+                        <Button variant="outlined" onClick={() => onSubmit()}>
+                            Retry
+                        </Button>
+                    </div>
+                )}
             </div>
         </div>
     );

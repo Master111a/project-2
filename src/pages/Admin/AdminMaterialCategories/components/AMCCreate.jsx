@@ -1,3 +1,5 @@
+import { Button } from "@mui/material";
+import LoaderForm from "_components/LoaderForm";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -26,6 +28,7 @@ export default function AMCCreate() {
     };
     const [state, setState] = useState({
         loading: false,
+        error: false,
         data: defaultData,
     });
 
@@ -36,8 +39,8 @@ export default function AMCCreate() {
                 toast.success("Create success! 😊");
                 navigate("/admin/material-categories");
             })
-            .catch((error) => {
-                console.log("API call failed: ", error);
+            .catch(() => {
+                setState((x) => ({ ...x, error: true }));
                 toast.error("Create error! 😟");
             })
             .finally(() => {
@@ -48,6 +51,7 @@ export default function AMCCreate() {
     const onSubmit = (data) => {
         setState({
             loading: true,
+            error: false,
             data: data,
         });
     };
@@ -58,13 +62,22 @@ export default function AMCCreate() {
                 Create Material Category
             </h1>
             <div className="rounded-lg w-full shadow-md p-6 txt-body bg-white">
-                <FormAMC
-                    schema={schema}
-                    defaultData={state.data}
-                    loading={state.loading}
-                    onSubmit={onSubmit}
-                    text={"Create"}
-                />
+                {!state.error ? (
+                    <FormAMC
+                        schema={schema}
+                        defaultData={state.data}
+                        loading={state.loading}
+                        onSubmit={onSubmit}
+                        text={"Create"}
+                    />
+                ) : (
+                    <div className="w-full flex flex-col items-center justify-center gap-4">
+                        <LoaderForm />
+                        <Button variant="outlined" onClick={() => onSubmit()}>
+                            Retry
+                        </Button>
+                    </div>
+                )}
             </div>
         </div>
     );

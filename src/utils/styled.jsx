@@ -87,10 +87,23 @@ export const CustomSelect = styled(
     })
 )(({ theme }) => ({
     width: "100%",
-    maxWidth: "350px",
+    maxWidth: "450px",
     border: "1px solid #d1d5db",
     "& .MuiSelect-select": {
         padding: "8px 12px 8px 12px",
+        backgroundColor: "#ffffff",
+    },
+}));
+export const SearchSelect = styled(
+    forwardRef(function SearchSelect(props, ref) {
+        return <Select {...props} ref={ref} />;
+    })
+)(() => ({
+    width: "160px",
+    border: "1px solid #d1d5db",
+    "& .MuiSelect-select": {
+        padding: "6px 10px",
+        backgroundColor: "#ffffff",
     },
 }));
 export const CustomInput = styled(
@@ -99,8 +112,9 @@ export const CustomInput = styled(
     })
 )(({ theme }) => ({
     width: "100%",
-    maxWidth: "350px",
+    maxWidth: "450px",
     borderRadius: 4,
+    backgroundColor: "white",
     "& .MuiInputBase-input ": {
         padding: "8px 12px",
     },

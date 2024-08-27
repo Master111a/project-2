@@ -3,7 +3,7 @@ import AcUnitIcon from "@mui/icons-material/AcUnit";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loginAPI } from "utils/services/auth.api";
@@ -31,6 +31,7 @@ export default function Login() {
             password: "",
         },
     });
+    const user = useSelector((state) => state.auth.user);
 
     useEffect(() => {
         if (!state.loading) return;
@@ -39,18 +40,17 @@ export default function Login() {
                 toast.success("Login success🦄");
                 localStorage.setItem("token", JSON.stringify(res?.data));
                 dispatch(setUser(res?.data));
-                if (location?.state) {
-                    navigate(location?.state);
-                } else {
-                    navigate("/admin/material-categories");
-                }
+                location?.state
+                    ? navigate(location?.state)
+                    : navigate("/admin/material-categories");
+
                 setState((v) => ({ ...v, loading: false }));
             })
             .catch(() => {
                 toast.error("Login error🦄");
                 setState((v) => ({ ...v, loading: false }));
             });
-    }, [state.loading, state.data, dispatch, location?.state, navigate]);
+    }, [state.loading, state.data, dispatch, location?.state, navigate, user]);
 
     const onSubmit = (data) => {
         setState({

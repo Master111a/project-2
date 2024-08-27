@@ -1,4 +1,5 @@
 import axios from "axios";
+import { resetUser } from "utils/store/auth.slice";
 import { refreshTokenAPI } from "./auth.api";
 
 const axiosUrl = axios.create({
@@ -55,6 +56,8 @@ axiosUrl.interceptors.response.use(
                             access: res?.data?.access,
                             refresh: res?.data?.refresh,
                         };
+                        console.log(newToken);
+
                         localStorage.setItem("token", JSON.stringify(newToken));
                         axiosUrl.defaults.headers.common[
                             "Authorization"
@@ -64,6 +67,7 @@ axiosUrl.interceptors.response.use(
                     }
                 } catch (refreshError) {
                     localStorage.removeItem("token");
+                    resetUser();
                     window.location.href = "/login";
                     return Promise.reject(refreshError);
                 } finally {

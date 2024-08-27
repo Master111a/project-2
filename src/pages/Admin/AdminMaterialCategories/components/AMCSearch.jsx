@@ -2,10 +2,12 @@ import { Button } from "@mui/material";
 import { SearchInput } from "_components";
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import useChangePage from "src/hooks/useChangePage";
 
 export default function AMCSearch() {
     const [textSearch, setTextSearch] = useState("");
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
+    const { handleSearchChange } = useChangePage();
 
     useEffect(() => {
         const query = searchParams.get("materialCategoryName");
@@ -14,11 +16,7 @@ export default function AMCSearch() {
 
     const handleSearch = (event) => {
         event.preventDefault();
-        textSearch
-            ? setSearchParams({
-                  materialCategoryName: textSearch,
-              })
-            : setSearchParams({});
+        handleSearchChange("materialCategoryName", textSearch);
     };
     return (
         <div className="flex flex-col gap-y-3">

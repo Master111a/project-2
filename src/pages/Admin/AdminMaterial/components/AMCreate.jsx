@@ -1,3 +1,5 @@
+import { Button } from "@mui/material";
+import LoaderForm from "_components/LoaderForm";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -56,6 +58,7 @@ export default function AdminMaterialCreate() {
                 navigate("/admin/material");
             })
             .catch(() => {
+                setState((x) => ({ ...x, error: true }));
                 toast.error("Create error! 😟");
             })
             .finally(() => {
@@ -76,13 +79,22 @@ export default function AdminMaterialCreate() {
                 Create Material
             </h1>
             <div className="rounded-lg w-full shadow-md p-6 txt-body bg-white">
-                <FMaterrial
-                    schema={schema}
-                    defaultData={defaultData}
-                    loading={state.loading}
-                    onSubmit={onSubmit}
-                    text={"Create"}
-                />
+                {!state.error ? (
+                    <FMaterrial
+                        schema={schema}
+                        defaultData={defaultData}
+                        loading={state.loading}
+                        onSubmit={onSubmit}
+                        text={"Create"}
+                    />
+                ) : (
+                    <div className="w-full flex flex-col items-center justify-center gap-4">
+                        <LoaderForm />
+                        <Button variant="outlined" onClick={() => onSubmit()}>
+                            Retry
+                        </Button>
+                    </div>
+                )}
             </div>
         </div>
     );

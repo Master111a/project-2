@@ -1,3 +1,5 @@
+import { Button } from "@mui/material";
+import LoaderForm from "_components/LoaderForm";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -115,6 +117,7 @@ export default function AdminMaterialDetail() {
         const formData = convertFormData(data);
         setState({
             loading: true,
+            error: false,
             data: formData,
         });
     };
@@ -125,14 +128,23 @@ export default function AdminMaterialDetail() {
                 Material Detail
             </h1>
             <div className="rounded-lg w-full shadow-md p-6 txt-body bg-white">
-                <FMaterrial
-                    schema={schema}
-                    defaultData={state}
-                    loading={state.loading}
-                    fileInputRef={fileInputRef}
-                    onSubmit={onSubmit}
-                    text={"Edit"}
-                />
+                {!state.error ? (
+                    <FMaterrial
+                        schema={schema}
+                        defaultData={state}
+                        loading={state.loading}
+                        fileInputRef={fileInputRef}
+                        onSubmit={onSubmit}
+                        text={"Edit"}
+                    />
+                ) : (
+                    <div className="w-full flex flex-col items-center justify-center gap-4">
+                        <LoaderForm />
+                        <Button variant="outlined" onClick={() => onSubmit()}>
+                            Retry
+                        </Button>
+                    </div>
+                )}
             </div>
         </div>
     );
