@@ -49,18 +49,14 @@ export default function AdminMaterial() {
             category: dt?.category,
         })
             .then((res) => {
-                if (res?.status === 200) {
-                    setData({
-                        count:
-                            !dt.search || !dt.category
-                                ? res?.data?.count
-                                : data?.count,
-                        currentCount: res?.data?.count,
-                        materialList: res?.data?.results,
-                    });
-                } else {
-                    console.log(res);
-                }
+                setData({
+                    count:
+                        !dt.search || !dt.category
+                            ? res?.data?.count
+                            : data?.count,
+                    currentCount: res?.data?.count,
+                    materialList: res?.data?.results,
+                });
             })
             .catch((err) => {
                 console.log(err);

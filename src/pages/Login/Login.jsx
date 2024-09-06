@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { yupResolver } from "@hookform/resolvers/yup";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loginAPI } from "utils/services/auth.api";
@@ -31,8 +32,6 @@ export default function Login() {
             password: "",
         },
     });
-    const user = useSelector((state) => state.auth.user);
-
     useEffect(() => {
         if (!state.loading) return;
         loginAPI(state.data)
@@ -43,14 +42,12 @@ export default function Login() {
                 location?.state
                     ? navigate(location?.state)
                     : navigate("/admin/material-categories");
-
-                setState((v) => ({ ...v, loading: false }));
             })
             .catch(() => {
                 toast.error("Login error🦄");
                 setState((v) => ({ ...v, loading: false }));
             });
-    }, [state.loading, state.data, dispatch, location?.state, navigate, user]);
+    }, [state.loading, dispatch, navigate, location?.state]);
 
     const onSubmit = (data) => {
         setState({
