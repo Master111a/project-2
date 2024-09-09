@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
-import { Button, MenuItem } from "@mui/material";
-import { SearchInput } from "_components";
+import { Button, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import { SearchInput } from "src/_components";
 import useChangePage from "src/hooks/useChangePage";
 import withCategories from "utils/hoc/withCategories";
 import { SearchSelect } from "utils/styled";
@@ -21,7 +21,6 @@ const WMaterialSearch = ({ categoryList }) => {
         event.preventDefault();
         handleSearchChange("materialName", textSearch);
     };
-
     return (
         <div className="flex flex-col gap-y-3">
             <h2 className="font-normal text-24 text-gray500 leading-32">
@@ -35,27 +34,32 @@ const WMaterialSearch = ({ categoryList }) => {
                     onChange={(e) => setTextSearch(e.target.value)}
                     onClick={(e) => handleSearch(e)}
                 />
-                <div className="flex items-center gap-x-2 ml-auto">
+                <div className="flex items-center gap-x-2 ">
                     <span className="text-gray500">Category: </span>
                     <SearchSelect
-                        id="category"
-                        label=""
-                        value={searchParams.get("materialCategory") || ""}
-                        onChange={(e) =>
-                            handleSearchChange(
-                                "materialCategory",
-                                e.target.value
-                            )
-                        }>
-                        <MenuItem value={String("")}>Tất cả</MenuItem>
-                        {categoryList?.map((item) => (
-                            <MenuItem value={String(item.name)} key={item.id}>
-                                {item.name}
-                            </MenuItem>
-                        ))}
-                    </SearchSelect>
+                        disablePortal
+                        options={categoryList.map((option) => option.name)}
+                        onChange={(e, value) =>
+                            handleSearchChange("materialCategory", value)
+                        }
+                        sx={{
+                            borderRadius: 999,
+                        }}
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                sx={{
+                                    borderRadius: 9999,
+                                }}
+                                InputProps={{
+                                    ...params.InputProps,
+                                    type: "text",
+                                }}
+                            />
+                        )}
+                    />
                 </div>
-                <Link to={"create"}>
+                <Link to={"create"} className="ml-auto">
                     <Button variant="contained" className="!bg-primary">
                         <span className="font-extrabold text-sm leading-5 text-white capitalize">
                             Create Material
