@@ -16,15 +16,18 @@ const useChangePage = (totalCount) => {
         (pageNumber < 2 ? 1 : pageNumber) * rowsPerPage
     );
 
-    const updateSearchParams = (key, value) => {
-        const newSearchParams = new URLSearchParams(searchParams);
-        if (value === undefined || value === null || value === "") {
-            newSearchParams.delete(key);
-        } else {
-            newSearchParams.set(key, value);
-        }
-        setSearchParams(newSearchParams);
-    };
+    const updateSearchParams = useCallback(
+        (key, value) => {
+            const newSearchParams = new URLSearchParams(searchParams);
+            if (value === undefined || value === null || value === "") {
+                newSearchParams.delete(key);
+            } else {
+                newSearchParams.set(key, value);
+            }
+            setSearchParams(newSearchParams);
+        },
+        [searchParams, setSearchParams]
+    );
 
     const handlePageChange = (newPage) => {
         if (newPage < 2) {
