@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import {
+    Autocomplete,
     Avatar,
     LinearProgress,
     linearProgressClasses,
@@ -94,16 +95,21 @@ export const CustomSelect = styled(
         backgroundColor: "#ffffff",
     },
 }));
+
 export const SearchSelect = styled(
     forwardRef(function SearchSelect(props, ref) {
-        return <Select {...props} ref={ref} />;
+        return <Autocomplete {...props} ref={ref} />;
     })
 )(() => ({
-    width: "160px",
-    border: "1px solid #d1d5db",
-    "& .MuiSelect-select": {
-        padding: "6px 10px",
+    width: "260px",
+    border: "1px solid #f1f5f9",
+    "& .MuiAutocomplete-inputRoot": {
+        padding: "0px 10px",
         backgroundColor: "#ffffff",
+        borderRadius: "9999px",
+    },
+    "& .MuiOutlinedInput-root .MuiAutocomplete-input": {
+        padding: "4px",
     },
 }));
 export const CustomInput = styled(
