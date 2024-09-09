@@ -1,3 +1,4 @@
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { Button } from "@mui/material";
 import LoaderForm from "_components/LoaderForm";
 import { useEffect, useRef, useState } from "react";
@@ -140,9 +141,19 @@ export default function AdminMaterialDetail() {
                 ) : (
                     <div className="w-full flex flex-col items-center justify-center gap-4">
                         <LoaderForm />
-                        <Button variant="outlined" onClick={() => onSubmit()}>
-                            Retry
-                        </Button>
+                        <div className="flex items-center justify-center gap-x-3">
+                            <div
+                                className="flex items-center gap-x-3 cursor-pointer"
+                                onClick={() => navigate("/admin/material")}>
+                                <KeyboardBackspaceIcon />
+                                <span>Back</span>
+                            </div>
+                            <Button
+                                variant="outlined"
+                                onClick={() => onSubmit()}>
+                                Retry
+                            </Button>
+                        </div>
                     </div>
                 )}
             </div>

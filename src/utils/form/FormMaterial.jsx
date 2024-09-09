@@ -124,7 +124,7 @@ const FormMaterial = ({
                             render={({ field }) => (
                                 <CustomInput
                                     {...field}
-                                    value={field.value}
+                                    value={field.value || ""}
                                     onChange={(e) =>
                                         field.onChange(e.target.value)
                                     }
@@ -150,7 +150,7 @@ const FormMaterial = ({
                             render={({ field }) => (
                                 <CustomInput
                                     {...field}
-                                    value={field.value}
+                                    value={field.value || ""}
                                     onChange={(e) =>
                                         field.onChange(e.target.value)
                                     }
@@ -171,7 +171,7 @@ const FormMaterial = ({
                             render={({ field }) => (
                                 <CustomInput
                                     {...field}
-                                    value={field.value}
+                                    value={field.value || ""}
                                     onChange={(e) =>
                                         field.onChange(e.target.value)
                                     }
@@ -195,7 +195,7 @@ const FormMaterial = ({
                             render={({ field }) => (
                                 <CustomInput
                                     {...field}
-                                    value={field.value}
+                                    value={field.value || ""}
                                     onChange={(e) =>
                                         field.onChange(e.target.value)
                                     }
@@ -221,7 +221,7 @@ const FormMaterial = ({
                             render={({ field }) => (
                                 <CustomInput
                                     {...field}
-                                    value={field.value}
+                                    value={field.value || ""}
                                     onChange={(e) =>
                                         field.onChange(e.target.value)
                                     }
@@ -247,7 +247,7 @@ const FormMaterial = ({
                             render={({ field }) => (
                                 <CustomInput
                                     {...field}
-                                    value={field.value}
+                                    value={field.value || ""}
                                     onChange={(e) =>
                                         field.onChange(e.target.value)
                                     }
