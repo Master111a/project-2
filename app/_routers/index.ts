@@ -5,5 +5,7 @@ export const ROUTER = {
     forgetPassword: "/forget-password",
     // admin
     admin: "/admin",
+    adminMain: "/admin/main",
     adminMaterial: "/admin/material",
+    adminMaterialCategory: "/admin/material-categories",
 };

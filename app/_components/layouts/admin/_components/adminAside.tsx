@@ -1,6 +1,7 @@
 "use client";
 
 import { ListItemButton, ListStyled } from "@/_components/ui/list";
+import { ROUTER } from "@/_routers";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import { Collapse } from "@mui/material";
@@ -11,13 +12,14 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HiOutlineCollection } from "react-icons/hi";
 import { RxDashboard } from "react-icons/rx";
+
 const dashboardList = [
-    { href: "/admin/main", title: "Main" },
-    { href: "/admin/user", title: "Users" },
+    { href: ROUTER.adminMain, title: "Main" },
+    { href: ROUTER.adminMain, title: "Users" },
 ];
 const resourcesList = [
-    { href: "/admin/material", title: "Main" },
-    { href: "/admin/material-categories", title: "Categories" },
+    { href: ROUTER.adminMaterial, title: "Main" },
+    { href: ROUTER.adminMaterialCategory, title: "Categories" },
 ];
 export default function AdminAside() {
     const pathname = usePathname();
@@ -47,7 +49,14 @@ export default function AdminAside() {
                     onClick={() => handleClick()}
                     className="flex items-center gap-x-2">
                     <RxDashboard className="text-gray500 text-24 absolute left-2" />
-                    <ListItemText primary="Dashboard" />
+                    <ListItemText
+                        primary="Dashboard"
+                        sx={{
+                            "& .MuiListItemText-primary": {
+                                fontWeight: 600,
+                            },
+                        }}
+                    />
                     {open ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
                 <Collapse in={open} timeout="auto" unmountOnExit>
@@ -76,7 +85,14 @@ export default function AdminAside() {
                     onClick={() => handleClick2()}
                     className="flex items-center gap-x-2 relative pl-10">
                     <HiOutlineCollection className="text-24 text-gray500 absolute left-2" />
-                    <ListItemText primary="Material" />
+                    <ListItemText
+                        primary="Material"
+                        sx={{
+                            "& .MuiListItemText-primary": {
+                                fontWeight: 600,
+                            },
+                        }}
+                    />
                     {open2 ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
                 <Collapse in={open2} timeout="auto" unmountOnExit>
@@ -87,7 +103,7 @@ export default function AdminAside() {
                                     href={item.href}
                                     className={
                                         pathname.startsWith(item.href)
-                                            ? "text-primary  font-extrabold block w-full"
+                                            ? "text-primary font-semibold block w-full"
                                             : "font-normal block w-full"
                                     }>
                                     <ListItemButton>

@@ -3,6 +3,6 @@
 import { Box } from "@mui/material";
 
 const Admin = () => {
-    return <Box>Admin</Box>;
+    return <Box>Main</Box>;
 };
 export default Admin;
