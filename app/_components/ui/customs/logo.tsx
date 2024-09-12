@@ -11,8 +11,8 @@ export default function Logo() {
                     src={`${globalConfig.assetUrl}/logos/logo.png`}
                     alt="logo"
                     width={131}
-                    height={31}
-                    className="w-[131px] shrink-0"
+                    height={28}
+                    className="w-[131px] h-7 shrink-0"
                 />
             </Box>
         </Link>

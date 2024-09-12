@@ -1,39 +1,38 @@
 "use client";
 
-import { DropdownNotificationMenu } from "@/_components/ui/customs";
+import {
+    DropdownAvatarMenu,
+    DropdownNotificationMenu,
+} from "@/_components/ui/customs";
+import { SearchInput } from "@/_components/ui/input";
+import globalConfig from "@/_config";
+import useChangeParams from "@/_hook/useChangeParams";
+import { Box } from "@mui/material";
+import { useState } from "react";
 
+const item = {
+    name: "Digital Creative",
+    avatar: `${globalConfig.assetUrl}/images/avatar.gif`,
+};
 export default function AdminHeader() {
-    // const item = {
-    //     name: "Digital Creative",
-    //     avatar: AvatarPNG,
-    // };
-    // const [textSearch, setTextSearch] = useState<string>("");
+    const { handleSearchChange, getSearchParams } = useChangeParams();
+    const [textSearch, setTextSearch] = useState<string | null>(
+        getSearchParams("search")
+    );
 
-    // useEffect(() => {
-    //     const params = new URLSearchParams(location.search);
-    //     const query = params.get("search");
-    //     setTextSearch(query || "");
-    // }, []);
-
-    // const handleSearch = (event) => {
-    //     event.preventDefault();
-    //     const params = new URLSearchParams(location.search);
-    //     params.set("search", textSearch);
-    //
-    // };
     return (
-        <div className="flex items-center px-12 py-2 bg-white">
-            {/* <SearchInput
+        <Box className="flex items-center px-12 py-2 bg-white">
+            <SearchInput
                 className="bg-background"
                 placeholder="Press / to search"
-                value={textSearch}
+                value={textSearch || ""}
                 onChange={(e) => setTextSearch(e.target.value)}
-                onClick={(e) => handleSearch(e)}
-            /> */}
-            <div className="flex ml-auto items-center">
+                onSubmit={() => handleSearchChange("search", textSearch)}
+            />
+            <Box className="flex ml-auto items-center">
                 <DropdownNotificationMenu />
-                {/* <DropdownAvatarMenu item={item} /> */}
-            </div>
-        </div>
+                <DropdownAvatarMenu item={item} />
+            </Box>
+        </Box>
     );
 }

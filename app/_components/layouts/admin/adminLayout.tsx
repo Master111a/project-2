@@ -1,5 +1,7 @@
 import globalColor from "@/_assets/colors";
 import AdminAside from "@/_components/layouts/admin/_components/adminAside";
+import AdminContent from "@/_components/layouts/admin/_components/adminContent";
+import AdminFooter from "@/_components/layouts/admin/_components/adminFooter";
 import AdminHeader from "@/_components/layouts/admin/_components/adminHeader";
 import { Logo } from "@/_components/ui/customs";
 import { Box } from "@mui/material";
@@ -34,7 +36,8 @@ const AdminLayout = ({ children }: IProps) => {
                     flexDirection: "column",
                 }}>
                 <AdminHeader />
-                {children}
+                <AdminContent>{children}</AdminContent>
+                <AdminFooter />
             </Box>
         </Box>
     );
