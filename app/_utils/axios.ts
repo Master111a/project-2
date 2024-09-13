@@ -39,8 +39,7 @@ export const getAPI = async (args: string | [string, AxiosRequestConfig]) => {
 // POST
 export const postAPI = async (args: string | [string, AxiosRequestConfig]) => {
     const [url, config] = Array.isArray(args) ? args : [args];
-
-    const res = await axiosInstance.post(url, { ...config });
+    const res = await axiosInstance.post(url, config?.data, { ...config });
     return res.data;
 };
 // PUT
