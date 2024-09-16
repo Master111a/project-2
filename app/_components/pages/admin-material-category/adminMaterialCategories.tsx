@@ -4,6 +4,10 @@
 import { Box } from "@mui/material";
 
 const AdminMaterialCategories = () => {
-    return <Box>AdminMaterialCategories</Box>;
+    return (
+        <Box className="w-full h-full flex flex-col gap-y-6">
+            AdminMaterialCategories
+        </Box>
+    );
 };
 export default AdminMaterialCategories;

@@ -7,7 +7,7 @@ export const ROUTER = {
     admin: "/admin",
     adminMain: "/admin/main",
     adminMaterial: "/admin/material",
-    adminMaterialCategory: "/admin/material-categories",
+    adminMaterialCategory: "/admin/material-category",
 };
 export const ROUTER_API = {
     login: "/cms/auth/login",

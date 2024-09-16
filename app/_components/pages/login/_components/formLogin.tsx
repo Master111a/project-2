@@ -28,6 +28,7 @@ import * as Yup from "yup";
 // type
 import { loginAPI } from "@/_apis/user";
 import { WrongAlertProps } from "@/_components/pages/login/loginType";
+import { useRouter } from "next/navigation";
 
 const loginSchema = Yup.object().shape({
     email: Yup.string().required("This field is required."),
@@ -51,7 +52,7 @@ const headerStyle: TypographyOwnProps["sx"] = {
     mb: { xs: "20px", sm: "30px" },
     color: globalColor.login,
 };
-
+// component
 const FormLogin = ({
     showAlert,
     onFocus,
@@ -69,7 +70,7 @@ const FormLogin = ({
             password: "123456",
         },
     });
-    // form
+    const router = useRouter();
     const [showPassword, setShowPassword] = React.useState(false);
     const passwordRef = React.useRef<HTMLInputElement | null>(null);
 
@@ -101,12 +102,13 @@ const FormLogin = ({
             .then((res) => {
                 toast.success("Login success🦄");
                 localStorage.setItem("token", JSON.stringify(res));
+                router.push("/admin/material");
             })
             .catch(() => {
                 toast.error("Login error🦄");
                 setState((v) => ({ ...v, loading: false }));
             });
-    }, [state.data, state.loading]);
+    }, [router, state.data, state.loading]);
 
     const onSubmit = (data: { email: string; password: string }) => {
         setState({

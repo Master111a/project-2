@@ -65,12 +65,11 @@ export default function AdminAside() {
                             <Box component="li" key={index}>
                                 <Link
                                     href={item?.href}
-                                    // className={({ isActive }) =>
-                                    //     isActive
-                                    //         ? "text-primary  font-extrabold block w-full"
-                                    //         : "font-normal block w-full"
-                                    // }
-                                >
+                                    className={
+                                        pathname === item.href
+                                            ? "text-primary font-semibold block w-full"
+                                            : "font-normal block w-full"
+                                    }>
                                     <ListItemButton>
                                         <span className="flex 1 my-1 text-base">
                                             {item?.title}
@@ -102,7 +101,7 @@ export default function AdminAside() {
                                 <Link
                                     href={item.href}
                                     className={
-                                        pathname.startsWith(item.href)
+                                        pathname === item.href
                                             ? "text-primary font-semibold block w-full"
                                             : "font-normal block w-full"
                                     }>

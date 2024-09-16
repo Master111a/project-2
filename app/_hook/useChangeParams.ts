@@ -12,14 +12,13 @@ const useChangeParams = () => {
 
     const updateSearchParams = useCallback(
         (key: string, value: InputValue) => {
-            const params = new URLSearchParams(searchParams.toString());
+            const params = new URLSearchParams(String(searchParams));
             if (value === undefined || value === null || value === "") {
                 params.delete(key);
             } else {
-                params.set(key, value.toString());
+                params.set(key, String(value));
             }
-            const newPath = `${pathname}?${params.toString()}`;
-
+            const newPath = `${pathname}?${String(params)}`;
             router.push(newPath);
         },
         [searchParams, pathname, router]

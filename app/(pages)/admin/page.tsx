@@ -1,17 +1,17 @@
-import Admin from "@/_components/pages/admin/admin";
+import AdminMaterialCategories from "@/_components/pages/admin-material-category/adminMaterialCategories";
 import { ROUTER } from "@/_routers";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Admin Page",
+    title: "Admin Material Category Page",
     robots: "noindex, follow",
     openGraph: {
         type: "website",
         locale: "vn_VN",
-        url: ROUTER.admin,
+        url: ROUTER.adminMaterialCategory,
     },
 };
 
 export default function AdminPage() {
-    return <Admin />;
+    return <AdminMaterialCategories />;
 }

@@ -7,7 +7,14 @@ export const isIntegerNumber = (item: InputValue) =>
 export const validateNumber = (value: InputValue) => {
     const num = Number(value);
     if (Number.isNaN(num) || !Number.isInteger(num) || num <= 0) {
-        return 1;
+        return 0;
+    }
+    return num;
+};
+export const checkPage = (value: string | number) => {
+    const num = Number(value);
+    if (num > 0) {
+        return num - 1;
     }
     return num;
 };

@@ -4,3 +4,8 @@ export type User = {
     name: string;
     avatar: string;
 };
+export type UserToken = {
+    id?: string;
+    access: string;
+    refresh: string;
+};

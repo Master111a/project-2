@@ -8,6 +8,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import { Box, Button, Divider, MenuItem } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 type IProps = {
     item: User;
@@ -15,10 +16,16 @@ type IProps = {
 export default function DropdownAvatarMenu({ item }: IProps) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+    const router = useRouter();
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
+        setAnchorEl(null);
+    };
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        router.push("/login");
         setAnchorEl(null);
     };
     return (
@@ -62,7 +69,7 @@ export default function DropdownAvatarMenu({ item }: IProps) {
                     Profile
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={handleLogout}>
                     <LogoutIcon />
                     Logout
                 </MenuItem>

@@ -1,14 +1,17 @@
 import axios, { AxiosRequestConfig } from "axios";
 // config
+import { refreshTokenAPI } from "@/_apis/user";
 import globalConfig from "@/_config";
 // ----------------------------------------------------------------------
 
 const axiosInstance = axios.create({ baseURL: globalConfig.apiUrl });
-
 axiosInstance.interceptors.request.use(
     async (req) => {
-        const token = window.sessionStorage.getItem("token");
-        req.headers.Authorization = token ? `Bearer ${token}` : null;
+        const token = localStorage.getItem("token");
+        const tokenJson = token ? JSON.parse(token) : null;
+        req.headers["Authorization"] = tokenJson
+            ? `Bearer ${tokenJson?.access}`
+            : null;
         return req;
     },
     (error) => Promise.reject(error)
@@ -17,8 +20,41 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
     (res) => res,
     async (error) => {
-        if (error.response?.status === 401) {
-            // logout
+        const originalConfig = error.config;
+        if (
+            error?.response &&
+            error?.response?.status === 401 &&
+            error?.response?.data?.code === "token_not_valid" &&
+            error?.response?.data?.messages[0]?.token_type === "access"
+        ) {
+            try {
+                const token = localStorage.getItem("token");
+                const tokenJson = token ? JSON.parse(token) : null;
+
+                // call api
+                if (tokenJson.refresh) {
+                    const res = await refreshTokenAPI({
+                        data: {
+                            refresh: tokenJson.refresh,
+                        },
+                    });
+                    const { access, refresh } = res;
+                    const newToken = {
+                        ...tokenJson,
+                        access: access,
+                        refresh: refresh,
+                    };
+                    localStorage.setItem("token", JSON.stringify(newToken));
+                    originalConfig.headers[
+                        "Authorization"
+                    ] = `Bearer ${access}`;
+                }
+                return axiosInstance(originalConfig);
+            } catch (err) {
+                localStorage.removeItem("token");
+                window.location.href = "/login";
+                return Promise.reject(err);
+            }
         }
         return Promise.reject(
             (error.response && error.response.data) || "Something went wrong"
