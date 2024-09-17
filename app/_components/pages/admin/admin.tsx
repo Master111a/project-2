@@ -1,8 +1,13 @@
 "use client";
 
 import { Box } from "@mui/material";
+import { Suspense } from "react";
 
 const Admin = () => {
-    return <Box>Main</Box>;
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <Box>Main</Box>;
+        </Suspense>
+    );
 };
 export default Admin;

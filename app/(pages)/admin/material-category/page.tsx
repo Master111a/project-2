@@ -1,4 +1,4 @@
-import AdminMaterial from "@/_components/pages/admin-material/adminMaterial";
+import AdminMaterialCategories from "@/_components/pages/admin-material-category/adminMaterialCategories";
 import { ROUTER } from "@/_routers";
 import type { Metadata } from "next";
 
@@ -13,5 +13,5 @@ export const metadata: Metadata = {
 };
 
 export default function AdminMaterialPage() {
-    return <AdminMaterial />;
+    return <AdminMaterialCategories />;
 }

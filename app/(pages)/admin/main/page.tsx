@@ -1,6 +1,7 @@
 import Admin from "@/_components/pages/admin/admin";
 import { ROUTER } from "@/_routers";
 import type { Metadata } from "next";
+export const dynamicParams = true;
 
 export const metadata: Metadata = {
     title: "Admin Page",

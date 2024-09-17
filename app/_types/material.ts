@@ -21,8 +21,8 @@ export interface CategoryType {
 }
 export interface MaterialType {
     id: string;
-    category: CategoryType;
-    supplier: SupplierType;
+    category: CategoryType | [];
+    supplier: SupplierType | [];
     image: string;
     part_number: string;
     name: string;
@@ -30,7 +30,7 @@ export interface MaterialType {
     large_title: string;
     small_title: string;
     basic_price: number;
-    image_thumbnails: {
+    image_thumbnails?: {
         sm: string;
     };
 }

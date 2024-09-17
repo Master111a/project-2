@@ -1,3 +1,5 @@
+import { MaterialType } from "@/_types/material";
+
 export type Category = {
     id?: string;
     image?: string;
@@ -9,4 +11,8 @@ export type Category = {
 export interface MaterialCategoryList {
     count: number;
     results: Category[];
+}
+export interface MaterialList {
+    count: number;
+    results: MaterialType[];
 }

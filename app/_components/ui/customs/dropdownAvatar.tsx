@@ -48,6 +48,7 @@ export default function DropdownAvatarMenu({ item }: IProps) {
                     <Image
                         src={item.avatar}
                         alt="avatar"
+                        unoptimized
                         className="w-8 h-8 rounded-full"
                         width={32}
                         height={32}

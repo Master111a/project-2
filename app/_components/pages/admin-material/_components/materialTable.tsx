@@ -1,6 +1,6 @@
 import { MaterialDataType } from "@/_components/pages/admin-material/adminMaterialType";
 import { ActionTable, CustomTablePagination } from "@/_components/ui/customs";
-import { ROUTER_API } from "@/_routers";
+import { ROUTER } from "@/_routers";
 import { CategoryType, MaterialType, SupplierType } from "@/_types/material";
 import { checkPage } from "@/_utils/checkNumber";
 import {
@@ -193,7 +193,7 @@ IProps) {
                                             }}
                                             pencilClick={() =>
                                                 router.push(
-                                                    ROUTER_API.material +
+                                                    ROUTER.adminMaterial +
                                                         "/" +
                                                         row?.id
                                                 )
