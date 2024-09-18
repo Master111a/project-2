@@ -1,5 +1,6 @@
 "use client";
 
+import MaterialSearch from "@/_components/pages/admin-material/_components/materialSearch";
 import MaterialStats from "@/_components/pages/admin-material/_components/materialStats";
 import MaterialTable from "@/_components/pages/admin-material/_components/materialTable";
 import useChangeParams from "@/_hook/useChangeParams";
@@ -82,6 +83,7 @@ const AdminMaterial = () => {
     return (
         <Box className="w-full h-full flex flex-col gap-y-6">
             <MaterialStats count={0} />
+            <MaterialSearch />
             <Suspense fallback={<div>Loading...</div>}>
                 <MaterialTable
                     materialList={data.materialList}

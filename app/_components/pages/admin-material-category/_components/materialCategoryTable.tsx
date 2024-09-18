@@ -1,6 +1,6 @@
 import { ActionTable, CustomTablePagination } from "@/_components/ui/customs";
 import { ROUTER_API } from "@/_routers";
-import { CategoryType, MaterialType, SupplierType } from "@/_types/material";
+import { CategoryType, SupplierType } from "@/_types/material";
 import { checkPage } from "@/_utils/checkNumber";
 import {
     Box,
@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
 
 type IProps = {
-    materialList: MaterialType[];
+    materialList: MaterialDataType[];
     count: number;
     page: number | string;
     rowsPerPage: number | string;

@@ -1,22 +1,41 @@
+import {
+    CreateMaterialSchemaType,
+    MaterialFormType,
+    MaterialSchemaType,
+} from "@/_components/pages/admin-material/adminMaterialType";
 import { ImageInput } from "@/_components/ui/input";
 import CustomInput from "@/_components/ui/input/formInput";
 import { LabelError, LabelForm } from "@/_components/ui/label";
+import CustomSelect from "@/_components/ui/select/formSelect";
 import withCategories from "@/_hoc/withCategories";
-import { CategoryInListType, MaterialType } from "@/_types/material";
+import { ROUTER_API } from "@/_routers";
+import { CategoryInListType, SupplierInListType } from "@/_types/material";
+import { getAPI } from "@/_utils/axios";
+import { convertData } from "@/_utils/convertData";
 import { yupResolver } from "@hookform/resolvers/yup";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Box, Button, FormControl, FormControlOwnProps } from "@mui/material";
-import { ChangeEvent } from "react";
-import { Controller, FieldValues, useForm } from "react-hook-form";
+import {
+    Box,
+    Button,
+    FormControl,
+    FormControlOwnProps,
+    MenuItem,
+    SelectChangeEvent,
+} from "@mui/material";
+import Link from "next/link";
+import { ChangeEvent, useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { AnyObject, ObjectSchema } from "yup";
 type IProps = {
-    schema: ObjectSchema<FieldValues, AnyObject>;
-    defaultData: MaterialType;
+    schema:
+        | ObjectSchema<MaterialSchemaType, AnyObject, unknown, "">
+        | ObjectSchema<CreateMaterialSchemaType, AnyObject, unknown, "">;
+    defaultData: MaterialFormType;
     loading: boolean;
-    onSubmit: (data: []) => void;
+    onSubmit: (data: MaterialFormType) => void;
     text: string;
-    categoryList: CategoryInListType[];
+    categoryList?: CategoryInListType[];
 };
 
 // css
@@ -38,9 +57,31 @@ const FMaterial = ({
         handleSubmit,
         formState: { errors },
         control,
-    } = useForm({
-        resolver: yupResolver(schema),
+        reset,
+    } = useForm<MaterialFormType>({
+        resolver: yupResolver<MaterialSchemaType | CreateMaterialSchemaType>(
+            schema
+        ),
+        defaultValues: defaultData,
     });
+
+    useEffect(() => {
+        reset(defaultData);
+    }, [defaultData, reset]);
+
+    const [supplierList, setSupplierList] = useState<SupplierInListType[]>([]);
+
+    useEffect(() => {
+        getAPI(ROUTER_API.supplier)
+            .then((res) => {
+                setSupplierList(convertData(res?.results));
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+    console.log(errors);
+
     return (
         <Box
             component="form"
@@ -102,6 +143,9 @@ const FMaterial = ({
                         )}
                     />
                 </FormControl>
+                {errors.image && (
+                    <LabelError message={String(errors?.image?.message)} />
+                )}
             </Box>
             <Box className="grid grid-cols-2 gap-x-6 gap-y-4 col-span-2 p-6 rounded-md shadow-md bg-background">
                 {/*part_number*/}
@@ -286,19 +330,19 @@ const FMaterial = ({
                             name="category"
                             control={control}
                             render={({ field }) => (
-                                <CustomInput
+                                <CustomSelect
                                     {...field}
-                                    value={field.value || ""}
-                                    onChange={(
-                                        e: ChangeEvent<
-                                            | HTMLInputElement
-                                            | HTMLTextAreaElement
-                                        >
-                                    ) => field.onChange(e.target.value)}
                                     id="category"
-                                    label=""
-                                    variant="outlined"
-                                />
+                                    value={field.value || ""}
+                                    onChange={(e: SelectChangeEvent<unknown>) =>
+                                        field.onChange(e.target.value)
+                                    }>
+                                    {categoryList?.map((item) => (
+                                        <MenuItem value={item.id} key={item.id}>
+                                            {item.name}
+                                        </MenuItem>
+                                    ))}
+                                </CustomSelect>
                             )}
                         />
                     </FormControl>
@@ -309,24 +353,24 @@ const FMaterial = ({
                 {/* supplier */}
                 <Box className="mb-4">
                     <FormControl sx={formControlStyle}>
-                        <LabelForm name="Basic Price" id="supplier" />
+                        <LabelForm name="Supplier" id="supplier" />
                         <Controller
                             name="supplier"
                             control={control}
                             render={({ field }) => (
-                                <CustomInput
+                                <CustomSelect
                                     {...field}
-                                    value={field.value || ""}
-                                    onChange={(
-                                        e: ChangeEvent<
-                                            | HTMLInputElement
-                                            | HTMLTextAreaElement
-                                        >
-                                    ) => field.onChange(e.target.value)}
                                     id="supplier"
-                                    label=""
-                                    variant="outlined"
-                                />
+                                    value={field.value || ""}
+                                    onChange={(e: SelectChangeEvent<unknown>) =>
+                                        field.onChange(e.target.value)
+                                    }>
+                                    {supplierList?.map((item) => (
+                                        <MenuItem value={item.id} key={item.id}>
+                                            {item.name}
+                                        </MenuItem>
+                                    ))}
+                                </CustomSelect>
                             )}
                         />
                     </FormControl>
@@ -336,10 +380,12 @@ const FMaterial = ({
                 </Box>
             </Box>
             <Box className="w-full flex items-center justify-between mt-8 col-span-3">
-                <Box className="flex items-center gap-x-3 cursor-pointer">
+                <Link
+                    href="/admin/material"
+                    className="flex items-center gap-x-3 cursor-pointer">
                     <KeyboardBackspaceIcon />
                     <Box component="span">Back</Box>
-                </Box>
+                </Link>
                 <Box className="flex gap-x-3 items-center">
                     <Button
                         variant="contained"

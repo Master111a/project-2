@@ -13,10 +13,10 @@ const CustomSelect = forwardRef(
                 sx={{
                     width: "100%",
                     maxWidth: "450px",
-                    borderRadius: 4,
                     backgroundColor: "white",
-                    "& .MuiInputBase-input ": {
+                    "& .MuiSelect-select": {
                         padding: "8px 12px",
+                        border: "1px solid #CBD5E1",
                     },
                 }}
             />
