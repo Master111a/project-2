@@ -1,19 +1,18 @@
 "use client";
 
 import { getCategorylist } from "@/_apis/admin";
+import { CategoryInListType } from "@/_types/material";
 import { convertData } from "@/_utils/convertData";
 import { ComponentType, useEffect, useState } from "react";
 
-type IProps = {
-    id?: string;
-    name?: string;
-};
 function withCategories<T>(
-    Component: ComponentType<T & { categoryList: IProps[] }>
+    Component: ComponentType<T & { categoryList: CategoryInListType[] }>
 ) {
     // eslint-disable-next-line react/display-name
     return (props: T) => {
-        const [categoryList, setCategoryList] = useState<IProps[]>([]);
+        const [categoryList, setCategoryList] = useState<CategoryInListType[]>(
+            []
+        );
 
         useEffect(() => {
             getCategorylist({
