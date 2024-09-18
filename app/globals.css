@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
+* {
+    @apply font-nunito;
+}
+
+.txt-title {
+    @apply font-normal text-24 leading-32 text-gray500;
+}
+.txt-body {
+    @apply font-normal text-sm leading-5 text-gray500;
+}
+.user-detail-item {
+    @apply flex border-gray100 w-full border-t py-3;
+}
+
+.form-item {
+    @apply shadow-sm rounded-md px-3 py-2 border cursor-pointer border-gray-300 focus:outline-none focus:ring-black/80 focus:border-black/80;
+}
+
+.txt-button {
+    @apply font-extrabold text-sm leading-5 text-white capitalize;
+}
+.txt-error {
+    @apply block w-full text-red-500 text-xs;
+}
