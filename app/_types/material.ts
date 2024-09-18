@@ -23,14 +23,18 @@ export type CategoryInListType = {
     id?: string;
     name?: string;
 };
+export type SupplierInListType = {
+    id?: string;
+    name?: string;
+};
 export interface MaterialType {
-    id: string;
-    category: CategoryType | [];
-    supplier: SupplierType | [];
-    image: string;
+    id?: string;
+    category: CategoryType;
+    supplier: SupplierType;
+    image?: string;
     part_number: string;
-    name: string;
-    type: number;
+    name?: string;
+    type?: number;
     large_title: string;
     small_title: string;
     basic_price: number;

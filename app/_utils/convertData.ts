@@ -1,10 +1,21 @@
-export const convertFormData = (data: []) => {
+import { MaterialFormType } from "@/_components/pages/admin-material/adminMaterialType";
+import { MaterialType } from "@/_types/material";
+
+type FormDataType = {
+    [key: string]: string | File | null | number | undefined;
+};
+export const convertFormData = (
+    data: MaterialFormType | MaterialType | FormDataType
+) => {
     const formData = new FormData();
     for (const key in data) {
         if (key === "image" && typeof data[key] === "string") {
             continue;
         }
-        formData.append(key, data[key]);
+        const value = data[key as keyof typeof data];
+        if (value !== undefined && value !== null) {
+            formData.append(key, value as Blob | string);
+        }
     }
     return formData;
 };

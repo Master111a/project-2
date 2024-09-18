@@ -1,6 +1,5 @@
 import DetailMaterial from "@/_components/pages/admin-material/detail-material/detailMaterial";
 import { ROUTER, ROUTER_API } from "@/_routers";
-import type { Metadata } from "next";
 
 interface MaterialItem {
     id: string;
@@ -28,15 +27,17 @@ export const generateStaticParams = async (): Promise<{ id: string }[]> => {
     }
 };
 
-export const metadata: Metadata = {
-    title: "Admin Material Page",
-    robots: "noindex, follow",
-    openGraph: {
-        type: "website",
-        locale: "vn_VN",
-        url: ROUTER.adminMaterial,
-    },
-};
+export async function generateMetadata({ params }: { params: { id: string } }) {
+    return {
+        title: "Admin Material Detail Page",
+        robots: "noindex, follow",
+        openGraph: {
+            type: "website",
+            locale: "vn_VN",
+            url: ROUTER.adminMaterialDetail + params.id,
+        },
+    };
+}
 
 export default function AdminMaterialDetailPage({
     params,

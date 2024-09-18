@@ -83,7 +83,7 @@ export const postAPI = async (args: string | [string, AxiosRequestConfig]) => {
 export const putAPI = async (args: string | [string, AxiosRequestConfig]) => {
     const [url, config] = Array.isArray(args) ? args : [args];
 
-    const res = await axiosInstance.put(url, { ...config });
+    const res = await axiosInstance.put(url, config?.data, { ...config });
     return res.data;
 };
 // DELETE
