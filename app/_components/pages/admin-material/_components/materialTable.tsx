@@ -1,7 +1,7 @@
 import { MaterialDataType } from "@/_components/pages/admin-material/adminMaterialType";
 import { ActionTable, CustomTablePagination } from "@/_components/ui/customs";
 import { ROUTER } from "@/_routers";
-import { CategoryType, MaterialType, SupplierType } from "@/_types/material";
+import { CategoryType, SupplierType } from "@/_types/material";
 import { checkPage } from "@/_utils/checkNumber";
 import {
     Box,
@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
 
 type IProps = {
-    materialList: MaterialType[];
+    materialList: MaterialDataType[];
     count: number;
     page: number | string;
     rowsPerPage: number | string;
@@ -147,11 +147,15 @@ IProps) {
                                     <TableCell id={labelId} align="left">
                                         {row.stt}
                                     </TableCell>
-                                    <TableCell align="left">
+                                    <TableCell
+                                        align="left"
+                                        sx={{
+                                            width: "80px",
+                                        }}>
                                         <Image
                                             src={row.image || ""}
                                             alt="image"
-                                            className="aspect-video w-20 rounded-md shadow-md"
+                                            className="aspect-video w-full min-w-20 rounded-md shadow-md"
                                             width={80}
                                             height={45}
                                         />
@@ -166,10 +170,14 @@ IProps) {
                                         {row.type}
                                     </TableCell>
                                     <TableCell align="left">
-                                        {row.large_title}
+                                        <Box className="line-clamp-2">
+                                            {row.large_title}
+                                        </Box>
                                     </TableCell>
                                     <TableCell align="left">
-                                        {row.small_title}
+                                        <Box className="line-clamp-2">
+                                            {row.small_title}
+                                        </Box>
                                     </TableCell>
                                     <TableCell align="left">
                                         {row.basic_price}
@@ -191,13 +199,13 @@ IProps) {
                                                 }),
                                                     setSelectedList([row?.id]);
                                             }}
-                                            pencilClick={() =>
+                                            pencilClick={() => {
                                                 router.push(
                                                     ROUTER.adminMaterial +
                                                         "/" +
                                                         row?.id
-                                                )
-                                            }
+                                                );
+                                            }}
                                             trashClick={() => {
                                                 setSelectedList([row?.id]);
                                                 setOpenDelete(true);
