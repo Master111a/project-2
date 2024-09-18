@@ -19,6 +19,10 @@ export interface CategoryType {
         sm: string;
     };
 }
+export type CategoryInListType = {
+    id?: string;
+    name?: string;
+};
 export interface MaterialType {
     id: string;
     category: CategoryType | [];

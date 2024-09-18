@@ -5,7 +5,7 @@ export type MaterialDataType = {
     stt: number;
     category: CategoryType | [];
     supplier: SupplierType | [];
-    image: string;
+    image: string | FileList | null;
     part_number: string;
     name: string;
     type: number;

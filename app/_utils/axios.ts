@@ -52,7 +52,8 @@ axiosInstance.interceptors.response.use(
                 return axiosInstance(originalConfig);
             } catch (err) {
                 localStorage.removeItem("token");
-                window.location.href = "/login";
+                const pathName = window.location.pathname;
+                window.location.href = `/login?redirect_url=${pathName}`;
                 return Promise.reject(err);
             }
         }
