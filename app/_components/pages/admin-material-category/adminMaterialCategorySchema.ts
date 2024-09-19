@@ -10,5 +10,7 @@ export const createMaterialCategorySchema = Yup.object().shape({
         .max(255, "The field is too long")
         .trim()
         .required("This field is required"),
-    image: Yup.mixed().required("This field is required"),
+    image: Yup.mixed()
+        .transform((v) => v || null)
+        .required("This field is required"),
 });

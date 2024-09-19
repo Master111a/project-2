@@ -30,6 +30,7 @@ const AdminMaterialCategories = () => {
         resetSelectedList,
     ] = useSelected();
 
+    const [isGetList, setIsGetList] = useState<boolean>(false);
     const [data, setData] = useState<DataProps>({
         count: 0,
         currentCount: 0,
@@ -65,7 +66,7 @@ const AdminMaterialCategories = () => {
             .catch((err) => {
                 console.log(err);
             });
-    }, [data?.count, dt.page, dt.row, dt.search, resetSelectedList]);
+    }, [isGetList, data?.count, dt.page, dt.row, dt.search, resetSelectedList]);
 
     return (
         <Box className="w-full h-full flex flex-col gap-y-6">
@@ -81,6 +82,7 @@ const AdminMaterialCategories = () => {
                     toggleSelection={toggleSelection}
                     isSelected={isSelected}
                     resetSelectedList={resetSelectedList}
+                    setIsGetList={setIsGetList}
                 />
             </Suspense>
         </Box>

@@ -65,7 +65,9 @@ export default function CreateMaterialCategory() {
                 {!state.error ? (
                     <FormMaterialCategory
                         schema={createMaterialCategorySchema}
-                        defaultData={defaultData.data}
+                        defaultData={
+                            defaultData.data as MaterialCategoryFormType
+                        }
                         loading={state.loading}
                         onSubmit={onSubmit}
                         text={"Create"}
@@ -82,7 +84,11 @@ export default function CreateMaterialCategory() {
                             </Link>
                             <Button
                                 variant="outlined"
-                                onClick={() => onSubmit(state.data)}>
+                                onClick={() =>
+                                    onSubmit(
+                                        state.data as MaterialCategoryFormType
+                                    )
+                                }>
                                 Retry
                             </Button>
                         </div>

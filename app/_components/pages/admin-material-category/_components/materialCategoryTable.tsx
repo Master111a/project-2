@@ -1,10 +1,15 @@
+"use client";
+
 import { MaterialCategoryDataType } from "@/_components/pages/admin-material-category/adminMaterialCategoryType";
 import {
     ActionTable,
     CustomTablePagination,
+    TableToolbar,
     TextCustom,
 } from "@/_components/ui/customs";
-import { ROUTER } from "@/_routers";
+import { DeleteDialog } from "@/_components/ui/dialog";
+import { ROUTER, ROUTER_API } from "@/_routers";
+import { deleteAPI } from "@/_utils/axios";
 import { checkPage } from "@/_utils/checkNumber";
 import {
     Box,
@@ -19,6 +24,7 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
+import { toast } from "react-toastify";
 
 type IProps = {
     materiaCategorylList: MaterialCategoryDataType[];
@@ -30,6 +36,7 @@ type IProps = {
     toggleSelection: (id: string) => void;
     isSelected: (id: string) => boolean;
     resetSelectedList: () => void;
+    setIsGetList: Dispatch<SetStateAction<boolean>>;
 };
 
 type ViewType = {
@@ -58,12 +65,13 @@ export default function MaterialCategoryTable({
     count,
     page,
     rowsPerPage,
-    // selectedList,
+    selectedList,
     setSelectedList,
     toggleSelection,
     isSelected,
-}: // resetSelectedList,
-IProps) {
+    resetSelectedList,
+    setIsGetList,
+}: IProps) {
     const router = useRouter();
     const rows = materiaCategorylList?.map((item, index) =>
         createData(
@@ -80,14 +88,42 @@ IProps) {
         open: false,
         data: null,
     });
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [openDelete, setOpenDelete] = useState<boolean>(false);
     const getPriceType = (type: string) => {
         if (type === "per_quantity") return <TextCustom text="Quantity" />;
         else return <TextCustom text="Meter" color="orange" />;
     };
+
+    // select
+    const handleSelectAllClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.checked) {
+            const newSelected = rows?.map((n) => n.id);
+            setSelectedList(newSelected);
+            return;
+        }
+        resetSelectedList();
+    };
+    // Delete
+    const handleDelete = () => {
+        deleteAPI(ROUTER_API.delManyMaterialCategory + selectedList)
+            .then(() => {
+                setOpenDelete(false);
+                toast.success("Delete Success!");
+                resetSelectedList();
+                setIsGetList((x) => !x);
+            })
+            .catch(() => {
+                toast.error("Delete Fail!");
+            });
+    };
     return (
-        <Box>
+        <Box className="w-full bg-white rounded-lg shadow-sm">
+            <TableToolbar
+                selected={selectedList}
+                rowCount={rows?.length}
+                onSelectAllClick={handleSelectAllClick}
+                onDeleteMany={() => setOpenDelete(true)}
+            />
             <TableContainer>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
@@ -183,6 +219,13 @@ IProps) {
                 </Table>
             </TableContainer>
             <CustomTablePagination count={count} />
+            <DeleteDialog
+                open={openDelete}
+                handleCancel={() => {
+                    setOpenDelete(false), resetSelectedList();
+                }}
+                handleDelete={handleDelete}
+            />
         </Box>
     );
 }
