@@ -70,7 +70,7 @@ export default function CreateMaterial() {
                 {!state.error ? (
                     <FormMaterial
                         schema={createMaterialSchema}
-                        defaultData={defaultData.data}
+                        defaultData={defaultData.data as MaterialFormType}
                         loading={state.loading}
                         onSubmit={onSubmit}
                         text={"Create"}
@@ -87,7 +87,9 @@ export default function CreateMaterial() {
                             </Link>
                             <Button
                                 variant="outlined"
-                                onClick={() => onSubmit(state.data)}>
+                                onClick={() =>
+                                    onSubmit(state.data as MaterialFormType)
+                                }>
                                 Retry
                             </Button>
                         </div>

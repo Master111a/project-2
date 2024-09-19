@@ -1,7 +1,13 @@
 import { MaterialDataType } from "@/_components/pages/admin-material/adminMaterialType";
-import { ActionTable, CustomTablePagination } from "@/_components/ui/customs";
-import { ROUTER } from "@/_routers";
+import {
+    ActionTable,
+    CustomTablePagination,
+    TableToolbar,
+} from "@/_components/ui/customs";
+import { DeleteDialog } from "@/_components/ui/dialog";
+import { ROUTER, ROUTER_API } from "@/_routers";
 import { CategoryType, SupplierType } from "@/_types/material";
+import { deleteAPI } from "@/_utils/axios";
 import { checkPage } from "@/_utils/checkNumber";
 import {
     Box,
@@ -16,6 +22,7 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
+import { toast } from "react-toastify";
 
 type IProps = {
     materialList: MaterialDataType[];
@@ -27,6 +34,7 @@ type IProps = {
     toggleSelection: (id: string) => void;
     isSelected: (id: string) => boolean;
     resetSelectedList: () => void;
+    setIsGetList: Dispatch<SetStateAction<boolean>>;
 };
 
 type ViewType = {
@@ -67,12 +75,13 @@ export default function MaterialTable({
     count,
     page,
     rowsPerPage,
-    // selectedList,
+    selectedList,
     setSelectedList,
     toggleSelection,
     isSelected,
-}: // resetSelectedList,
-IProps) {
+    resetSelectedList,
+    setIsGetList,
+}: IProps) {
     const router = useRouter();
     const rows = materialList?.map((item, index) =>
         createData(
@@ -95,10 +104,38 @@ IProps) {
         open: false,
         data: null,
     });
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     const [openDelete, setOpenDelete] = useState<boolean>(false);
+    // select
+    const handleSelectAllClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.checked) {
+            const newSelected = rows?.map((n) => n.id);
+            setSelectedList(newSelected);
+            return;
+        }
+        resetSelectedList();
+    };
+    // Delete
+    const handleDelete = () => {
+        deleteAPI(ROUTER_API.delManyMaterial + selectedList)
+            .then(() => {
+                setOpenDelete(false);
+                toast.success("Delete Success!");
+                resetSelectedList();
+                setIsGetList((x) => !x);
+            })
+            .catch(() => {
+                toast.error("Delete Fail!");
+            });
+    };
     return (
-        <Box>
+        <Box className="w-full bg-white rounded-lg shadow-sm">
+            <TableToolbar
+                selected={selectedList}
+                rowCount={rows?.length}
+                onSelectAllClick={handleSelectAllClick}
+                onDeleteMany={() => setOpenDelete(true)}
+            />
             <TableContainer>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
@@ -219,6 +256,13 @@ IProps) {
                 </Table>
             </TableContainer>
             <CustomTablePagination count={count} />
+            <DeleteDialog
+                open={openDelete}
+                handleCancel={() => {
+                    setOpenDelete(false), resetSelectedList();
+                }}
+                handleDelete={handleDelete}
+            />
         </Box>
     );
 }

@@ -31,6 +31,7 @@ const AdminMaterial = () => {
         isSelected,
         resetSelectedList,
     ] = useSelected();
+    const [isGetList, setIsGetList] = useState<boolean>(false);
 
     const [data, setData] = useState<DataProps>({
         count: 0,
@@ -72,17 +73,18 @@ const AdminMaterial = () => {
                 console.log(err);
             });
     }, [
-        data?.count,
+        data.count,
         dt.category,
         dt.page,
         dt.row,
         dt.search,
         resetSelectedList,
+        isGetList,
     ]);
 
     return (
         <Box className="w-full h-full flex flex-col gap-y-6">
-            <MaterialStats count={0} />
+            <MaterialStats count={data?.count} />
             <MaterialSearch />
             <Suspense fallback={<div>Loading...</div>}>
                 <MaterialTable
@@ -95,6 +97,7 @@ const AdminMaterial = () => {
                     toggleSelection={toggleSelection}
                     isSelected={isSelected}
                     resetSelectedList={resetSelectedList}
+                    setIsGetList={setIsGetList}
                 />
             </Suspense>
         </Box>
