@@ -149,7 +149,7 @@ const FMaterial = ({
             </Box>
             <Box className="grid grid-cols-2 gap-x-6 gap-y-4 col-span-2 p-6 rounded-md shadow-md bg-background">
                 {/*part_number*/}
-                <Box className="mb-4">
+                <Box>
                     <FormControl sx={formControlStyle}>
                         <LabelForm name="Part number" id="part_number" />
                         <Controller
@@ -179,7 +179,7 @@ const FMaterial = ({
                     )}
                 </Box>
                 {/*name*/}
-                <Box className="mb-4">
+                <Box>
                     <FormControl sx={formControlStyle}>
                         <LabelForm name="Name" id="name" />
                         <Controller
@@ -204,7 +204,7 @@ const FMaterial = ({
                     </FormControl>
                 </Box>
                 {/* type */}
-                <Box className="mb-4">
+                <Box>
                     <FormControl sx={formControlStyle}>
                         <LabelForm name="Type" id="type" />
                         <Controller
@@ -232,7 +232,7 @@ const FMaterial = ({
                     )}
                 </Box>
                 {/* large_title */}
-                <Box className="mb-4">
+                <Box>
                     <FormControl sx={formControlStyle}>
                         <LabelForm name="Large Title" id="large_title" />
                         <Controller
@@ -262,7 +262,7 @@ const FMaterial = ({
                     )}
                 </Box>
                 {/* small_title */}
-                <Box className="mb-4">
+                <Box>
                     <FormControl sx={formControlStyle}>
                         <LabelForm name="Small Title" id="small_title" />
                         <Controller
@@ -292,7 +292,7 @@ const FMaterial = ({
                     )}
                 </Box>
                 {/* basic price */}
-                <Box className="mb-4">
+                <Box>
                     <FormControl sx={formControlStyle}>
                         <LabelForm name="Basic Price" id="basic_price" />
                         <Controller
@@ -323,7 +323,7 @@ const FMaterial = ({
                     )}
                 </Box>
                 {/* category */}
-                <Box className="mb-4">
+                <Box>
                     <FormControl sx={formControlStyle}>
                         <LabelForm name="Category" id="category" />
                         <Controller
@@ -351,7 +351,7 @@ const FMaterial = ({
                     )}
                 </Box>
                 {/* supplier */}
-                <Box className="mb-4">
+                <Box>
                     <FormControl sx={formControlStyle}>
                         <LabelForm name="Supplier" id="supplier" />
                         <Controller

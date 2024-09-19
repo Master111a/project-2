@@ -1,6 +1,10 @@
-import { ActionTable, CustomTablePagination } from "@/_components/ui/customs";
-import { ROUTER_API } from "@/_routers";
-import { CategoryType, SupplierType } from "@/_types/material";
+import { MaterialCategoryDataType } from "@/_components/pages/admin-material-category/adminMaterialCategoryType";
+import {
+    ActionTable,
+    CustomTablePagination,
+    TextCustom,
+} from "@/_components/ui/customs";
+import { ROUTER } from "@/_routers";
 import { checkPage } from "@/_utils/checkNumber";
 import {
     Box,
@@ -17,7 +21,7 @@ import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
 
 type IProps = {
-    materialList: MaterialDataType[];
+    materiaCategorylList: MaterialCategoryDataType[];
     count: number;
     page: number | string;
     rowsPerPage: number | string;
@@ -28,55 +32,29 @@ type IProps = {
     resetSelectedList: () => void;
 };
 
-type MaterialDataType = {
-    id: string;
-    stt: number;
-    category: CategoryType;
-    supplier: SupplierType;
-    image: string;
-    part_number: string;
-    name: string;
-    type: number;
-    large_title: string;
-    small_title: string;
-    basic_price: number;
-};
-
 type ViewType = {
     open: boolean;
-    data: MaterialDataType | null;
+    data: MaterialCategoryDataType | null;
 };
 
 function createData(
     id: string,
     stt: number,
-    category: CategoryType,
-    supplier: SupplierType,
     image: string,
-    part_number: string,
     name: string,
-    type: number,
-    large_title: string,
-    small_title: string,
-    basic_price: number
-): MaterialDataType {
+    price_type: string
+): MaterialCategoryDataType {
     return {
         id,
         stt,
-        category,
-        supplier,
         image,
-        part_number,
         name,
-        type,
-        large_title,
-        small_title,
-        basic_price,
+        price_type,
     };
 }
 
-export default function MaterialTable({
-    materialList,
+export default function MaterialCategoryTable({
+    materiaCategorylList,
     count,
     page,
     rowsPerPage,
@@ -87,19 +65,13 @@ export default function MaterialTable({
 }: // resetSelectedList,
 IProps) {
     const router = useRouter();
-    const rows = materialList?.map((item, index) =>
+    const rows = materiaCategorylList?.map((item, index) =>
         createData(
             item.id,
             index + 1 + checkPage(page) * Number(rowsPerPage),
-            item.category,
-            item.supplier,
             item.image,
-            item.part_number,
             item.name,
-            item.type,
-            item.large_title,
-            item.small_title,
-            item.basic_price
+            item.price_type
         )
     );
 
@@ -110,6 +82,10 @@ IProps) {
     });
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [openDelete, setOpenDelete] = useState<boolean>(false);
+    const getPriceType = (type: string) => {
+        if (type === "per_quantity") return <TextCustom text="Quantity" />;
+        else return <TextCustom text="Meter" color="orange" />;
+    };
     return (
         <Box>
             <TableContainer>
@@ -117,16 +93,10 @@ IProps) {
                     <TableHead>
                         <TableRow>
                             <TableCell padding="checkbox"></TableCell>
-                            <TableCell>NO</TableCell>
-                            <TableCell align="left">IMAGE</TableCell>
-                            <TableCell align="left">PART NUMBER</TableCell>
-                            <TableCell align="left">NAME</TableCell>
-                            <TableCell align="left">TYPE</TableCell>
-                            <TableCell align="left">LARGE TITLE</TableCell>
-                            <TableCell align="left">SMALL TITLE</TableCell>
-                            <TableCell align="left">BASIC PRICE</TableCell>
-                            <TableCell align="left">CATEGORY</TableCell>
-                            <TableCell align="left">SUPPLIER</TableCell>
+                            <TableCell align="center">NO</TableCell>
+                            <TableCell align="center">IMAGE</TableCell>
+                            <TableCell align="center">NAME</TableCell>
+                            <TableCell align="center">PRICE TYPE</TableCell>
                             <TableCell align="center">ACTION</TableCell>
                         </TableRow>
                     </TableHead>
@@ -157,44 +127,33 @@ IProps) {
                                             }}
                                         />
                                     </TableCell>
-                                    <TableCell id={labelId} align="left">
+                                    <TableCell id={labelId} align="center">
                                         {row.stt}
                                     </TableCell>
-                                    <TableCell align="left">
+                                    <TableCell
+                                        align="center"
+                                        sx={{
+                                            width: "80px",
+                                        }}>
                                         <Image
                                             src={row.image || ""}
                                             alt="image"
-                                            className="aspect-video w-20 rounded-md shadow-md"
+                                            className="aspect-video w-full min-w-20 rounded-md shadow-md"
                                             width={80}
                                             height={45}
                                         />
                                     </TableCell>
-                                    <TableCell align="left">
-                                        {row.part_number}
+                                    <TableCell align="center">
+                                        <Box className="line-clamp-1">
+                                            {row.name}
+                                        </Box>
                                     </TableCell>
-                                    <TableCell align="left">
-                                        {row.name}
+                                    <TableCell align="center">
+                                        {getPriceType(row.price_type)}
                                     </TableCell>
-                                    <TableCell align="left">
-                                        {row.type}
-                                    </TableCell>
-                                    <TableCell align="left">
-                                        {row.large_title}
-                                    </TableCell>
-                                    <TableCell align="left">
-                                        {row.small_title}
-                                    </TableCell>
-                                    <TableCell align="left">
-                                        {row.basic_price}
-                                    </TableCell>
-                                    <TableCell align="left">
-                                        {row.category.name}
-                                    </TableCell>
-                                    <TableCell align="left">
-                                        {row.supplier.name}
-                                    </TableCell>
+
                                     <TableCell
-                                        align="right"
+                                        align="center"
                                         onClick={(e) => e.stopPropagation()}>
                                         <ActionTable
                                             eyeClick={() => {
@@ -206,7 +165,7 @@ IProps) {
                                             }}
                                             pencilClick={() =>
                                                 router.push(
-                                                    ROUTER_API.material +
+                                                    ROUTER.adminMaterialCategoryDetail +
                                                         "/" +
                                                         row?.id
                                                 )

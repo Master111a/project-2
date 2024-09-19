@@ -49,7 +49,7 @@ export default function NotFound() {
                     color: "#3C3C3C",
                     marginBottom: "20px",
                 }}>
-                The page you are looking for
+                The page you are looking for{" "}
                 <Box component="br" sx={{ display: ["block", "none"] }} />
                 Not found.
             </Box>

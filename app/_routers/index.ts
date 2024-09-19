@@ -8,8 +8,13 @@ export const ROUTER = {
     adminMain: "/admin/main",
     adminMaterial: "/admin/material",
     adminMaterialDetail: "/admin/material/",
-    adminCreateMaterial: "/admin/create-material",
+
+    adminCreateMaterial: "/admin/material/create-material",
     adminMaterialCategory: "/admin/material-category",
+
+    adminMaterialCategoryDetail: "/admin/material-category",
+    adminCreateMaterialCategory:
+        "/admin/material-category/create-material-category",
 };
 export const ROUTER_API = {
     login: "/cms/auth/login",
@@ -20,7 +25,6 @@ export const ROUTER_API = {
     delManyMaterial: "/cms/material/bulk/",
 
     // material category
-
     materialCategory: "/cms/material_categories",
     delManyMaterialCategory: "/cms/material_categories/bulk/",
 

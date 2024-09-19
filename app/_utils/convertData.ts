@@ -1,3 +1,4 @@
+import { MaterialCategoryFormType } from "@/_components/pages/admin-material-category/adminMaterialCategoryType";
 import { MaterialFormType } from "@/_components/pages/admin-material/adminMaterialType";
 import { MaterialType } from "@/_types/material";
 
@@ -5,7 +6,11 @@ type FormDataType = {
     [key: string]: string | File | null | number | undefined;
 };
 export const convertFormData = (
-    data: MaterialFormType | MaterialType | FormDataType
+    data:
+        | MaterialFormType
+        | MaterialType
+        | MaterialCategoryFormType
+        | FormDataType
 ) => {
     const formData = new FormData();
     for (const key in data) {
