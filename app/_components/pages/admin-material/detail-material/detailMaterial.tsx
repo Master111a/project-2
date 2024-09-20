@@ -94,7 +94,7 @@ export default function DetailMaterial({ id }: { id: string }) {
                 {!state.error ? (
                     <FormMaterial
                         schema={materialSchema}
-                        defaultData={state.data}
+                        defaultData={state.data as MaterialFormType}
                         loading={state.loading}
                         onSubmit={onSubmit}
                         text={"Edit"}
@@ -109,7 +109,9 @@ export default function DetailMaterial({ id }: { id: string }) {
                             </div>
                             <Button
                                 variant="outlined"
-                                onClick={() => onSubmit(state.data)}>
+                                onClick={() =>
+                                    onSubmit(state.data as MaterialFormType)
+                                }>
                                 Retry
                             </Button>
                         </div>

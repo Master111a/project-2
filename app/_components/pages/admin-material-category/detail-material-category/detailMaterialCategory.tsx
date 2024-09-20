@@ -83,7 +83,7 @@ export default function DetailMaterialCategory({ id }: { id: string }) {
                 {!state.error ? (
                     <FormMaterialCategory
                         schema={materialCategorySchema}
-                        defaultData={state.data}
+                        defaultData={state.data as MaterialCategoryFormType}
                         loading={state.loading}
                         onSubmit={onSubmit}
                         text={"Edit"}
@@ -98,7 +98,7 @@ export default function DetailMaterialCategory({ id }: { id: string }) {
                             </div>
                             <Button
                                 variant="outlined"
-                                onClick={() => onSubmit(state.data)}>
+                                onClick={() => onSubmit(state.data as MaterialCategoryFormType)}>
                                 Retry
                             </Button>
                         </div>

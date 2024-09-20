@@ -9,7 +9,7 @@ export default function Home() {
     useEffect(() => {
         const token = localStorage.getItem("token") || null;
         if (token) {
-            router.push("/admin");
+            router.push("/admin/material");
         } else {
             router.push("/login");
         }

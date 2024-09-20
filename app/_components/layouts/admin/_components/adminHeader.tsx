@@ -29,7 +29,7 @@ export default function AdminHeader() {
                 onChange={(e) => setTextSearch(e.target.value)}
                 onSubmit={() => handleSearchChange("search", textSearch)}
             />
-            <Box className="flex ml-auto items-center">
+            <Box className="flex ml-auto items-center gap-x-3">
                 <DropdownNotificationMenu />
                 <DropdownAvatarMenu item={item} />
             </Box>

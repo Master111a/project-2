@@ -19,7 +19,6 @@ type DataProps = {
 };
 const AdminMaterial = () => {
     const { getSearchParams } = useChangeParams();
-
     const pageParams = validateNumber(getSearchParams("page"));
     const rowParams = getSearchParams("row") || 5;
     const search = getSearchParams("materialName");
