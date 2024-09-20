@@ -12,36 +12,36 @@ type IProps = {
 };
 const AdminLayout = ({ children }: IProps) => {
     return (
-        <Box
-            sx={{
-                width: "100%",
-                height: "100%",
-                minHeight: "100vh",
-                display: "flex",
-                bgcolor: globalColor.background,
-            }}>
+        <Suspense fallback={<div>Loading</div>}>
             <Box
                 sx={{
-                    width: "20%",
+                    width: "100%",
+                    height: "100%",
+                    minHeight: "100vh",
                     display: "flex",
-                    flexDirection: "column",
+                    bgcolor: globalColor.background,
                 }}>
-                <Logo />
-                <AdminAside />
-            </Box>
-            <Box
-                sx={{
-                    width: "80%",
-                    display: "flex",
-                    flexDirection: "column",
-                }}>
-                <AdminHeader />
-                <Suspense fallback={<div>Loading</div>}>
+                <Box
+                    sx={{
+                        width: "20%",
+                        display: "flex",
+                        flexDirection: "column",
+                    }}>
+                    <Logo />
+                    <AdminAside />
+                </Box>
+                <Box
+                    sx={{
+                        width: "80%",
+                        display: "flex",
+                        flexDirection: "column",
+                    }}>
+                    <AdminHeader />
                     <AdminContent>{children}</AdminContent>
-                </Suspense>
-                <AdminFooter />
+                    <AdminFooter />
+                </Box>
             </Box>
-        </Box>
+        </Suspense>
     );
 };
 export default AdminLayout;
