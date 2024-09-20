@@ -1,3 +1,5 @@
+"use client";
+
 import {
     CreateMaterialSchemaType,
     MaterialFormType,
@@ -80,8 +82,6 @@ const FMaterial = ({
                 console.log(err);
             });
     }, []);
-    console.log(errors);
-
     return (
         <Box
             component="form"

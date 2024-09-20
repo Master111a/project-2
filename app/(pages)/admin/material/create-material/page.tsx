@@ -1,6 +1,7 @@
 import CreateMaterial from "@/_components/pages/admin-material/create-material/createMaterial";
 import { ROUTER } from "@/_routers";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
     title: "Admin Create Material Page",
@@ -13,5 +14,9 @@ export const metadata: Metadata = {
 };
 
 export default function AdminCreateMaterialPage() {
-    return <CreateMaterial />;
+    return (
+        <Suspense>
+            <CreateMaterial />
+        </Suspense>
+    );
 }

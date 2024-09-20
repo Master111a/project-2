@@ -1,6 +1,7 @@
 import AdminMaterial from "@/_components/pages/admin-material/adminMaterial";
 import { ROUTER } from "@/_routers";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 export const dynamicParams = true;
 
 export const metadata: Metadata = {
@@ -14,5 +15,9 @@ export const metadata: Metadata = {
 };
 
 export default function AdminMaterialPage() {
-    return <AdminMaterial />;
+    return (
+        <Suspense>
+            <AdminMaterial />
+        </Suspense>
+    );
 }

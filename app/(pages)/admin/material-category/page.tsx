@@ -1,6 +1,7 @@
 import AdminMaterialCategories from "@/_components/pages/admin-material-category/adminMaterialCategories";
 import { ROUTER } from "@/_routers";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
     title: "Admin Material Category Page",
@@ -13,5 +14,9 @@ export const metadata: Metadata = {
 };
 
 export default function AdminMaterialPage() {
-    return <AdminMaterialCategories />;
+    return (
+        <Suspense>
+            <AdminMaterialCategories />
+        </Suspense>
+    );
 }

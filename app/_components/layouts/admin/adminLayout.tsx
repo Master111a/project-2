@@ -5,7 +5,7 @@ import AdminFooter from "@/_components/layouts/admin/_components/adminFooter";
 import AdminHeader from "@/_components/layouts/admin/_components/adminHeader";
 import { Logo } from "@/_components/ui/customs";
 import { Box } from "@mui/material";
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 
 type IProps = {
     children: ReactNode;
@@ -36,7 +36,9 @@ const AdminLayout = ({ children }: IProps) => {
                     flexDirection: "column",
                 }}>
                 <AdminHeader />
-                <AdminContent>{children}</AdminContent>
+                <Suspense fallback={<div>Loading</div>}>
+                    <AdminContent>{children}</AdminContent>
+                </Suspense>
                 <AdminFooter />
             </Box>
         </Box>

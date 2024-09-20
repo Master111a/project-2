@@ -10,7 +10,7 @@ import { getAPI } from "@/_utils/axios";
 import { validateNumber } from "@/_utils/checkNumber";
 // @mui
 import { Box } from "@mui/material";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 type DataProps = {
     count: number;
@@ -85,20 +85,18 @@ const AdminMaterial = () => {
         <Box className="w-full h-full flex flex-col gap-y-6">
             <MaterialStats count={data?.count} />
             <MaterialSearch />
-            <Suspense fallback={<div>Loading...</div>}>
-                <MaterialTable
-                    materialList={data.materialList}
-                    count={data.currentCount}
-                    page={Number(pageParams)}
-                    rowsPerPage={rowParams ? rowParams : 5}
-                    selectedList={selectedList}
-                    setSelectedList={setSelectedList}
-                    toggleSelection={toggleSelection}
-                    isSelected={isSelected}
-                    resetSelectedList={resetSelectedList}
-                    setIsGetList={setIsGetList}
-                />
-            </Suspense>
+            <MaterialTable
+                materialList={data.materialList}
+                count={data.currentCount}
+                page={Number(pageParams)}
+                rowsPerPage={rowParams ? rowParams : 5}
+                selectedList={selectedList}
+                setSelectedList={setSelectedList}
+                toggleSelection={toggleSelection}
+                isSelected={isSelected}
+                resetSelectedList={resetSelectedList}
+                setIsGetList={setIsGetList}
+            />
         </Box>
     );
 };
