@@ -52,7 +52,7 @@ const AdminMaterial = () => {
             ROUTER_API.material,
             {
                 params: {
-                    search: dt.search,
+                    name: dt.search,
                     limit: dt.row,
                     offset:
                         Number(dt.row) * Number(dt.page > 1 ? dt.page - 1 : 0),
